@@ -1,0 +1,39 @@
+html{
+  height: 100%;
+}
+ @font-face {
+    font-family: 'bau';
+    src: local('poppins'), url(./assets/fonts/Poppins.ttf) format('truetype');
+  }
+ @font-face {
+    font-family: 'poppins1';
+    src: local('poppins'), url(./assets/fonts/Poppins.ttf) format('truetype');
+  }
+   
+  @font-face {
+    font-family: 'Poppins-semibold';
+    src: local('poppins-semibold'),
+      url(./assets/fonts/Poppins-SemiBold.ttf) format('truetype');
+  }
+  
+  @font-face {
+    font-family: 'poppins-medium';
+    src: local('poppins-medium'),
+      url(./assets/fonts/Poppins-Medium.ttf) format('truetype');
+  } 
+body {
+  margin: 0;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+    'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+    sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  height: 100%;
+}
+#root{
+  height: 100%;
+}
+code {
+  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
+    monospace;
+}
