@@ -1,6 +1,6 @@
 {
-  "name": "galaxis-components",
-  "version": "0.2.6",
+  "name": "explorer-component",
+  "version": "0.1.1",
   "private": true,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
