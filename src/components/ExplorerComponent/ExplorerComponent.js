@@ -1,6 +1,7 @@
 import React from 'react';
 import ExplorerCards from './ExplorerCards';
 import { useGetNftsList } from '../../hooks/useGetNftsList';
+import { SpinnerDotted } from 'spinners-react';
 const meta = {
   tokenId: 200,
   image:
@@ -172,15 +173,22 @@ const trait_type = [
 ];
 const ExplorerComponent = ({ tokenAddres, poolAddress, chainId }) => {
   const { nftList } = useGetNftsList(chainId, tokenAddres, poolAddress);
-
   return (
-    <>
-      <ExplorerCards
-        nfts={nftList}
-        traitTypes={trait_type}
-        meta={meta}
-      />
-    </>
+    <div
+      style={{
+        width: '100%',
+        height: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+      }}
+    >
+      {nftList.length > 0 ? (
+        <ExplorerCards nftList={nftList} traitTypes={trait_type} meta={meta} />
+      ) : (
+        <SpinnerDotted color="#000" size={200} style={{ paddingTop: '30px' }} />
+      )}
+    </div>
   );
 };
 
