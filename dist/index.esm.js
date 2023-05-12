@@ -9,45 +9,40 @@ import { AddressZero } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
 import { Zoom } from 'zoom-next';
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    enumerableOnly && (symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    })), keys.push.apply(keys, symbols);
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
   }
 
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
-      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-    });
-  }
-
-  return target;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
+  if (info.done) {
+    resolve(value);
   } else {
-    obj[key] = value;
+    Promise.resolve(value).then(_next, _throw);
   }
+}
 
-  return obj;
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
 }
 
 function _slicedToArray(arr, i) {
@@ -231,7 +226,7 @@ var ExplorerCards = function ExplorerCards(_ref) {
   }, renderCards()))));
 };
 
-var common = {
+const common = {
   INFURA_ID: '96a0984ce6264f5a8edcf752673de5b8',
   GALAXIS_REGISTRY: '0x1e8150050A7a4715aad42b905C08df76883f396F',
   OPENSEA_COLLECTION: 'https://api.opensea.io/api/v1/collection',
@@ -240,43 +235,10 @@ var common = {
   NO_PROJECT_FOUND: 'no project found',
   COMMUNITYSPACEURL: 'https://galaxis.xyz/#'
 };
-({
-  DEPLOYED_NTW_NAME: 'goerli',
-  DEPLOYED_CHAIN_ID: 5,
-  FORTMATIC_KEY: 'pk_test_DD2BBA8AAA1D4FED',
-  RPC_URL: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
-  ETHERSCAN_URL: 'https://goerli.etherscan.io',
-  POLYGONSCAN_URL: 'https://mumbai.polygonscan.com',
-  OPENSEA_URL: 'https://testnets.opensea.io/',
-  API_URL: 'https://cms.staging.galaxis.xyz',
-  PREVIEW_URL: 'https://mcb.staging.galaxis.xyz/api/project-session',
-  LAUNCHPAD_API_URL: 'https://mcb.staging.galaxis.xyz/api',
-  PREVIEW_IMAGES: 'https://mcb.staging.galaxis.xyz/projects/',
-  AWS_URL: 'https://cms.staging.galaxis.xyz/storage/app/media',
-  AGGREGATOR_URL: 'https://nft-aggregator-goerli.herokuapp.com/token',
-  EC_TOKEN_ADDRESS: '0xAAD4475343f5150E33d6194270f04e7e5968A2f8',
-  PHOENIX_CONTRACT_ADDRESS: '0x0937aD2d26D1f37c2d8FdA1b4c071e8f3786aF5B',
-  CROSSMINT_CLIENT_ID: '7de2bbab-cec3-456b-a2e1-96bbd99cb8ad',
-  CROSSMINT_ENV: 'staging',
-  CHAINS: [{
-    id: "0x5",
-    token: "gETH",
-    label: "Goerli",
-    rpcUrl: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
-    // rpcURL required for wallet balances
-    blockExplorerUrl: "https://goerli.etherscan.io"
-  }, {
-    id: "0x13881",
-    token: "mMATIC",
-    label: "Polygon Mumbai Testnet",
-    rpcUrl: "https://polygon-mumbai.infura.io/v3/".concat(common.INFURA_ID),
-    blockExplorerUrl: "https://mumbai.polygonscan.com"
-  }]
-});
-var prod = {
+const prod = {
   DEPLOYED_NTW_NAME: 'mainnet',
   DEPLOYED_CHAIN_ID: 1,
-  RPC_URL: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
+  RPC_URL: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
   FORTMATIC_KEY: 'pk_live_FBFF1F05F2879F29',
   ETHERSCAN_URL: 'https://etherscan.io',
   POLYGONSCAN_URL: 'https://polygonscan.com',
@@ -297,22 +259,24 @@ var prod = {
     token: "ETH",
     // main chain token
     label: "Ethereum Mainnet",
-    rpcUrl: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
+    rpcUrl: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
     // rpcURL required for wallet balances
     blockExplorerUrl: "https://etherscan.io"
   }, {
     id: "0x89",
     token: "MATIC",
     label: "Polygon Mainnet",
-    rpcUrl: "https://polygon-mainnet.infura.io/v3/".concat(common.INFURA_ID),
+    rpcUrl: `https://polygon-mainnet.infura.io/v3/${common.INFURA_ID}`,
     blockExplorerUrl: "https://polygonscan.com"
   }]
 }; // if use npm/yarn start,  NODE_ENV = "development"
 // if use npm/yarn build,  NODE_ENV = "production"
 
-var envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
+let envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
 
-var config = _objectSpread2(_objectSpread2({}, envConfig), common);
+let config = { ...envConfig,
+  ...common
+};
 
 var _format = "hh-sol-artifact-1";
 var contractName = "Zoom2";
@@ -2598,49 +2562,95 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
   }
 };
 
-const useGetNftsList = (chainId, contractAddres, address) => {
-  const [zoomContract, setZoomContract] = useState(null);
-  const [nftList, setNftList] = useState([]);
-  const provider = useMemo(() => {
+var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
+  var _useState = useState(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      zoomContract = _useState2[0],
+      setZoomContract = _useState2[1];
+
+  var _useState3 = useState([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      nftList = _useState4[0],
+      setNftList = _useState4[1];
+
+  var provider = useMemo(function () {
     return getProvider(chainId);
   }, [chainId]); //provider
 
-  const tokenContract = useMemo(() => new Contract$1(contractAddres, tokenABI.abi, provider), [contractAddres]);
-  useEffect(async () => {
-    if (provider) {
-      const galaxisRegistry = getContract(config.GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
-      let zoomAddress;
+  var tokenContract = useMemo(function () {
+    return new Contract$1(contractAddres, tokenABI.abi, provider);
+  }, [contractAddres]);
+  useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var galaxisRegistry, zoomAddress, contract;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (!provider) {
+              _context.next = 7;
+              break;
+            }
 
-      if (galaxisRegistry) {
-        zoomAddress = await galaxisRegistry.getRegistryAddress('ZOOM').catch(e => {
-          console.log('registry error', e);
-        });
-      }
+            galaxisRegistry = getContract(config.GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
 
-      if (zoomAddress) {
-        let contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
+            if (!galaxisRegistry) {
+              _context.next = 6;
+              break;
+            }
 
-        if (contract) {
-          setZoomContract(contract);
+            _context.next = 5;
+            return galaxisRegistry.getRegistryAddress('ZOOM').catch(function (e) {
+              console.log('registry error', e);
+            });
+
+          case 5:
+            zoomAddress = _context.sent;
+
+          case 6:
+            if (zoomAddress) {
+              contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
+
+              if (contract) {
+                setZoomContract(contract);
+              }
+            } else {
+              zoomAddress = useZoom2Contract();
+              setZoomContract(zoomAddress);
+            }
+
+          case 7:
+          case "end":
+            return _context.stop();
         }
-      } else {
-        zoomAddress = useZoom2Contract();
-        setZoomContract(zoomAddress);
       }
-    } //setting up the zoom contract;
+    }, _callee);
+  })), [chainId, provider]);
+  useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            if (!(zoomContract && tokenContract && address)) {
+              _context2.next = 3;
+              break;
+            }
 
-  }, [chainId, provider]);
-  useEffect(async () => {
-    if (zoomContract && tokenContract && address) {
-      await zoomFetchTokenUris(tokenContract, zoomContract, address).then(res => {
-        setNftList(res);
-      }).catch(e => {
-        console.log(e);
-      });
-    }
-  }, [zoomContract, tokenContract, address]);
+            _context2.next = 3;
+            return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
+              setNftList(res);
+            }).catch(function (e) {
+              console.log(e);
+            });
+
+          case 3:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  })), [zoomContract, tokenContract, address]);
   return {
-    nftList
+    nftList: nftList
   };
 };
 
