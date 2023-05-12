@@ -1,11 +1,11 @@
 import React from 'react';
-import { GalaxisCard } from 'galaxis-components';
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { loadNext } from '../InfiniteScrollHelpers';
 import './ExplorerComponent.css';
+import ExplorerCard from './ExplorerCard';
 
 const ExplorerCards = ({ nfts, meta, traitTypes, height }) => {
   const ITEMS_PER_PAGE = 29;
@@ -27,13 +27,7 @@ const ExplorerCards = ({ nfts, meta, traitTypes, height }) => {
   }, [nfts]);
   const renderCards = () => {
     return cards.map((card, i) => {
-      return (
-        <div key={i} className="col-lg-3 col-md-4 mb-4">
-          <div className="layer-image-preview">
-            <GalaxisCard metadata={meta} traitTypes={traitTypes} />
-          </div>
-        </div>
-      );
+      return <ExplorerCard traitTypes={traitTypes} />;
     });
   };
   return (
