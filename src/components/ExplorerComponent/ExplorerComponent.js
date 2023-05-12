@@ -1,5 +1,6 @@
 import React from 'react';
 import ExplorerCards from './ExplorerCards';
+import { useGetNftsList } from '../../hooks/useGetNftsList';
 const meta = {
   tokenId: 200,
   image:
@@ -169,15 +170,13 @@ const trait_type = [
       '/storage/app/assets/public/trait_type_icons/autograph-black.svg',
   },
 ];
-const ExplorerComponent = () => {
+const ExplorerComponent = ({ tokenAddres, poolAddress, chainId }) => {
+  const { nftList } = useGetNftsList(chainId, tokenAddres, poolAddress);
+
   return (
     <>
       <ExplorerCards
-        nfts={[
-          1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5,
-          6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4,
-          5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6,
-        ]}
+        nfts={nftList}
         traitTypes={trait_type}
         meta={meta}
       />
