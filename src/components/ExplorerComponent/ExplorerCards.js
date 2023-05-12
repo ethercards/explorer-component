@@ -5,10 +5,15 @@ import { useRef } from 'react';
 import { useEffect } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 import { loadNext } from '../InfiniteScrollHelpers';
+import './ExplorerComponent.css';
 
-const ExplorerCards = ({ nfts, meta }) => {
+const ExplorerCards = ({ nfts, meta, traitTypes }) => {
   const ITEMS_PER_PAGE = 29;
-  const [cards, setCards] = useState([1, 2, 3, 4, 5, 6]);
+  const [cards, setCards] = useState([
+    1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1,
+    2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2,
+    3, 4, 5, 6, 1, 2, 3, 4, 5, 6,
+  ]);
   const [currentPage, _setCurrentPage] = useState(0);
   const currentPageRef = useRef(currentPage);
   const setCurrentPage = (val) => {
@@ -25,9 +30,7 @@ const ExplorerCards = ({ nfts, meta }) => {
       return (
         <div key={i} className="col-lg-3 col-md-4 mb-4">
           <div className="layer-image-preview">
-            <div>
-              <GalaxisCard metadata={meta} />
-            </div>
+            <GalaxisCard metadata={meta} traitTypes={traitTypes} />
           </div>
         </div>
       );
@@ -35,7 +38,7 @@ const ExplorerCards = ({ nfts, meta }) => {
   };
   return (
     <>
-      <div style={{ paddingTop: '200px' }}></div>
+      <div></div>
       <div>
         <InfiniteScroll
           dataLength={cards.length}

@@ -1,0 +1,10 @@
+.layer-image-preview {
+  height: 400px;
+}
+.infinite-scroll-component__outerdiv {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+.infinite-scroll-component {
+  overflow: hidden !important;
+}

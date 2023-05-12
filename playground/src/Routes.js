@@ -2,7 +2,7 @@ import PoolTest from './Views/Pool/Pool';
 
 const routes = [
   {
-    path: '/dust-pool',
+    path: '/',
     component: PoolTest,
     exact: true,
   },
