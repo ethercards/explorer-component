@@ -6,5 +6,5 @@
   margin: 0 auto;
 }
 .infinite-scroll-component {
-  overflow: hidden !important;
+  overflow-x: hidden !important;
 }

@@ -7,7 +7,7 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { loadNext } from '../InfiniteScrollHelpers';
 import './ExplorerComponent.css';
 
-const ExplorerCards = ({ nfts, meta, traitTypes }) => {
+const ExplorerCards = ({ nfts, meta, traitTypes, height }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([
     1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1,
@@ -42,6 +42,7 @@ const ExplorerCards = ({ nfts, meta, traitTypes }) => {
       <div>
         <InfiniteScroll
           dataLength={cards.length}
+          height={height || '100vh'}
           next={() =>
             loadNext(
               nfts,
@@ -58,7 +59,7 @@ const ExplorerCards = ({ nfts, meta, traitTypes }) => {
           // initialScrollY={1000}
           loader={<h4>Loading...</h4>}
         >
-          <div className={`row small-gutters px-0 mx-0`}>{renderCards()}</div>
+          <div className={`row small-gutters px-0 mx-0 `}>{renderCards()}</div>
         </InfiniteScroll>
       </div>
     </>
