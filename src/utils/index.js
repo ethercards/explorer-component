@@ -1,5 +1,4 @@
 export const getTokenUri = async (tokenId, tokenUri) => {
-  //console.log(tokenUri)
   const metadata = await fetch(tokenUri)
     .then((res) => res.json())
     .catch((err) => console.error(err));

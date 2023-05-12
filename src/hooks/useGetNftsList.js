@@ -19,7 +19,6 @@ export const useGetNftsList = (chainId, contractAddres, address) => {
     () => new Contract(contractAddres, tokenABI.abi, provider),
     [contractAddres]
   );
-  console.log(chainId, contractAddres, address);
 
   useEffect(async () => {
     if (provider) {
@@ -50,7 +49,7 @@ export const useGetNftsList = (chainId, contractAddres, address) => {
     }
     //setting up the zoom contract;
   }, [chainId, provider]);
-  console.log(zoomContract);
+
   useEffect(async () => {
     if (zoomContract && tokenContract && address) {
       await zoomFetchTokenUris(tokenContract, zoomContract, address)

@@ -1,11 +1,54 @@
-import React, { useState, useRef, useEffect, useMemo } from 'react';
-import { GalaxisCard } from 'galaxis-components';
+import React, { useState, useEffect, useRef, useMemo } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
+import { GalaxisCard } from 'galaxis-components';
+import axios from 'axios';
+import 'spinners-react';
 import { ethers, Contract as Contract$1 } from 'ethers';
 import { getAddress } from '@ethersproject/address';
 import { AddressZero } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
 import { Zoom } from 'zoom-next';
+
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    enumerableOnly && (symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    })), keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {};
+    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+    });
+  }
+
+  return target;
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
+}
 
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
@@ -107,13 +150,36 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = ".layer-image-preview {\r\n  height: 400px;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow: hidden !important;\r\n}\r\n";
+var css_248z = ".layer-image-preview {\r\n  height: 400px;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n";
 styleInject(css_248z);
 
+const ExplorerCard = _ref => {
+  let {
+    traitTypes
+  } = _ref;
+  const [metadata, setMetadata] = useState(null);
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      await axios.get('https://hedgiefund-metadata-server.herokuapp.com/api/metadata/81/2081').then(resp => setMetadata(resp.data)).catch(e => console.log('error'));
+    };
+
+    fetchMetadata();
+  }, []);
+  return /*#__PURE__*/React.createElement(React.Fragment, null, metadata && /*#__PURE__*/React.createElement("div", {
+    className: "col-lg-3 col-md-4 mb-4"
+  }, /*#__PURE__*/React.createElement("div", {
+    className: "layer-image-preview"
+  }, /*#__PURE__*/React.createElement(GalaxisCard, {
+    metadata: metadata,
+    traitTypes: traitTypes
+  }))));
+};
+
 var ExplorerCards = function ExplorerCards(_ref) {
-  var nfts = _ref.nfts,
-      meta = _ref.meta,
-      traitTypes = _ref.traitTypes;
+  var nfts = _ref.nfts;
+      _ref.meta;
+      var traitTypes = _ref.traitTypes,
+      height = _ref.height;
   var ITEMS_PER_PAGE = 29;
 
   var _useState = useState([1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6]),
@@ -142,20 +208,15 @@ var ExplorerCards = function ExplorerCards(_ref) {
 
   var renderCards = function renderCards() {
     return cards.map(function (card, i) {
-      return /*#__PURE__*/React.createElement("div", {
-        key: i,
-        className: "col-lg-3 col-md-4 mb-4"
-      }, /*#__PURE__*/React.createElement("div", {
-        className: "layer-image-preview"
-      }, /*#__PURE__*/React.createElement(GalaxisCard, {
-        metadata: meta,
+      return /*#__PURE__*/React.createElement(ExplorerCard, {
         traitTypes: traitTypes
-      })));
+      });
     });
   };
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", null), /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement(InfiniteScroll, {
     dataLength: cards.length,
+    height: height || '100vh',
     next: function next() {
       return loadNext(nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
     },
@@ -166,11 +227,11 @@ var ExplorerCards = function ExplorerCards(_ref) {
     ,
     loader: /*#__PURE__*/React.createElement("h4", null, "Loading...")
   }, /*#__PURE__*/React.createElement("div", {
-    className: "row small-gutters px-0 mx-0"
+    className: "row small-gutters px-0 mx-0 "
   }, renderCards()))));
 };
 
-const common = {
+var common = {
   INFURA_ID: '96a0984ce6264f5a8edcf752673de5b8',
   GALAXIS_REGISTRY: '0x1e8150050A7a4715aad42b905C08df76883f396F',
   OPENSEA_COLLECTION: 'https://api.opensea.io/api/v1/collection',
@@ -179,10 +240,43 @@ const common = {
   NO_PROJECT_FOUND: 'no project found',
   COMMUNITYSPACEURL: 'https://galaxis.xyz/#'
 };
-const prod = {
+({
+  DEPLOYED_NTW_NAME: 'goerli',
+  DEPLOYED_CHAIN_ID: 5,
+  FORTMATIC_KEY: 'pk_test_DD2BBA8AAA1D4FED',
+  RPC_URL: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
+  ETHERSCAN_URL: 'https://goerli.etherscan.io',
+  POLYGONSCAN_URL: 'https://mumbai.polygonscan.com',
+  OPENSEA_URL: 'https://testnets.opensea.io/',
+  API_URL: 'https://cms.staging.galaxis.xyz',
+  PREVIEW_URL: 'https://mcb.staging.galaxis.xyz/api/project-session',
+  LAUNCHPAD_API_URL: 'https://mcb.staging.galaxis.xyz/api',
+  PREVIEW_IMAGES: 'https://mcb.staging.galaxis.xyz/projects/',
+  AWS_URL: 'https://cms.staging.galaxis.xyz/storage/app/media',
+  AGGREGATOR_URL: 'https://nft-aggregator-goerli.herokuapp.com/token',
+  EC_TOKEN_ADDRESS: '0xAAD4475343f5150E33d6194270f04e7e5968A2f8',
+  PHOENIX_CONTRACT_ADDRESS: '0x0937aD2d26D1f37c2d8FdA1b4c071e8f3786aF5B',
+  CROSSMINT_CLIENT_ID: '7de2bbab-cec3-456b-a2e1-96bbd99cb8ad',
+  CROSSMINT_ENV: 'staging',
+  CHAINS: [{
+    id: "0x5",
+    token: "gETH",
+    label: "Goerli",
+    rpcUrl: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
+    // rpcURL required for wallet balances
+    blockExplorerUrl: "https://goerli.etherscan.io"
+  }, {
+    id: "0x13881",
+    token: "mMATIC",
+    label: "Polygon Mumbai Testnet",
+    rpcUrl: "https://polygon-mumbai.infura.io/v3/".concat(common.INFURA_ID),
+    blockExplorerUrl: "https://mumbai.polygonscan.com"
+  }]
+});
+var prod = {
   DEPLOYED_NTW_NAME: 'mainnet',
   DEPLOYED_CHAIN_ID: 1,
-  RPC_URL: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
+  RPC_URL: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
   FORTMATIC_KEY: 'pk_live_FBFF1F05F2879F29',
   ETHERSCAN_URL: 'https://etherscan.io',
   POLYGONSCAN_URL: 'https://polygonscan.com',
@@ -203,24 +297,22 @@ const prod = {
     token: "ETH",
     // main chain token
     label: "Ethereum Mainnet",
-    rpcUrl: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
+    rpcUrl: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
     // rpcURL required for wallet balances
     blockExplorerUrl: "https://etherscan.io"
   }, {
     id: "0x89",
     token: "MATIC",
     label: "Polygon Mainnet",
-    rpcUrl: `https://polygon-mainnet.infura.io/v3/${common.INFURA_ID}`,
+    rpcUrl: "https://polygon-mainnet.infura.io/v3/".concat(common.INFURA_ID),
     blockExplorerUrl: "https://polygonscan.com"
   }]
 }; // if use npm/yarn start,  NODE_ENV = "development"
 // if use npm/yarn build,  NODE_ENV = "production"
 
-let envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
+var envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
 
-let config = { ...envConfig,
-  ...common
-};
+var config = _objectSpread2(_objectSpread2({}, envConfig), common);
 
 var _format = "hh-sol-artifact-1";
 var contractName = "Zoom2";
@@ -315,7 +407,6 @@ const getProvider = contractChainId => {
   const chain = chains.find(chain => parseInt(chain.id) == contractChainId);
 
   if (chain != null) {
-    console.log('hellloo');
     return new ethers.providers.JsonRpcProvider(chain.rpcUrl);
   }
 };
@@ -2468,27 +2559,6 @@ var tokenABI = {
 	abi: abi
 };
 
-const getTokenUri = async (tokenId, tokenUri) => {
-  //console.log(tokenUri)
-  const metadata = await fetch(tokenUri).then(res => res.json()).catch(err => console.error(err));
-
-  if (metadata) {
-    if (!metadata.tokenId) {
-      metadata.tokenId = tokenId;
-    }
-
-    if (!metadata.id) {
-      metadata.id = tokenId;
-    }
-
-    return metadata;
-  } else // Fetching metadata fail, return an object anyway
-    return {
-      tokenId: tokenId,
-      id: tokenId
-    };
-};
-
 const zoomFetchTokenUris = async (contract, zoom2, address) => {
   const nt = await contract.balanceOf(address);
   const ZoomLibraryInstance = new Zoom({
@@ -2522,27 +2592,7 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
       });
     }
 
-    const newMetadata = [];
-
-    if (tokenIds.length > 0) {
-      const promises = [];
-
-      for (var i = 0; i < tokenIds.length; i++) {
-        const {
-          id,
-          tokenURI
-        } = tokenIds[i];
-        promises.push(new Promise(async resolve => {
-          const metadata = await getTokenUri(id, tokenURI);
-          newMetadata.push(metadata);
-          resolve();
-        }));
-      }
-
-      await Promise.all(promises);
-    }
-
-    return newMetadata.sort((a, b) => {
+    return tokenIds.sort((a, b) => {
       return Number(a.tokenId) - Number(b.tokenId);
     });
   }
@@ -2556,7 +2606,6 @@ const useGetNftsList = (chainId, contractAddres, address) => {
   }, [chainId]); //provider
 
   const tokenContract = useMemo(() => new Contract$1(contractAddres, tokenABI.abi, provider), [contractAddres]);
-  console.log(chainId, contractAddres, address);
   useEffect(async () => {
     if (provider) {
       const galaxisRegistry = getContract(config.GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
@@ -2581,7 +2630,6 @@ const useGetNftsList = (chainId, contractAddres, address) => {
     } //setting up the zoom contract;
 
   }, [chainId, provider]);
-  console.log(zoomContract);
   useEffect(async () => {
     if (zoomContract && tokenContract && address) {
       await zoomFetchTokenUris(tokenContract, zoomContract, address).then(res => {
@@ -2596,7 +2644,7 @@ const useGetNftsList = (chainId, contractAddres, address) => {
   };
 };
 
-const meta = {
+var meta = {
   tokenId: 200,
   image: 'https://ether-cards.mypinata.cloud/ipfs/QmVwHf3BGbw6Cdz27AZVfXB29La4QGUL1K4zL5NuHJKtGe/81/2081.jpeg',
   name: 'The Hedgie Fund #200',
@@ -2666,7 +2714,7 @@ const meta = {
     description: "Sam folds his arms to show that he is not happy. He may be semi-verbal but this doesn't mean he can't communicate!"
   }]
 };
-const trait_type = [{
+var trait_type = [{
   id: 1,
   name: 'Physical Redeemables',
   icon_white: '/storage/app/assets/public/trait_type_icons/physical-white.svg',
@@ -2716,15 +2764,14 @@ const trait_type = [{
   icon_black: '/storage/app/assets/public/trait_type_icons/autograph-black.svg'
 }];
 
-const ExplorerComponent = _ref => {
-  let {
-    tokenAddres,
-    poolAddress,
-    chainId
-  } = _ref;
-  const {
-    nftList
-  } = useGetNftsList(chainId, tokenAddres, poolAddress);
+var ExplorerComponent = function ExplorerComponent(_ref) {
+  var tokenAddres = _ref.tokenAddres,
+      poolAddress = _ref.poolAddress,
+      chainId = _ref.chainId;
+
+  var _useGetNftsList = useGetNftsList(chainId, tokenAddres, poolAddress),
+      nftList = _useGetNftsList.nftList;
+
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(ExplorerCards, {
     nfts: nftList,
     traitTypes: trait_type,

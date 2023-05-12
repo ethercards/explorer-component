@@ -32,23 +32,7 @@ export const zoomFetchTokenUris = async (contract, zoom2, address) => {
             const tokenURI = ZoomLibraryInstance.decodeCall(calls[i + 1]).toString();
             tokenIds.push({ id, tokenURI });
         }
-
-        const newMetadata = [];
-
-        if (tokenIds.length > 0) {
-            const promises = [];
-            for (var i = 0; i < tokenIds.length; i++) {
-                const { id, tokenURI } = tokenIds[i];
-                promises.push(new Promise(async (resolve) => {
-                    const metadata = await getTokenUri(id, tokenURI);
-                    newMetadata.push(metadata);
-                    resolve();
-                }))
-            }
-            await Promise.all(promises)
-        }
-
-        return newMetadata.sort((a, b) => {
+        return tokenIds.sort((a, b) => {
             return Number(a.tokenId) - Number(b.tokenId)
         })
     }

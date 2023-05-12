@@ -46,7 +46,6 @@ export const getProvider = (contractChainId) => {
         (chain) => parseInt(chain.id) == contractChainId
     );
     if (chain != null) {
-        console.log('hellloo')
         return new ethers.providers.JsonRpcProvider(chain.rpcUrl);
     }
 };
