@@ -7,7 +7,7 @@ import { loadNext } from '../InfiniteScrollHelpers';
 import './ExplorerComponent.css';
 import ExplorerCard from './ExplorerCard';
 
-const ExplorerCards = ({ nftList, meta, traitTypes, height }) => {
+const ExplorerCards = ({ nftList, traitTypes, height }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
   const [currentPage, _setCurrentPage] = useState(0);
@@ -21,15 +21,22 @@ const ExplorerCards = ({ nftList, meta, traitTypes, height }) => {
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
+
   const renderCards = () => {
     return cards.map((meta, i) => {
-      return <ExplorerCard meta={meta} traitTypes={traitTypes} />;
+      return (
+        <ExplorerCard
+          meta={meta}
+          traitTypes={traitTypes}
+          key={i}
+          keyForChild={i}
+        />
+      );
     });
   };
   return (
     <>
-      <div></div>
-      <div>
+      <div style={{ width: '100%' }}>
         <InfiniteScroll
           dataLength={cards.length}
           height={height || '100vh'}
@@ -49,7 +56,12 @@ const ExplorerCards = ({ nftList, meta, traitTypes, height }) => {
           // initialScrollY={1000}
           loader={<h4>Loading...</h4>}
         >
-          <div className={`row small-gutters px-0 mx-0 `}>{renderCards()}</div>
+          <div
+            className={`row small-gutters px-2 mx-0  `}
+            style={{ padding: '10px' }}
+          >
+            {renderCards()}
+          </div>
         </InfiniteScroll>
       </div>
     </>
