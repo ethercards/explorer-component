@@ -1,5 +1,6 @@
 .layer-image-preview {
-  height: 400px;
+  padding-bottom: 20px;
+  text-align: center;
 }
 .infinite-scroll-component__outerdiv {
   max-width: 1200px;
@@ -7,4 +8,27 @@
 }
 .infinite-scroll-component {
   overflow-x: hidden !important;
+}
+
+/* card */
+.explorer-simple-card-container {
+}
+.explorer-simple-card {
+  display: flex;
+  flex-direction: column;
+  text-align: left;
+  border-radius: 10px;
+  overflow: hidden;
+  color: #fff;
+}
+.explorer-simple-card-trait-container {
+  padding: 10px;
+  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));
+}
+.explorer-simple-card-trait {
+  max-width: 30px;
+}
+.explorer-simple-card-traits {
+  margin-top: 10px;
+  min-height: 30px;
 }

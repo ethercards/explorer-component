@@ -7,13 +7,9 @@ import { loadNext } from '../InfiniteScrollHelpers';
 import './ExplorerComponent.css';
 import ExplorerCard from './ExplorerCard';
 
-const ExplorerCards = ({ nfts, meta, traitTypes, height }) => {
+const ExplorerCards = ({ nftList, traitTypes, height }) => {
   const ITEMS_PER_PAGE = 29;
-  const [cards, setCards] = useState([
-    1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1,
-    2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2,
-    3, 4, 5, 6, 1, 2, 3, 4, 5, 6,
-  ]);
+  const [cards, setCards] = useState([]);
   const [currentPage, _setCurrentPage] = useState(0);
   const currentPageRef = useRef(currentPage);
   const setCurrentPage = (val) => {
@@ -23,23 +19,30 @@ const ExplorerCards = ({ nfts, meta, traitTypes, height }) => {
   useEffect(() => {
     setCards([]);
     setCurrentPage(0);
-    loadNext(nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
-  }, [nfts]);
+    loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
+  }, [nftList]);
+
   const renderCards = () => {
-    return cards.map((card, i) => {
-      return <ExplorerCard traitTypes={traitTypes} />;
+    return cards.map((meta, i) => {
+      return (
+        <ExplorerCard
+          meta={meta}
+          traitTypes={traitTypes}
+          key={i}
+          keyForChild={i}
+        />
+      );
     });
   };
   return (
     <>
-      <div></div>
-      <div>
+      <div style={{ width: '100%' }}>
         <InfiniteScroll
           dataLength={cards.length}
           height={height || '100vh'}
           next={() =>
             loadNext(
-              nfts,
+              nftList,
               ITEMS_PER_PAGE,
               currentPageRef,
               setCurrentPage,
@@ -47,13 +50,18 @@ const ExplorerCards = ({ nfts, meta, traitTypes, height }) => {
             )
           }
           pullDownToRefreshThreshold={500}
-          hasMore={currentPageRef.current * ITEMS_PER_PAGE < nfts.length}
-          // scrollThreshold="200px"
+          hasMore={currentPageRef.current * ITEMS_PER_PAGE < nftList.length}
+          scrollThreshold="1200px"
           // scrollableTarget="content-container"
           // initialScrollY={1000}
-          loader={<h4>Loading...</h4>}
+          loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
         >
-          <div className={`row small-gutters px-0 mx-0 `}>{renderCards()}</div>
+          <div
+            className={`row small-gutters px-2 mx-0  `}
+            style={{ padding: '10px' }}
+          >
+            {renderCards()}
+          </div>
         </InfiniteScroll>
       </div>
     </>
