@@ -51,10 +51,10 @@ const ExplorerCards = ({ nftList, traitTypes, height }) => {
           }
           pullDownToRefreshThreshold={500}
           hasMore={currentPageRef.current * ITEMS_PER_PAGE < nftList.length}
-          // scrollThreshold="200px"
+          scrollThreshold="1200px"
           // scrollableTarget="content-container"
           // initialScrollY={1000}
-          loader={<h4>Loading...</h4>}
+          loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
         >
           <div
             className={`row small-gutters px-2 mx-0  `}

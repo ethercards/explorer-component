@@ -4,9 +4,9 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var React = require('react');
 var InfiniteScroll = require('react-infinite-scroll-component');
-var galaxisComponents = require('galaxis-components');
+require('galaxis-components');
 var axios = require('axios');
-require('spinners-react');
+var spinnersReact = require('spinners-react');
 var ethers = require('ethers');
 var address = require('@ethersproject/address');
 var constants = require('@ethersproject/constants');
@@ -19,45 +19,40 @@ var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var InfiniteScroll__default = /*#__PURE__*/_interopDefaultLegacy(InfiniteScroll);
 var axios__default = /*#__PURE__*/_interopDefaultLegacy(axios);
 
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    enumerableOnly && (symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    })), keys.push.apply(keys, symbols);
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
   }
 
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
-      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-    });
-  }
-
-  return target;
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
+  if (info.done) {
+    resolve(value);
   } else {
-    obj[key] = value;
+    Promise.resolve(value).then(_next, _throw);
   }
+}
 
-  return obj;
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
 }
 
 function _slicedToArray(arr, i) {
@@ -160,88 +155,143 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = ".layer-image-preview {\r\n  height: 400px;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n";
+var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n\r\n/* card */\r\n.explorer-simple-card-container {\r\n}\r\n.explorer-simple-card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff;\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 30px;\r\n}\r\n.explorer-simple-card-traits {\r\n  margin-top: 10px;\r\n  height: 30px;\r\n}\r\n";
 styleInject(css_248z);
+
+const GALAXIS_BASE_URL = 'https://cms.galaxis.xyz/';
 
 const ExplorerCard = _ref => {
   let {
-    traitTypes
+    meta,
+    traitTypes,
+    key,
+    keyForChild
   } = _ref;
   const [metadata, setMetadata] = React.useState(null);
+  const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
+    const metaURL = meta.tokenURI;
+
     const fetchMetadata = async () => {
-      await axios__default["default"].get('https://hedgiefund-metadata-server.herokuapp.com/api/metadata/81/2081').then(resp => setMetadata(resp.data)).catch(e => console.log('error'));
+      setLoading(true);
+      await axios__default["default"].get(metaURL).then(resp => setMetadata(resp.data)).catch(e => console.log('error'));
+      setLoading(false);
     };
 
     fetchMetadata();
   }, []);
-  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, metadata && /*#__PURE__*/React__default["default"].createElement("div", {
+
+  const GetTraitImage = _ref2 => {
+    let {
+      traitType
+    } = _ref2;
+    if (!traitType) return;
+    const trait_type = traitTypes[traitType];
+    return /*#__PURE__*/React__default["default"].createElement("img", {
+      className: "explorer-simple-card-trait",
+      src: GALAXIS_BASE_URL + trait_type.icon_white
+    }); // GALAXIS_BASE_URL + traitType.icon_white;
+  };
+
+  const Card = () => {
+    return /*#__PURE__*/React__default["default"].createElement("div", {
+      className: "explorer-simple-card"
+    }, /*#__PURE__*/React__default["default"].createElement("img", {
+      src: metadata.image,
+      style: {
+        maxWidth: '100%'
+      }
+    }), /*#__PURE__*/React__default["default"].createElement("div", {
+      className: "explorer-simple-card-trait-container"
+    }, /*#__PURE__*/React__default["default"].createElement("div", {
+      className: "explorer-simple-card-token-name"
+    }, metadata.name), /*#__PURE__*/React__default["default"].createElement("div", {
+      className: "explorer-simple-card-traits"
+    }, metadata.traits && metadata.traits.length > 0 && metadata.traits.map(trait => {
+      return trait.icon_url ? /*#__PURE__*/React__default["default"].createElement("img", {
+        className: "explorer-simple-card-trait",
+        src: trait.icon_url
+      }) : /*#__PURE__*/React__default["default"].createElement(GetTraitImage, {
+        traitType: trait.type
+      });
+    }))));
+  };
+
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement("div", {
     className: "col-lg-3 col-md-4 mb-4"
   }, /*#__PURE__*/React__default["default"].createElement("div", {
     className: "layer-image-preview"
-  }, /*#__PURE__*/React__default["default"].createElement(galaxisComponents.GalaxisCard, {
-    metadata: metadata,
-    traitTypes: traitTypes
-  }))));
+  }, !loading ? Card() : /*#__PURE__*/React__default["default"].createElement(spinnersReact.SpinnerCircular, {
+    color: "#000"
+  }) // <GalaxisCard
+  //   metadata={metadata}
+  //   traitTypes={traitTypes}
+  //   key={keyForChild}
+  // />
+  )));
 };
 
-var ExplorerCards = function ExplorerCards(_ref) {
-  var nfts = _ref.nfts;
-      _ref.meta;
-      var traitTypes = _ref.traitTypes,
-      height = _ref.height;
-  var ITEMS_PER_PAGE = 29;
+const ExplorerCards = _ref => {
+  let {
+    nftList,
+    traitTypes,
+    height
+  } = _ref;
+  const ITEMS_PER_PAGE = 29;
+  const [cards, setCards] = React.useState([]);
+  const [currentPage, _setCurrentPage] = React.useState(0);
+  const currentPageRef = React.useRef(currentPage);
 
-  var _useState = React.useState([1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6, 1, 2, 3, 4, 5, 6]),
-      _useState2 = _slicedToArray(_useState, 2),
-      cards = _useState2[0],
-      setCards = _useState2[1];
-
-  var _useState3 = React.useState(0),
-      _useState4 = _slicedToArray(_useState3, 2),
-      currentPage = _useState4[0],
-      _setCurrentPage = _useState4[1];
-
-  var currentPageRef = React.useRef(currentPage);
-
-  var setCurrentPage = function setCurrentPage(val) {
+  const setCurrentPage = val => {
     currentPageRef.current = val;
 
     _setCurrentPage(val);
   };
 
-  React.useEffect(function () {
+  React.useEffect(() => {
     setCards([]);
     setCurrentPage(0);
-    loadNext(nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
-  }, [nfts]);
+    loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
+  }, [nftList]);
 
-  var renderCards = function renderCards() {
-    return cards.map(function (card, i) {
+  const renderCards = () => {
+    return cards.map((meta, i) => {
       return /*#__PURE__*/React__default["default"].createElement(ExplorerCard, {
-        traitTypes: traitTypes
+        meta: meta,
+        traitTypes: traitTypes,
+        key: i,
+        keyForChild: i
       });
     });
   };
 
-  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement("div", null), /*#__PURE__*/React__default["default"].createElement("div", null, /*#__PURE__*/React__default["default"].createElement(InfiniteScroll__default["default"], {
+  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement("div", {
+    style: {
+      width: '100%'
+    }
+  }, /*#__PURE__*/React__default["default"].createElement(InfiniteScroll__default["default"], {
     dataLength: cards.length,
     height: height || '100vh',
-    next: function next() {
-      return loadNext(nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
-    },
+    next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
     pullDownToRefreshThreshold: 500,
-    hasMore: currentPageRef.current * ITEMS_PER_PAGE < nfts.length // scrollThreshold="200px"
-    // scrollableTarget="content-container"
+    hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length,
+    scrollThreshold: "1200px" // scrollableTarget="content-container"
     // initialScrollY={1000}
     ,
-    loader: /*#__PURE__*/React__default["default"].createElement("h4", null, "Loading...")
+    loader: /*#__PURE__*/React__default["default"].createElement("h4", {
+      style: {
+        textAlign: 'center'
+      }
+    }, "Loading...")
   }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: "row small-gutters px-0 mx-0 "
+    className: `row small-gutters px-2 mx-0  `,
+    style: {
+      padding: '10px'
+    }
   }, renderCards()))));
 };
 
-var common = {
+const common = {
   INFURA_ID: '96a0984ce6264f5a8edcf752673de5b8',
   GALAXIS_REGISTRY: '0x1e8150050A7a4715aad42b905C08df76883f396F',
   OPENSEA_COLLECTION: 'https://api.opensea.io/api/v1/collection',
@@ -250,43 +300,10 @@ var common = {
   NO_PROJECT_FOUND: 'no project found',
   COMMUNITYSPACEURL: 'https://galaxis.xyz/#'
 };
-({
-  DEPLOYED_NTW_NAME: 'goerli',
-  DEPLOYED_CHAIN_ID: 5,
-  FORTMATIC_KEY: 'pk_test_DD2BBA8AAA1D4FED',
-  RPC_URL: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
-  ETHERSCAN_URL: 'https://goerli.etherscan.io',
-  POLYGONSCAN_URL: 'https://mumbai.polygonscan.com',
-  OPENSEA_URL: 'https://testnets.opensea.io/',
-  API_URL: 'https://cms.staging.galaxis.xyz',
-  PREVIEW_URL: 'https://mcb.staging.galaxis.xyz/api/project-session',
-  LAUNCHPAD_API_URL: 'https://mcb.staging.galaxis.xyz/api',
-  PREVIEW_IMAGES: 'https://mcb.staging.galaxis.xyz/projects/',
-  AWS_URL: 'https://cms.staging.galaxis.xyz/storage/app/media',
-  AGGREGATOR_URL: 'https://nft-aggregator-goerli.herokuapp.com/token',
-  EC_TOKEN_ADDRESS: '0xAAD4475343f5150E33d6194270f04e7e5968A2f8',
-  PHOENIX_CONTRACT_ADDRESS: '0x0937aD2d26D1f37c2d8FdA1b4c071e8f3786aF5B',
-  CROSSMINT_CLIENT_ID: '7de2bbab-cec3-456b-a2e1-96bbd99cb8ad',
-  CROSSMINT_ENV: 'staging',
-  CHAINS: [{
-    id: "0x5",
-    token: "gETH",
-    label: "Goerli",
-    rpcUrl: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
-    // rpcURL required for wallet balances
-    blockExplorerUrl: "https://goerli.etherscan.io"
-  }, {
-    id: "0x13881",
-    token: "mMATIC",
-    label: "Polygon Mumbai Testnet",
-    rpcUrl: "https://polygon-mumbai.infura.io/v3/".concat(common.INFURA_ID),
-    blockExplorerUrl: "https://mumbai.polygonscan.com"
-  }]
-});
-var prod = {
+const prod = {
   DEPLOYED_NTW_NAME: 'mainnet',
   DEPLOYED_CHAIN_ID: 1,
-  RPC_URL: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
+  RPC_URL: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
   FORTMATIC_KEY: 'pk_live_FBFF1F05F2879F29',
   ETHERSCAN_URL: 'https://etherscan.io',
   POLYGONSCAN_URL: 'https://polygonscan.com',
@@ -307,22 +324,24 @@ var prod = {
     token: "ETH",
     // main chain token
     label: "Ethereum Mainnet",
-    rpcUrl: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
+    rpcUrl: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
     // rpcURL required for wallet balances
     blockExplorerUrl: "https://etherscan.io"
   }, {
     id: "0x89",
     token: "MATIC",
     label: "Polygon Mainnet",
-    rpcUrl: "https://polygon-mainnet.infura.io/v3/".concat(common.INFURA_ID),
+    rpcUrl: `https://polygon-mainnet.infura.io/v3/${common.INFURA_ID}`,
     blockExplorerUrl: "https://polygonscan.com"
   }]
 }; // if use npm/yarn start,  NODE_ENV = "development"
 // if use npm/yarn build,  NODE_ENV = "production"
 
-var envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
+let envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
 
-var config = _objectSpread2(_objectSpread2({}, envConfig), common);
+let config = { ...envConfig,
+  ...common
+};
 
 var _format = "hh-sol-artifact-1";
 var contractName = "Zoom2";
@@ -2608,171 +2627,97 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
   }
 };
 
-const useGetNftsList = (chainId, contractAddres, address) => {
-  const [zoomContract, setZoomContract] = React.useState(null);
-  const [nftList, setNftList] = React.useState([]);
-  const provider = React.useMemo(() => {
+var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
+  var _useState = React.useState(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      zoomContract = _useState2[0],
+      setZoomContract = _useState2[1];
+
+  var _useState3 = React.useState([]),
+      _useState4 = _slicedToArray(_useState3, 2),
+      nftList = _useState4[0],
+      setNftList = _useState4[1];
+
+  var provider = React.useMemo(function () {
     return getProvider(chainId);
   }, [chainId]); //provider
 
-  const tokenContract = React.useMemo(() => new ethers.Contract(contractAddres, tokenABI.abi, provider), [contractAddres]);
-  React.useEffect(async () => {
-    if (provider) {
-      const galaxisRegistry = getContract(config.GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
-      let zoomAddress;
+  var tokenContract = React.useMemo(function () {
+    return new ethers.Contract(contractAddres, tokenABI.abi, provider);
+  }, [contractAddres]);
+  React.useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+    var galaxisRegistry, zoomAddress, contract;
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            if (!provider) {
+              _context.next = 7;
+              break;
+            }
 
-      if (galaxisRegistry) {
-        zoomAddress = await galaxisRegistry.getRegistryAddress('ZOOM').catch(e => {
-          console.log('registry error', e);
-        });
-      }
+            galaxisRegistry = getContract(config.GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
 
-      if (zoomAddress) {
-        let contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
+            if (!galaxisRegistry) {
+              _context.next = 6;
+              break;
+            }
 
-        if (contract) {
-          setZoomContract(contract);
+            _context.next = 5;
+            return galaxisRegistry.getRegistryAddress('ZOOM').catch(function (e) {
+              console.log('registry error', e);
+            });
+
+          case 5:
+            zoomAddress = _context.sent;
+
+          case 6:
+            if (zoomAddress) {
+              contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
+
+              if (contract) {
+                setZoomContract(contract);
+              }
+            } else {
+              zoomAddress = useZoom2Contract();
+              setZoomContract(zoomAddress);
+            }
+
+          case 7:
+          case "end":
+            return _context.stop();
         }
-      } else {
-        zoomAddress = useZoom2Contract();
-        setZoomContract(zoomAddress);
       }
-    } //setting up the zoom contract;
+    }, _callee);
+  })), [chainId, provider]);
+  React.useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      while (1) {
+        switch (_context2.prev = _context2.next) {
+          case 0:
+            if (!(zoomContract && tokenContract && address)) {
+              _context2.next = 3;
+              break;
+            }
 
-  }, [chainId, provider]);
-  React.useEffect(async () => {
-    if (zoomContract && tokenContract && address) {
-      await zoomFetchTokenUris(tokenContract, zoomContract, address).then(res => {
-        setNftList(res);
-      }).catch(e => {
-        console.log(e);
-      });
-    }
-  }, [zoomContract, tokenContract, address]);
+            _context2.next = 3;
+            return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
+              setNftList(res);
+            }).catch(function (e) {
+              console.log(e);
+            });
+
+          case 3:
+          case "end":
+            return _context2.stop();
+        }
+      }
+    }, _callee2);
+  })), [zoomContract, tokenContract, address]);
   return {
-    nftList
+    nftList: nftList
   };
 };
-
-var meta = {
-  tokenId: 200,
-  image: 'https://ether-cards.mypinata.cloud/ipfs/QmVwHf3BGbw6Cdz27AZVfXB29La4QGUL1K4zL5NuHJKtGe/81/2081.jpeg',
-  name: 'The Hedgie Fund #200',
-  collection_type: 'galaxis',
-  animation_url: 'https://explorer.galaxis.xyz/#/render?hedgiefund-metadata-server.herokuapp.com/api/metadata/81/2081',
-  sides: [{
-    id: 1,
-    dna: '1637050516140514'
-  }],
-  collection_name: 'The Hedgie Fund',
-  attributes: [{
-    value: "Sam's room #2",
-    trait_type: 'Background'
-  }, {
-    value: 'Combed Yellow',
-    trait_type: 'Prickles'
-  }, {
-    value: 'Plain',
-    trait_type: 'Body'
-  }, {
-    value: 'Up',
-    trait_type: 'Ears'
-  }, {
-    value: 'Laugh 2',
-    trait_type: 'Face'
-  }, {
-    value: 'Policeman Hat',
-    trait_type: 'Hat'
-  }, {
-    value: 'NONE',
-    trait_type: 'Birthmarks'
-  }, {
-    value: 'Arms Folded',
-    trait_type: 'Arms'
-  }, {
-    trait_type: 'Utility trait',
-    value: 'Background'
-  }, {
-    trait_type: 'Utility trait',
-    value: 'Face'
-  }, {
-    trait_type: 'Utility trait',
-    value: 'Hat'
-  }, {
-    trait_type: 'Utility trait',
-    value: 'Arms'
-  }],
-  traits: [{
-    id: 1,
-    name: 'Background',
-    type: '7',
-    description: "People with autism like their own space, and bedrooms are often a 'safe space'."
-  }, {
-    id: 41,
-    name: 'Face',
-    type: '7',
-    description: 'Sam is happiest with his family.'
-  }, {
-    id: 61,
-    name: 'Hat',
-    type: '7',
-    description: 'Sam can lose himself in his imaginary world for hours on end.'
-  }, {
-    id: 77,
-    name: 'Arms',
-    type: '7',
-    description: "Sam folds his arms to show that he is not happy. He may be semi-verbal but this doesn't mean he can't communicate!"
-  }]
-};
-var trait_type = [{
-  id: 1,
-  name: 'Physical Redeemables',
-  icon_white: '/storage/app/assets/public/trait_type_icons/physical-white.svg',
-  icon_orange: '/storage/app/assets/public/trait_type_icons/physical-orange.svg',
-  icon_black: '/storage/app/assets/public/trait_type_icons/physical-black.svg'
-}, {
-  id: 2,
-  name: 'Digital Redeemables',
-  icon_white: '/storage/app/assets/public/trait_type_icons/digital-white.svg',
-  icon_orange: '/storage/app/assets/public/trait_type_icons/digital-orange.svg',
-  icon_black: '/storage/app/assets/public/trait_type_icons/digital-black.svg'
-}, {
-  id: 3,
-  name: 'Discount Traits',
-  icon_white: '/storage/app/assets/public/trait_type_icons/discount-white.svg',
-  icon_orange: '/storage/app/assets/public/trait_type_icons/discount-orange.svg',
-  icon_black: '/storage/app/assets/public/trait_type_icons/discount-black.svg'
-}, {
-  id: 4,
-  name: 'Access Traits',
-  icon_white: '/storage/app/assets/public/trait_type_icons/access-white.svg',
-  icon_orange: '/storage/app/assets/public/trait_type_icons/access-orange.svg',
-  icon_black: '/storage/app/assets/public/trait_type_icons/access-black.svg'
-}, {
-  id: 5,
-  name: 'Modifiers',
-  icon_white: '/storage/app/assets/public/trait_type_icons/modifier-white.svg',
-  icon_orange: '/storage/app/assets/public/trait_type_icons/modifier-orange.svg',
-  icon_black: '/storage/app/assets/public/trait_type_icons/modifier-black.svg'
-}, {
-  id: 6,
-  name: 'Meeting',
-  icon_white: '/storage/app/assets/public/trait_type_icons/meeting-white.svg',
-  icon_orange: '/storage/app/assets/public/trait_type_icons/meeting-orange.svg',
-  icon_black: '/storage/app/assets/public/trait_type_icons/meeting-black.svg'
-}, {
-  id: 7,
-  name: 'Badges',
-  icon_white: '/storage/app/assets/public/trait_type_icons/badge-white.svg',
-  icon_orange: '/storage/app/assets/public/trait_type_icons/badge-orange.svg',
-  icon_black: '/storage/app/assets/public/trait_type_icons/badge-black.svg'
-}, {
-  id: 8,
-  name: 'Signature',
-  icon_white: '/storage/app/assets/public/trait_type_icons/autograph-white.svg',
-  icon_orange: '/storage/app/assets/public/trait_type_icons/autograph-orange.svg',
-  icon_black: '/storage/app/assets/public/trait_type_icons/autograph-black.svg'
-}];
 
 var ExplorerComponent = function ExplorerComponent(_ref) {
   var tokenAddres = _ref.tokenAddres,
@@ -2782,10 +2727,56 @@ var ExplorerComponent = function ExplorerComponent(_ref) {
   var _useGetNftsList = useGetNftsList(chainId, tokenAddres, poolAddress),
       nftList = _useGetNftsList.nftList;
 
-  return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(ExplorerCards, {
-    nfts: nftList,
-    traitTypes: trait_type,
-    meta: meta
+  var _useState = React.useState(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      traitTypes = _useState2[0],
+      setTraitTypes = _useState2[1];
+
+  React.useEffect(function () {
+    var getTraitTypes = /*#__PURE__*/function () {
+      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.next = 2;
+                return axios__default["default"].get('https://cms.galaxis.xyz/trait_types').then(function (resp) {
+                  return setTraitTypes(resp.data);
+                });
+
+              case 2:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee);
+      }));
+
+      return function getTraitTypes() {
+        return _ref2.apply(this, arguments);
+      };
+    }();
+
+    getTraitTypes();
+  }, []);
+  console.log(nftList, ' nft list');
+  return /*#__PURE__*/React__default["default"].createElement("div", {
+    style: {
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    }
+  }, nftList.length > 0 ? /*#__PURE__*/React__default["default"].createElement(ExplorerCards, {
+    nftList: nftList,
+    traitTypes: traitTypes
+  }) : /*#__PURE__*/React__default["default"].createElement(spinnersReact.SpinnerDotted, {
+    color: "#000",
+    size: 200,
+    style: {
+      paddingTop: '30px'
+    }
   }));
 };
 
