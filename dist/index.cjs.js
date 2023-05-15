@@ -19,6 +19,32 @@ var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var InfiniteScroll__default = /*#__PURE__*/_interopDefaultLegacy(InfiniteScroll);
 var axios__default = /*#__PURE__*/_interopDefaultLegacy(axios);
 
+function ownKeys(object, enumerableOnly) {
+  var keys = Object.keys(object);
+
+  if (Object.getOwnPropertySymbols) {
+    var symbols = Object.getOwnPropertySymbols(object);
+    enumerableOnly && (symbols = symbols.filter(function (sym) {
+      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
+    })), keys.push.apply(keys, symbols);
+  }
+
+  return keys;
+}
+
+function _objectSpread2(target) {
+  for (var i = 1; i < arguments.length; i++) {
+    var source = null != arguments[i] ? arguments[i] : {};
+    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
+      _defineProperty(target, key, source[key]);
+    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
+      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
+    });
+  }
+
+  return target;
+}
+
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
   try {
     var info = gen[key](arg);
@@ -53,6 +79,21 @@ function _asyncToGenerator(fn) {
       _next(undefined);
     });
   };
+}
+
+function _defineProperty(obj, key, value) {
+  if (key in obj) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+  } else {
+    obj[key] = value;
+  }
+
+  return obj;
 }
 
 function _slicedToArray(arr, i) {
@@ -231,31 +272,38 @@ const ExplorerCard = _ref => {
   )));
 };
 
-const ExplorerCards = _ref => {
-  let {
-    nftList,
-    traitTypes,
-    height
-  } = _ref;
-  const ITEMS_PER_PAGE = 29;
-  const [cards, setCards] = React.useState([]);
-  const [currentPage, _setCurrentPage] = React.useState(0);
-  const currentPageRef = React.useRef(currentPage);
+var ExplorerCards = function ExplorerCards(_ref) {
+  var nftList = _ref.nftList,
+      traitTypes = _ref.traitTypes,
+      height = _ref.height;
+  var ITEMS_PER_PAGE = 29;
 
-  const setCurrentPage = val => {
+  var _useState = React.useState([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      cards = _useState2[0],
+      setCards = _useState2[1];
+
+  var _useState3 = React.useState(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      currentPage = _useState4[0],
+      _setCurrentPage = _useState4[1];
+
+  var currentPageRef = React.useRef(currentPage);
+
+  var setCurrentPage = function setCurrentPage(val) {
     currentPageRef.current = val;
 
     _setCurrentPage(val);
   };
 
-  React.useEffect(() => {
+  React.useEffect(function () {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
 
-  const renderCards = () => {
-    return cards.map((meta, i) => {
+  var renderCards = function renderCards() {
+    return cards.map(function (meta, i) {
       return /*#__PURE__*/React__default["default"].createElement(ExplorerCard, {
         meta: meta,
         traitTypes: traitTypes,
@@ -272,7 +320,9 @@ const ExplorerCards = _ref => {
   }, /*#__PURE__*/React__default["default"].createElement(InfiniteScroll__default["default"], {
     dataLength: cards.length,
     height: height || '100vh',
-    next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
+    next: function next() {
+      return loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
+    },
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length,
     scrollThreshold: "1200px" // scrollableTarget="content-container"
@@ -284,14 +334,14 @@ const ExplorerCards = _ref => {
       }
     }, "Loading...")
   }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: `row small-gutters px-2 mx-0  `,
+    className: "row small-gutters px-2 mx-0  ",
     style: {
       padding: '10px'
     }
   }, renderCards()))));
 };
 
-const common = {
+var common = {
   INFURA_ID: '96a0984ce6264f5a8edcf752673de5b8',
   GALAXIS_REGISTRY: '0x1e8150050A7a4715aad42b905C08df76883f396F',
   OPENSEA_COLLECTION: 'https://api.opensea.io/api/v1/collection',
@@ -300,10 +350,43 @@ const common = {
   NO_PROJECT_FOUND: 'no project found',
   COMMUNITYSPACEURL: 'https://galaxis.xyz/#'
 };
-const prod = {
+({
+  DEPLOYED_NTW_NAME: 'goerli',
+  DEPLOYED_CHAIN_ID: 5,
+  FORTMATIC_KEY: 'pk_test_DD2BBA8AAA1D4FED',
+  RPC_URL: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
+  ETHERSCAN_URL: 'https://goerli.etherscan.io',
+  POLYGONSCAN_URL: 'https://mumbai.polygonscan.com',
+  OPENSEA_URL: 'https://testnets.opensea.io/',
+  API_URL: 'https://cms.staging.galaxis.xyz',
+  PREVIEW_URL: 'https://mcb.staging.galaxis.xyz/api/project-session',
+  LAUNCHPAD_API_URL: 'https://mcb.staging.galaxis.xyz/api',
+  PREVIEW_IMAGES: 'https://mcb.staging.galaxis.xyz/projects/',
+  AWS_URL: 'https://cms.staging.galaxis.xyz/storage/app/media',
+  AGGREGATOR_URL: 'https://nft-aggregator-goerli.herokuapp.com/token',
+  EC_TOKEN_ADDRESS: '0xAAD4475343f5150E33d6194270f04e7e5968A2f8',
+  PHOENIX_CONTRACT_ADDRESS: '0x0937aD2d26D1f37c2d8FdA1b4c071e8f3786aF5B',
+  CROSSMINT_CLIENT_ID: '7de2bbab-cec3-456b-a2e1-96bbd99cb8ad',
+  CROSSMINT_ENV: 'staging',
+  CHAINS: [{
+    id: "0x5",
+    token: "gETH",
+    label: "Goerli",
+    rpcUrl: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
+    // rpcURL required for wallet balances
+    blockExplorerUrl: "https://goerli.etherscan.io"
+  }, {
+    id: "0x13881",
+    token: "mMATIC",
+    label: "Polygon Mumbai Testnet",
+    rpcUrl: "https://polygon-mumbai.infura.io/v3/".concat(common.INFURA_ID),
+    blockExplorerUrl: "https://mumbai.polygonscan.com"
+  }]
+});
+var prod = {
   DEPLOYED_NTW_NAME: 'mainnet',
   DEPLOYED_CHAIN_ID: 1,
-  RPC_URL: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
+  RPC_URL: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
   FORTMATIC_KEY: 'pk_live_FBFF1F05F2879F29',
   ETHERSCAN_URL: 'https://etherscan.io',
   POLYGONSCAN_URL: 'https://polygonscan.com',
@@ -324,24 +407,22 @@ const prod = {
     token: "ETH",
     // main chain token
     label: "Ethereum Mainnet",
-    rpcUrl: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
+    rpcUrl: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
     // rpcURL required for wallet balances
     blockExplorerUrl: "https://etherscan.io"
   }, {
     id: "0x89",
     token: "MATIC",
     label: "Polygon Mainnet",
-    rpcUrl: `https://polygon-mainnet.infura.io/v3/${common.INFURA_ID}`,
+    rpcUrl: "https://polygon-mainnet.infura.io/v3/".concat(common.INFURA_ID),
     blockExplorerUrl: "https://polygonscan.com"
   }]
 }; // if use npm/yarn start,  NODE_ENV = "development"
 // if use npm/yarn build,  NODE_ENV = "production"
 
-let envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
+var envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
 
-let config = { ...envConfig,
-  ...common
-};
+var config = _objectSpread2(_objectSpread2({}, envConfig), common);
 
 var _format = "hh-sol-artifact-1";
 var contractName = "Zoom2";
@@ -409,7 +490,7 @@ const ZOOM_2_ADDRESSES = {
 function isAddress(value) {
   try {
     return address.getAddress(value);
-  } catch {
+  } catch (_unused) {
     return false;
   }
 } // account is not optional
@@ -426,14 +507,16 @@ function getProviderOrSigner(library, account) {
 
 function getContract(address, ABI, library, account) {
   if (!isAddress(address) || address === constants.AddressZero) {
-    throw Error(`Invalid 'address' parameter '${address}'.`);
+    throw Error("Invalid 'address' parameter '".concat(address, "'."));
   }
 
   return new contracts.Contract(address, ABI, getProviderOrSigner(library, account));
 }
-const getProvider = contractChainId => {
-  const chains = config.CHAINS;
-  const chain = chains.find(chain => parseInt(chain.id) == contractChainId);
+var getProvider = function getProvider(contractChainId) {
+  var chains = config.CHAINS;
+  var chain = chains.find(function (chain) {
+    return parseInt(chain.id) == contractChainId;
+  });
 
   if (chain != null) {
     return new ethers.ethers.providers.JsonRpcProvider(chain.rpcUrl);
@@ -2588,44 +2671,74 @@ var tokenABI = {
 	abi: abi
 };
 
-const zoomFetchTokenUris = async (contract, zoom2, address) => {
-  const nt = await contract.balanceOf(address);
-  const ZoomLibraryInstance = new zoomNext.Zoom({
-    use_reference_calls: true
-  });
+var zoomFetchTokenUris = /*#__PURE__*/function () {
+  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(contract, zoom2, address) {
+    var nt, ZoomLibraryInstance, calls, i, tId, tUri, ZoomQueryBinary, combinedResult, tokenIds, _i, id, tokenURI;
 
-  if (nt > 0) {
-    const calls = [];
+    return regeneratorRuntime.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            _context.next = 2;
+            return contract.balanceOf(address);
 
-    for (let i = 0; i < nt; i += 1) {
-      const tId = ZoomLibraryInstance.addMappingCountCall(contract, ['tokenOfOwnerByIndex', [address, i]], 'tokenOfOwnerByIndex(address,uint256) returns (uint256)', [{
-        contract: contract,
-        mapAndParams: ['tokenURI(uint256)', [i]]
-      }]);
-      calls.push(tId);
-      const tUri = ZoomLibraryInstance.addType5Call(contract, ['tokenURI(uint256)', [i]], 'tokenURI(uint256) returns (string)');
-      calls.push(tUri);
-    }
+          case 2:
+            nt = _context.sent;
+            ZoomLibraryInstance = new zoomNext.Zoom({
+              use_reference_calls: true
+            });
 
-    const ZoomQueryBinary = ZoomLibraryInstance.getZoomCall();
-    const combinedResult = await zoom2.combine(ZoomQueryBinary);
-    ZoomLibraryInstance.resultsToCache(combinedResult, ZoomQueryBinary);
-    const tokenIds = [];
+            if (!(nt > 0)) {
+              _context.next = 15;
+              break;
+            }
 
-    for (let i = 0; i < nt * 2; i += 2) {
-      const id = ZoomLibraryInstance.decodeCall(calls[i]).toString();
-      const tokenURI = ZoomLibraryInstance.decodeCall(calls[i + 1]).toString();
-      tokenIds.push({
-        id,
-        tokenURI
-      });
-    }
+            calls = [];
 
-    return tokenIds.sort((a, b) => {
-      return Number(a.tokenId) - Number(b.tokenId);
-    });
-  }
-};
+            for (i = 0; i < nt; i += 1) {
+              tId = ZoomLibraryInstance.addMappingCountCall(contract, ['tokenOfOwnerByIndex', [address, i]], 'tokenOfOwnerByIndex(address,uint256) returns (uint256)', [{
+                contract: contract,
+                mapAndParams: ['tokenURI(uint256)', [i]]
+              }]);
+              calls.push(tId);
+              tUri = ZoomLibraryInstance.addType5Call(contract, ['tokenURI(uint256)', [i]], 'tokenURI(uint256) returns (string)');
+              calls.push(tUri);
+            }
+
+            ZoomQueryBinary = ZoomLibraryInstance.getZoomCall();
+            _context.next = 10;
+            return zoom2.combine(ZoomQueryBinary);
+
+          case 10:
+            combinedResult = _context.sent;
+            ZoomLibraryInstance.resultsToCache(combinedResult, ZoomQueryBinary);
+            tokenIds = [];
+
+            for (_i = 0; _i < nt * 2; _i += 2) {
+              id = ZoomLibraryInstance.decodeCall(calls[_i]).toString();
+              tokenURI = ZoomLibraryInstance.decodeCall(calls[_i + 1]).toString();
+              tokenIds.push({
+                id: id,
+                tokenURI: tokenURI
+              });
+            }
+
+            return _context.abrupt("return", tokenIds.sort(function (a, b) {
+              return Number(a.tokenId) - Number(b.tokenId);
+            }));
+
+          case 15:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee);
+  }));
+
+  return function zoomFetchTokenUris(_x, _x2, _x3) {
+    return _ref.apply(this, arguments);
+  };
+}();
 
 var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
   var _useState = React.useState(null),
