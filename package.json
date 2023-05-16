@@ -1,6 +1,6 @@
 {
   "name": "explorer-component",
-  "version": "0.1.35",
+  "version": "0.1.36",
   "private": true,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
@@ -12,6 +12,7 @@
     "axios": "^0.27.2",
     "ethers": "^5.5.1",
     "react-infinite-scroll-component": "^6.1.0",
+    "spinners-react": "^1.0.7",
     "web-vitals": "^2.1.4",
     "zoom-next": "https://github.com/mickys/zoom-next.git#d8984ac5a9b48eaf9c6ba723da1d1c2bb0b756af"
   },
