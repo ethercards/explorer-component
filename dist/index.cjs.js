@@ -2675,8 +2675,10 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
               _context2.next = 3;
               return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
                 setNftList(res);
+                fetchedRef.current = true;
               }).catch(function (e) {
                 console.log(e);
+                fetchedRef.current = true;
               });
 
             case 3:
@@ -2698,7 +2700,6 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
   React.useEffect(function () {
     if (fetchedRef.current === false) {
       getNftList();
-      fetchedRef.current = true;
     }
   }, [zoomContract, tokenContract, fetchedRef.current, address]);
   return {

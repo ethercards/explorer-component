@@ -53,10 +53,13 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
       await zoomFetchTokenUris(tokenContract, zoomContract, address)
         .then((res) => {
           setNftList(res);
+          fetchedRef.current = true;
         })
         .catch((e) => {
           console.log(e);
+          fetchedRef.current = true;
         });
+
     }
   }
 
@@ -67,7 +70,6 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   useEffect(() => {
     if (fetchedRef.current === false) {
       getNftList();
-      fetchedRef.current = true;
     }
   }, [zoomContract, tokenContract, fetchedRef.current, address]);
 
