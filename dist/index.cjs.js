@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var React = require('react');
 var InfiniteScroll = require('react-infinite-scroll-component');
-require('galaxis-components');
 var axios = require('axios');
 var spinnersReact = require('spinners-react');
 var ethers = require('ethers');
@@ -128,36 +127,6 @@ const loadNext = (nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards
   setCurrentPage(currentPageRef.current + 1);
 };
 
-function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
-  var insertAt = ref.insertAt;
-
-  if (!css || typeof document === 'undefined') { return; }
-
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
-  } else {
-    head.appendChild(style);
-  }
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n\r\n/* card */\r\n.explorer-simple-card-container {\r\n}\r\n.explorer-simple-card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff;\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 30px;\r\n}\r\n.explorer-simple-card-traits {\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n";
-styleInject(css_248z);
-
 const GALAXIS_BASE_URL = 'https://cms.galaxis.xyz/';
 
 const ExplorerCard = _ref => {
@@ -165,7 +134,8 @@ const ExplorerCard = _ref => {
     meta,
     traitTypes,
     key,
-    keyForChild
+    keyForChild,
+    handleClick
   } = _ref;
   const [metadata, setMetadata] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -180,6 +150,7 @@ const ExplorerCard = _ref => {
 
     fetchMetadata();
   }, []);
+  console.log(meta);
 
   const GetTraitImage = _ref2 => {
     let {
@@ -195,7 +166,8 @@ const ExplorerCard = _ref => {
 
   const Card = () => {
     return /*#__PURE__*/React__default["default"].createElement("div", {
-      className: "explorer-simple-card"
+      className: "explorer-simple-card",
+      onClick: () => handleClick(meta.id)
     }, /*#__PURE__*/React__default["default"].createElement("img", {
       src: metadata.image,
       style: {
@@ -231,36 +203,81 @@ const ExplorerCard = _ref => {
   )));
 };
 
-const ExplorerCards = _ref => {
-  let {
-    nftList,
-    traitTypes,
-    height
-  } = _ref;
-  const ITEMS_PER_PAGE = 29;
-  const [cards, setCards] = React.useState([]);
-  const [currentPage, _setCurrentPage] = React.useState(0);
-  const currentPageRef = React.useRef(currentPage);
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
 
-  const setCurrentPage = val => {
+  if (!css || typeof document === 'undefined') { return; }
+
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
+
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
+
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n\r\n/* card */\r\n.explorer-simple-card-container {\r\n}\r\n.explorer-simple-card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff;\r\n  cursor: pointer;\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 30px;\r\n}\r\n.explorer-simple-card-traits {\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n.dust-pool-root{\r\n  max-width: 1140px;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  margin-top: 30px;\r\n  font-family: poppins;\r\n}\r\n.dust-pool-textbox{\r\ntext-align: center;\r\nmax-width: 600px;\r\nmargin: 0 auto;\r\n}\r\n.pool-subtitle{\r\n  font-size: 30px;\r\n  font-weight: 600;\r\n}\r\n.tab-choose{\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-bottom: 30px;\r\n  text-transform: uppercase;\r\n}\r\n.tab-choose div{\r\n  font-size: 14px;\r\n  font-weight: 500;\r\n  padding: 12px 15px\r\n}\r\n.tab-choose div:hover{\r\n  cursor: pointer;\r\n}\r\n.tab-choose .active-tab{\r\n  background-color: #000;\r\n  color: #fff;\r\n}\r\n.tab-choose div:first-child{\r\n  border: 2px solid #000;\r\n  border-top-left-radius: 10px;\r\n  border-bottom-left-radius: 10px;\r\n}\r\n.tab-choose div:nth-child(2){\r\n  border-top: 2px solid #000;\r\n  border-bottom: 2px solid #000;\r\n}\r\n.tab-choose div:nth-child(3){\r\n  border: 2px solid #000;\r\n  border-top-right-radius: 10px;\r\n  border-bottom-right-radius: 10px;\r\n}\r\n/*classes from bootstrap*/\r\n*{\r\n  box-sizing: border-box;\r\n}\r\n.container {\r\n  width: 100%;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n  margin-right: auto;\r\n  margin-left: auto;\r\n}\r\n.mt-5, .my-5 {\r\n  margin-top: 3rem!important;\r\n}\r\n.row {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  margin-right: -15px;\r\n  margin-left: -15px;\r\n}\r\n.col-12 {\r\n  flex: 0 0 100%;\r\n  max-width: 100%;\r\n}\r\n.col-12, .col-lg-6, .col-lg-3, .col-md-6{\r\n  position: relative;\r\n  width: 100%;\r\n  min-height: 1px;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n}\r\n.col-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n.mb-1{\r\n  margin-bottom: 0.25rem!important;\r\n}\r\n.mb-2{\r\n  margin-bottom: 0.5rem!important;\r\n}\r\n.mb-3{\r\n  margin-bottom: 0.75rem!important;\r\n}\r\n.mt-2{\r\n  margin-top: 0.5rem!important;\r\n}\r\n.pb-4{\r\n  padding-bottom: 1.5rem!important;\r\n}\r\n.w-100 {\r\n  width: 100%!important;\r\n}\r\n.text-right{\r\n  text-align: right!important;\r\n}\r\n.dust-pool-card p {\r\n  margin-block-start: 0;\r\n}\r\n.section-divider-img{\r\n  max-height: 35px;\r\n  z-index: 2;\r\n}\r\n@media only screen and (max-width: 500px) {\r\n  .section-divider-img{\r\n    max-height: 25px;\r\n    z-index: 2;\r\n  }\r\n}\r\n@media (min-width: 576px){\r\n.container {\r\n  max-width: 540px;\r\n}\r\n}\r\n@media (max-width: 600px){\r\n  .dust-pool-card .dust-pool-btn{\r\n      position: unset!important;\r\n  }\r\n  }\r\n@media (min-width: 768px){\r\n  .container {\r\n      max-width: 720px;\r\n  }}\r\n  .col-md-6{\r\n      flex: 0 0 50%;\r\n      max-width: 50%;\r\n  }\r\n@media (min-width: 992px){\r\n  .container {\r\n      max-width: 960px;\r\n  }\r\n  .col-lg-6 {\r\n      flex: 0 0 50%;\r\n      max-width: 50%;\r\n  }\r\n  .col-lg-3 {\r\n      flex: 0 0 25%;\r\n      max-width: 25%;\r\n  }\r\n}\r\n@media (min-width: 1200px){\r\n  .container {\r\n      max-width: 1140px;\r\n  }\r\n}\r\n@media only screen and (max-width: 945px) {\r\n  .dust-pool-root {\r\n    max-width: 100%;\r\n  }\r\n}";
+styleInject(css_248z);
+
+var ExplorerCards = function ExplorerCards(_ref) {
+  var nftList = _ref.nftList,
+      traitTypes = _ref.traitTypes,
+      height = _ref.height,
+      tokenAddres = _ref.tokenAddres,
+      openseaUrl = _ref.openseaUrl;
+      _ref.etherScanUrl;
+  var ITEMS_PER_PAGE = 29;
+
+  var _useState = React.useState([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      cards = _useState2[0],
+      setCards = _useState2[1];
+
+  var _useState3 = React.useState(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      currentPage = _useState4[0],
+      _setCurrentPage = _useState4[1];
+
+  var currentPageRef = React.useRef(currentPage);
+
+  var setCurrentPage = function setCurrentPage(val) {
     currentPageRef.current = val;
 
     _setCurrentPage(val);
   };
 
-  React.useEffect(() => {
+  var handleOpenOpensea = function handleOpenOpensea(id) {
+    window.open("".concat(openseaUrl, "/").concat(tokenAddres, "/").concat(id));
+  };
+
+  React.useEffect(function () {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
 
-  const renderCards = () => {
-    return cards.map((meta, i) => {
+  var renderCards = function renderCards() {
+    return cards.map(function (meta, i) {
       return /*#__PURE__*/React__default["default"].createElement(ExplorerCard, {
         meta: meta,
         traitTypes: traitTypes,
         key: i,
-        keyForChild: i
+        keyForChild: i,
+        handleClick: handleOpenOpensea
       });
     });
   };
@@ -272,7 +289,9 @@ const ExplorerCards = _ref => {
   }, /*#__PURE__*/React__default["default"].createElement(InfiniteScroll__default["default"], {
     dataLength: cards.length,
     height: height || '100vh',
-    next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
+    next: function next() {
+      return loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
+    },
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length,
     scrollThreshold: "1200px" // scrollableTarget="content-container"
@@ -284,63 +303,11 @@ const ExplorerCards = _ref => {
       }
     }, "Loading...")
   }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: `row small-gutters px-2 mx-0  `,
+    className: "row small-gutters px-2 mx-0  ",
     style: {
       padding: '10px'
     }
   }, renderCards()))));
-};
-
-const common = {
-  INFURA_ID: '96a0984ce6264f5a8edcf752673de5b8',
-  GALAXIS_REGISTRY: '0x1e8150050A7a4715aad42b905C08df76883f396F',
-  OPENSEA_COLLECTION: 'https://api.opensea.io/api/v1/collection',
-  GOOGLE_API: 'https://www.googleapis.com/youtube/v3/search',
-  RECAPCHA_SITEKEY: '6LfAjcYeAAAAAJTxnTgx_JVndCSmQgU1gqzEIwoL',
-  NO_PROJECT_FOUND: 'no project found',
-  COMMUNITYSPACEURL: 'https://galaxis.xyz/#'
-};
-const prod = {
-  DEPLOYED_NTW_NAME: 'mainnet',
-  DEPLOYED_CHAIN_ID: 1,
-  RPC_URL: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
-  FORTMATIC_KEY: 'pk_live_FBFF1F05F2879F29',
-  ETHERSCAN_URL: 'https://etherscan.io',
-  POLYGONSCAN_URL: 'https://polygonscan.com',
-  OPENSEA_URL: 'https://opensea.io/',
-  API_URL: 'https://cms.galaxis.xyz',
-  PREVIEW_URL: 'https://mcb.galaxis.xyz/api/project-session',
-  LAUNCHPAD_API_URL: 'https://mcb.galaxis.xyz/api',
-  PREVIEW_IMAGES: 'https://mcb.galaxis.xyz/projects/',
-  AWS_URL: 'https://cms.galaxis.xyz/storage/app/media',
-  AGGREGATOR_URL: 'https://nft-aggregator.herokuapp.com/token',
-  EC_TOKEN_ADDRESS: '0x97ca7fe0b0288f5eb85f386fed876618fb9b8ab8',
-  PHOENIX_CONTRACT_ADDRESS: '0x55B3154Ad761405B0cdd27355943Eb808d40b5A1',
-  CROSSMINT_CLIENT_ID: 'b3f5189b-66fe-43d7-8295-c73f9fa3e3ef',
-  CROSSMINT_ENV: '',
-  CHAINS: [{
-    id: "0x1",
-    // chain ID must be in hexadecimel
-    token: "ETH",
-    // main chain token
-    label: "Ethereum Mainnet",
-    rpcUrl: `https://mainnet.infura.io/v3/${common.INFURA_ID}`,
-    // rpcURL required for wallet balances
-    blockExplorerUrl: "https://etherscan.io"
-  }, {
-    id: "0x89",
-    token: "MATIC",
-    label: "Polygon Mainnet",
-    rpcUrl: `https://polygon-mainnet.infura.io/v3/${common.INFURA_ID}`,
-    blockExplorerUrl: "https://polygonscan.com"
-  }]
-}; // if use npm/yarn start,  NODE_ENV = "development"
-// if use npm/yarn build,  NODE_ENV = "production"
-
-let envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
-
-let config = { ...envConfig,
-  ...common
 };
 
 var _format = "hh-sol-artifact-1";
@@ -405,6 +372,7 @@ const ZOOM_2_ADDRESSES = {
   [SupportedChainId.MAINNET]: "0x7cdF091AF6a9ED75E3192500d3e5BB0f63e22Dea",
   [SupportedChainId.GOERLI]: "0xebC7d793d062371C11cB802e7D49eEAA0c30EB06"
 };
+const GALAXIS_REGISTRY = '0x1e8150050A7a4715aad42b905C08df76883f396F';
 
 function isAddress(value) {
   try {
@@ -431,16 +399,11 @@ function getContract(address, ABI, library, account) {
 
   return new contracts.Contract(address, ABI, getProviderOrSigner(library, account));
 }
-const getProvider = contractChainId => {
-  const chains = config.CHAINS;
-  const chain = chains.find(chain => parseInt(chain.id) == contractChainId);
-
-  if (chain != null) {
-    return new ethers.ethers.providers.JsonRpcProvider(chain.rpcUrl);
-  }
+const getProvider = rpcUrl => {
+  return new ethers.ethers.providers.JsonRpcProvider(rpcUrl);
 };
-function useZoom2Contract() {
-  return getContract(ZOOM_2_ADDRESSES, abi$2, false);
+function useZoom2Contract(chainId) {
+  return getContract(ZOOM_2_ADDRESSES[chainId], abi$2, false);
 }
 
 var abi$1 = [
@@ -2627,7 +2590,7 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
   }
 };
 
-var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
+var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, rpcUrl) {
   var _useState = React.useState(null),
       _useState2 = _slicedToArray(_useState, 2),
       zoomContract = _useState2[0],
@@ -2639,12 +2602,13 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
       setNftList = _useState4[1];
 
   var provider = React.useMemo(function () {
-    return getProvider(chainId);
-  }, [chainId]); //provider
+    return getProvider(rpcUrl);
+  }, [rpcUrl]); //provider
 
   var tokenContract = React.useMemo(function () {
     return new ethers.Contract(contractAddres, tokenABI.abi, provider);
-  }, [contractAddres]);
+  }, [contractAddres, provider]);
+  var fetchedRef = React.useRef(false);
   React.useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
     var galaxisRegistry, zoomAddress, contract;
     return regeneratorRuntime.wrap(function _callee$(_context) {
@@ -2656,7 +2620,7 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
               break;
             }
 
-            galaxisRegistry = getContract(config.GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
+            galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
 
             if (!galaxisRegistry) {
               _context.next = 6;
@@ -2677,10 +2641,10 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
 
               if (contract) {
                 setZoomContract(contract);
+              } else {
+                zoomAddress = useZoom2Contract(chainId);
+                setZoomContract(zoomAddress);
               }
-            } else {
-              zoomAddress = useZoom2Contract();
-              setZoomContract(zoomAddress);
             }
 
           case 7:
@@ -2689,31 +2653,39 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
         }
       }
     }, _callee);
-  })), [chainId, provider]);
+  })), [chainId, rpcUrl]);
   React.useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
     return regeneratorRuntime.wrap(function _callee2$(_context2) {
       while (1) {
         switch (_context2.prev = _context2.next) {
           case 0:
-            if (!(zoomContract && tokenContract && address)) {
-              _context2.next = 3;
+            if (!(fetchedRef.current === false)) {
+              _context2.next = 5;
               break;
             }
 
-            _context2.next = 3;
+            if (!(zoomContract && tokenContract && address)) {
+              _context2.next = 4;
+              break;
+            }
+
+            _context2.next = 4;
             return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
               setNftList(res);
             }).catch(function (e) {
               console.log(e);
             });
 
-          case 3:
+          case 4:
+            fetchedRef.current === true;
+
+          case 5:
           case "end":
             return _context2.stop();
         }
       }
     }, _callee2);
-  })), [zoomContract, tokenContract, address]);
+  })), [zoomContract, tokenContract, fetchedRef.current, address]);
   return {
     nftList: nftList
   };
@@ -2722,9 +2694,12 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
 var ExplorerComponent = function ExplorerComponent(_ref) {
   var tokenAddres = _ref.tokenAddres,
       poolAddress = _ref.poolAddress,
-      chainId = _ref.chainId;
+      chainId = _ref.chainId,
+      rpcUrl = _ref.rpcUrl,
+      openseaUrl = _ref.openseaUrl,
+      etherScanUrl = _ref.etherScanUrl;
 
-  var _useGetNftsList = useGetNftsList(chainId, tokenAddres, poolAddress),
+  var _useGetNftsList = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl),
       nftList = _useGetNftsList.nftList;
 
   var _useState = React.useState(null),
@@ -2759,7 +2734,6 @@ var ExplorerComponent = function ExplorerComponent(_ref) {
 
     getTraitTypes();
   }, []);
-  console.log(nftList, ' nft list');
   return /*#__PURE__*/React__default["default"].createElement("div", {
     style: {
       width: '100%',
@@ -2770,7 +2744,10 @@ var ExplorerComponent = function ExplorerComponent(_ref) {
     }
   }, nftList.length > 0 ? /*#__PURE__*/React__default["default"].createElement(ExplorerCards, {
     nftList: nftList,
-    traitTypes: traitTypes
+    traitTypes: traitTypes,
+    tokenAddres: tokenAddres,
+    openseaUrl: openseaUrl,
+    etherScanUrl: etherScanUrl
   }) : /*#__PURE__*/React__default["default"].createElement(spinnersReact.SpinnerDotted, {
     color: "#000",
     size: 200,

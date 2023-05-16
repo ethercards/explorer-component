@@ -1,7 +1,6 @@
 import { getAddress } from '@ethersproject/address'
 import { AddressZero } from '@ethersproject/constants'
 import { Contract } from '@ethersproject/contracts'
-import config from '../config/config'
 import { ethers } from 'ethers'
 
 import { abi as ZOOM2_ABI } from '../abi/Zoom2.json';
@@ -39,17 +38,10 @@ export function getContract(address, ABI, library, account) {
     return new Contract(address, ABI, getProviderOrSigner(library, account))
 }
 
-export const getProvider = (contractChainId) => {
-
-    const chains = config.CHAINS;
-    const chain = chains.find(
-        (chain) => parseInt(chain.id) == contractChainId
-    );
-    if (chain != null) {
-        return new ethers.providers.JsonRpcProvider(chain.rpcUrl);
-    }
+export const getProvider = (rpcUrl) => {
+    return new ethers.providers.JsonRpcProvider(rpcUrl);
 };
 
-export function useZoom2Contract() {
-    return getContract(ZOOM_2_ADDRESSES, ZOOM2_ABI, false);
+export function useZoom2Contract(chainId) {
+    return getContract(ZOOM_2_ADDRESSES[chainId], ZOOM2_ABI, false);
 }
