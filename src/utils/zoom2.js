@@ -1,5 +1,4 @@
 import { Zoom } from 'zoom-next'
-import { getTokenUri } from './index';
 
 export const zoomFetchTokenUris = async (contract, zoom2, address) => {
     const nt = await contract.balanceOf(address);

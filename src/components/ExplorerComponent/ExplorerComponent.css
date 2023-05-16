@@ -20,6 +20,7 @@
   border-radius: 10px;
   overflow: hidden;
   color: #fff;
+  cursor: pointer;
 }
 .explorer-simple-card-trait-container {
   padding: 10px;

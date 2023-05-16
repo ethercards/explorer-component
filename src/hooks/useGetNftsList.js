@@ -1,29 +1,31 @@
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState, useRef } from 'react';
 import { Contract } from 'ethers';
 
 import { getProvider, useZoom2Contract } from '../utils/contract';
-import config from '../config/config';
 import { getContract } from '../utils/contract';
 import GalaxisRegistry from '../abi/GalaxisRegistry.json';
 import ZoomAbi from '../abi/Zoom2.json';
 import tokenABI from '../abi/TokenV3.json';
 import { zoomFetchTokenUris } from '../utils/zoom2';
+import { GALAXIS_REGISTRY } from '../abi/constants/addresses';
 
-export const useGetNftsList = (chainId, contractAddres, address) => {
+export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const [zoomContract, setZoomContract] = useState(null);
   const [nftList, setNftList] = useState([]);
   const provider = useMemo(() => {
-    return getProvider(chainId);
-  }, [chainId]); //provider
+    return getProvider(rpcUrl);
+  }, [rpcUrl]); //provider
   const tokenContract = useMemo(
     () => new Contract(contractAddres, tokenABI.abi, provider),
-    [contractAddres]
+    [contractAddres, provider]
   );
-
+  const fetchedRef = useRef(false);
   useEffect(async () => {
     if (provider) {
+
+
       const galaxisRegistry = getContract(
-        config.GALAXIS_REGISTRY,
+        GALAXIS_REGISTRY,
         GalaxisRegistry.abi,
         provider,
         false
@@ -41,26 +43,29 @@ export const useGetNftsList = (chainId, contractAddres, address) => {
         let contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
         if (contract) {
           setZoomContract(contract);
+        } else {
+          zoomAddress = useZoom2Contract(chainId);
+          setZoomContract(zoomAddress);
         }
-      } else {
-        zoomAddress = useZoom2Contract();
-        setZoomContract(zoomAddress);
       }
     }
     //setting up the zoom contract;
-  }, [chainId, provider]);
+  }, [chainId, rpcUrl]);
 
   useEffect(async () => {
-    if (zoomContract && tokenContract && address) {
-      await zoomFetchTokenUris(tokenContract, zoomContract, address)
-        .then((res) => {
-          setNftList(res);
-        })
-        .catch((e) => {
-          console.log(e);
-        });
+    if (fetchedRef.current === false) {
+      if (zoomContract && tokenContract && address) {
+        await zoomFetchTokenUris(tokenContract, zoomContract, address)
+          .then((res) => {
+            setNftList(res);
+          })
+          .catch((e) => {
+            console.log(e);
+          });
+      }
+      fetchedRef.current === true;
     }
-  }, [zoomContract, tokenContract, address]);
+  }, [zoomContract, tokenContract, fetchedRef.current, address]);
 
   return { nftList };
 };

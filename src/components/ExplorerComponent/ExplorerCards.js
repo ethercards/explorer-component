@@ -1,13 +1,11 @@
-import React from 'react';
-import { useState } from 'react';
-import { useRef } from 'react';
-import { useEffect } from 'react';
+import React, {useEffect, useState, useRef} from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
-import { loadNext } from '../InfiniteScrollHelpers';
-import './ExplorerComponent.css';
-import ExplorerCard from './ExplorerCard';
 
-const ExplorerCards = ({ nftList, traitTypes, height }) => {
+import { loadNext } from '../InfiniteScrollHelpers';
+import ExplorerCard from './ExplorerCard';
+import './ExplorerComponent.css';
+
+const ExplorerCards = ({ nftList, traitTypes, height, tokenAddres, openseaUrl, etherScanUrl }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
   const [currentPage, _setCurrentPage] = useState(0);
@@ -16,6 +14,9 @@ const ExplorerCards = ({ nftList, traitTypes, height }) => {
     currentPageRef.current = val;
     _setCurrentPage(val);
   };
+  const handleOpenOpensea = (id) => {
+    window.open(`${openseaUrl}/${tokenAddres}/${id}`)
+  }
   useEffect(() => {
     setCards([]);
     setCurrentPage(0);
@@ -30,6 +31,7 @@ const ExplorerCards = ({ nftList, traitTypes, height }) => {
           traitTypes={traitTypes}
           key={i}
           keyForChild={i}
+          handleClick={handleOpenOpensea}
         />
       );
     });

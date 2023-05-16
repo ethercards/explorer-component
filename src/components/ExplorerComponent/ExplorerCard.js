@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from 'react';
-import { GalaxisCard } from 'galaxis-components';
 import axios from 'axios';
 import { SpinnerCircular } from 'spinners-react';
 
 const GALAXIS_BASE_URL = 'https://cms.galaxis.xyz/';
 
-const ExplorerCard = ({ meta, traitTypes, key, keyForChild }) => {
+const ExplorerCard = ({ meta, traitTypes, key, keyForChild, handleClick }) => {
   const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -21,7 +20,7 @@ const ExplorerCard = ({ meta, traitTypes, key, keyForChild }) => {
     fetchMetadata();
   }, []);
   useEffect;
-
+  console.log(meta)
   const GetTraitImage = ({ traitType }) => {
     if (!traitType) return;
     const trait_type = traitTypes[traitType];
@@ -36,9 +35,9 @@ const ExplorerCard = ({ meta, traitTypes, key, keyForChild }) => {
 
   const Card = () => {
     return (
-      <div className="explorer-simple-card">
+      <div className="explorer-simple-card" onClick={()=>handleClick(meta.id)}>
         <img src={metadata.image} style={{ maxWidth: '100%' }} />
-        <div className="explorer-simple-card-trait-container">
+        <div className="explorer-simple-card-trait-container" >
           <div className="explorer-simple-card-token-name">{metadata.name}</div>
           {/* <div>{metadata.tokenId}</div> */}
           <div className="explorer-simple-card-traits">
