@@ -20,17 +20,15 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
     [contractAddres, provider]
   );
   const fetchedRef = useRef(false);
-  useEffect(async () => {
+
+  const createZoomcontract = async () => {
     if (provider) {
-
-
       const galaxisRegistry = getContract(
         GALAXIS_REGISTRY,
         GalaxisRegistry.abi,
         provider,
         false
       );
-
       let zoomAddress;
       if (galaxisRegistry) {
         zoomAddress = await galaxisRegistry
@@ -49,21 +47,29 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
         }
       }
     }
-    //setting up the zoom contract;
+  }
+  const getNftList = async () => {
+    if (zoomContract && tokenContract && address) {
+      await zoomFetchTokenUris(tokenContract, zoomContract, address)
+        .then((res) => {
+          setNftList(res);
+          fetchedRef.current = true;
+        })
+        .catch((e) => {
+          console.log(e);
+          fetchedRef.current = true;
+        });
+
+    }
+  }
+
+  useEffect(() => {
+    createZoomcontract();
   }, [chainId, rpcUrl]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (fetchedRef.current === false) {
-      if (zoomContract && tokenContract && address) {
-        await zoomFetchTokenUris(tokenContract, zoomContract, address)
-          .then((res) => {
-            setNftList(res);
-          })
-          .catch((e) => {
-            console.log(e);
-          });
-      }
-      fetchedRef.current === true;
+      getNftList();
     }
   }, [zoomContract, tokenContract, fetchedRef.current, address]);
 

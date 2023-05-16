@@ -19,8 +19,7 @@ const ExplorerCard = ({ meta, traitTypes, key, keyForChild, handleClick }) => {
     };
     fetchMetadata();
   }, []);
-  useEffect;
-  console.log(meta)
+
   const GetTraitImage = ({ traitType }) => {
     if (!traitType) return;
     const trait_type = traitTypes[traitType];
