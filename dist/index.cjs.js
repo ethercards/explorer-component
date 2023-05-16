@@ -150,7 +150,6 @@ const ExplorerCard = _ref => {
 
     fetchMetadata();
   }, []);
-  console.log(meta);
 
   const GetTraitImage = _ref2 => {
     let {
@@ -2609,82 +2608,109 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
     return new ethers.Contract(contractAddres, tokenABI.abi, provider);
   }, [contractAddres, provider]);
   var fetchedRef = React.useRef(false);
-  React.useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var galaxisRegistry, zoomAddress, contract;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            if (!provider) {
-              _context.next = 7;
-              break;
-            }
 
-            galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
-
-            if (!galaxisRegistry) {
-              _context.next = 6;
-              break;
-            }
-
-            _context.next = 5;
-            return galaxisRegistry.getRegistryAddress('ZOOM').catch(function (e) {
-              console.log('registry error', e);
-            });
-
-          case 5:
-            zoomAddress = _context.sent;
-
-          case 6:
-            if (zoomAddress) {
-              contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
-
-              if (contract) {
-                setZoomContract(contract);
-              } else {
-                zoomAddress = useZoom2Contract(chainId);
-                setZoomContract(zoomAddress);
+  var createZoomcontract = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var galaxisRegistry, zoomAddress, contract;
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (!provider) {
+                _context.next = 7;
+                break;
               }
-            }
 
-          case 7:
-          case "end":
-            return _context.stop();
+              galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
+
+              if (!galaxisRegistry) {
+                _context.next = 6;
+                break;
+              }
+
+              _context.next = 5;
+              return galaxisRegistry.getRegistryAddress('ZOOM').catch(function (e) {
+                console.log('registry error', e);
+              });
+
+            case 5:
+              zoomAddress = _context.sent;
+
+            case 6:
+              if (zoomAddress) {
+                contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
+
+                if (contract) {
+                  setZoomContract(contract);
+                } else {
+                  zoomAddress = useZoom2Contract(chainId);
+                  setZoomContract(zoomAddress);
+                }
+              }
+
+            case 7:
+            case "end":
+              return _context.stop();
+          }
         }
-      }
-    }, _callee);
-  })), [chainId, rpcUrl]);
-  React.useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
+      }, _callee);
+    }));
+
+    return function createZoomcontract() {
+      return _ref.apply(this, arguments);
+    };
+  }();
+
+  var getNftList = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              if (!(zoomContract && tokenContract && address)) {
+                _context2.next = 3;
+                break;
+              }
+
+              _context2.next = 3;
+              return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
+                setNftList(res);
+              }).catch(function (e) {
+                console.log(e);
+              });
+
+            case 3:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2);
+    }));
+
+    return function getNftList() {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
+  React.useEffect(function () {
+    createZoomcontract();
+  }, [chainId, rpcUrl]);
+  React.useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
+    return regeneratorRuntime.wrap(function _callee3$(_context3) {
       while (1) {
-        switch (_context2.prev = _context2.next) {
+        switch (_context3.prev = _context3.next) {
           case 0:
-            if (!(fetchedRef.current === false)) {
-              _context2.next = 5;
-              break;
+            if (fetchedRef.current === false) {
+              getNftList();
+              fetchedRef.current === true;
             }
 
-            if (!(zoomContract && tokenContract && address)) {
-              _context2.next = 4;
-              break;
-            }
-
-            _context2.next = 4;
-            return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
-              setNftList(res);
-            }).catch(function (e) {
-              console.log(e);
-            });
-
-          case 4:
-            fetchedRef.current === true;
-
-          case 5:
+          case 1:
           case "end":
-            return _context2.stop();
+            return _context3.stop();
         }
       }
-    }, _callee2);
+    }, _callee3);
   })), [zoomContract, tokenContract, fetchedRef.current, address]);
   return {
     nftList: nftList
