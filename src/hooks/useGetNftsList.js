@@ -64,10 +64,10 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
     createZoomcontract();
   }, [chainId, rpcUrl]);
 
-  useEffect(async () => {
+  useEffect(() => {
     if (fetchedRef.current === false) {
       getNftList();
-      fetchedRef.current === true;
+      fetchedRef.current = true;
     }
   }, [zoomContract, tokenContract, fetchedRef.current, address]);
 

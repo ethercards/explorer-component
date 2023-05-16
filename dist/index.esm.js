@@ -2685,23 +2685,12 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
   useEffect(function () {
     createZoomcontract();
   }, [chainId, rpcUrl]);
-  useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee3() {
-    return regeneratorRuntime.wrap(function _callee3$(_context3) {
-      while (1) {
-        switch (_context3.prev = _context3.next) {
-          case 0:
-            if (fetchedRef.current === false) {
-              getNftList();
-              fetchedRef.current === true;
-            }
-
-          case 1:
-          case "end":
-            return _context3.stop();
-        }
-      }
-    }, _callee3);
-  })), [zoomContract, tokenContract, fetchedRef.current, address]);
+  useEffect(function () {
+    if (fetchedRef.current === false) {
+      getNftList();
+      fetchedRef.current = true;
+    }
+  }, [zoomContract, tokenContract, fetchedRef.current, address]);
   return {
     nftList: nftList
   };
