@@ -8926,15 +8926,6 @@ functions-have-names@^1.2.2, functions-have-names@^1.2.3:
   resolved "https://registry.yarnpkg.com/functions-have-names/-/functions-have-names-1.2.3.tgz#0404fe4ee2ba2f607f0e0ec3c80bae994133b834"
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
 
-"galaxis-components@https://github.com/ethercards/galaxis-components.git/":
-  version "0.2.16"
-  resolved "https://github.com/ethercards/galaxis-components.git/#eead194c3c7e991c9ddbed8c8d331cec029afef3"
-  dependencies:
-    "@testing-library/jest-dom" "^5.16.3"
-    "@testing-library/react" "^12.1.4"
-    "@testing-library/user-event" "^13.5.0"
-    web-vitals "^2.1.4"
-
 ganache-core@^2.13.2:
   version "2.13.2"
   resolved "https://registry.yarnpkg.com/ganache-core/-/ganache-core-2.13.2.tgz#27e6fc5417c10e6e76e2e646671869d7665814a3"
