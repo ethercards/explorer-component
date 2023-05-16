@@ -4,7 +4,6 @@ Object.defineProperty(exports, '__esModule', { value: true });
 
 var React = require('react');
 var InfiniteScroll = require('react-infinite-scroll-component');
-require('galaxis-components');
 var axios = require('axios');
 var spinnersReact = require('spinners-react');
 var ethers = require('ethers');
@@ -18,142 +17,6 @@ function _interopDefaultLegacy (e) { return e && typeof e === 'object' && 'defau
 var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var InfiniteScroll__default = /*#__PURE__*/_interopDefaultLegacy(InfiniteScroll);
 var axios__default = /*#__PURE__*/_interopDefaultLegacy(axios);
-
-function ownKeys(object, enumerableOnly) {
-  var keys = Object.keys(object);
-
-  if (Object.getOwnPropertySymbols) {
-    var symbols = Object.getOwnPropertySymbols(object);
-    enumerableOnly && (symbols = symbols.filter(function (sym) {
-      return Object.getOwnPropertyDescriptor(object, sym).enumerable;
-    })), keys.push.apply(keys, symbols);
-  }
-
-  return keys;
-}
-
-function _objectSpread2(target) {
-  for (var i = 1; i < arguments.length; i++) {
-    var source = null != arguments[i] ? arguments[i] : {};
-    i % 2 ? ownKeys(Object(source), !0).forEach(function (key) {
-      _defineProperty(target, key, source[key]);
-    }) : Object.getOwnPropertyDescriptors ? Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)) : ownKeys(Object(source)).forEach(function (key) {
-      Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key));
-    });
-  }
-
-  return target;
-}
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-
-  var _s, _e;
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-  return arr2;
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
 
 const loadNext = (nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards) => {
   let c = [];
@@ -169,36 +32,6 @@ const loadNext = (nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards
   setCurrentPage(currentPageRef.current + 1);
 };
 
-function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
-  var insertAt = ref.insertAt;
-
-  if (!css || typeof document === 'undefined') { return; }
-
-  var head = document.head || document.getElementsByTagName('head')[0];
-  var style = document.createElement('style');
-  style.type = 'text/css';
-
-  if (insertAt === 'top') {
-    if (head.firstChild) {
-      head.insertBefore(style, head.firstChild);
-    } else {
-      head.appendChild(style);
-    }
-  } else {
-    head.appendChild(style);
-  }
-
-  if (style.styleSheet) {
-    style.styleSheet.cssText = css;
-  } else {
-    style.appendChild(document.createTextNode(css));
-  }
-}
-
-var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n\r\n/* card */\r\n.explorer-simple-card-container {\r\n}\r\n.explorer-simple-card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff;\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 30px;\r\n}\r\n.explorer-simple-card-traits {\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n";
-styleInject(css_248z);
-
 const GALAXIS_BASE_URL = 'https://cms.galaxis.xyz/';
 
 const ExplorerCard = _ref => {
@@ -206,7 +39,8 @@ const ExplorerCard = _ref => {
     meta,
     traitTypes,
     key,
-    keyForChild
+    keyForChild,
+    handleClick
   } = _ref;
   const [metadata, setMetadata] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -221,6 +55,7 @@ const ExplorerCard = _ref => {
 
     fetchMetadata();
   }, []);
+  console.log(meta);
 
   const GetTraitImage = _ref2 => {
     let {
@@ -236,7 +71,8 @@ const ExplorerCard = _ref => {
 
   const Card = () => {
     return /*#__PURE__*/React__default["default"].createElement("div", {
-      className: "explorer-simple-card"
+      className: "explorer-simple-card",
+      onClick: () => handleClick(meta.id)
     }, /*#__PURE__*/React__default["default"].createElement("img", {
       src: metadata.image,
       style: {
@@ -272,43 +108,74 @@ const ExplorerCard = _ref => {
   )));
 };
 
-var ExplorerCards = function ExplorerCards(_ref) {
-  var nftList = _ref.nftList,
-      traitTypes = _ref.traitTypes,
-      height = _ref.height;
-  var ITEMS_PER_PAGE = 29;
+function styleInject(css, ref) {
+  if ( ref === void 0 ) ref = {};
+  var insertAt = ref.insertAt;
 
-  var _useState = React.useState([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      cards = _useState2[0],
-      setCards = _useState2[1];
+  if (!css || typeof document === 'undefined') { return; }
 
-  var _useState3 = React.useState(0),
-      _useState4 = _slicedToArray(_useState3, 2),
-      currentPage = _useState4[0],
-      _setCurrentPage = _useState4[1];
+  var head = document.head || document.getElementsByTagName('head')[0];
+  var style = document.createElement('style');
+  style.type = 'text/css';
 
-  var currentPageRef = React.useRef(currentPage);
+  if (insertAt === 'top') {
+    if (head.firstChild) {
+      head.insertBefore(style, head.firstChild);
+    } else {
+      head.appendChild(style);
+    }
+  } else {
+    head.appendChild(style);
+  }
 
-  var setCurrentPage = function setCurrentPage(val) {
+  if (style.styleSheet) {
+    style.styleSheet.cssText = css;
+  } else {
+    style.appendChild(document.createTextNode(css));
+  }
+}
+
+var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n\r\n/* card */\r\n.explorer-simple-card-container {\r\n}\r\n.explorer-simple-card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff;\r\n  cursor: pointer;\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 30px;\r\n}\r\n.explorer-simple-card-traits {\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n";
+styleInject(css_248z);
+
+const ExplorerCards = _ref => {
+  let {
+    nftList,
+    traitTypes,
+    height,
+    tokenAddres,
+    openseaUrl,
+    etherScanUrl
+  } = _ref;
+  const ITEMS_PER_PAGE = 29;
+  const [cards, setCards] = React.useState([]);
+  const [currentPage, _setCurrentPage] = React.useState(0);
+  const currentPageRef = React.useRef(currentPage);
+
+  const setCurrentPage = val => {
     currentPageRef.current = val;
 
     _setCurrentPage(val);
   };
 
-  React.useEffect(function () {
+  const handleOpenOpensea = id => {
+    window.open(`${openseaUrl}/${tokenAddres}/${id}`);
+  };
+
+  React.useEffect(() => {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
 
-  var renderCards = function renderCards() {
-    return cards.map(function (meta, i) {
+  const renderCards = () => {
+    return cards.map((meta, i) => {
       return /*#__PURE__*/React__default["default"].createElement(ExplorerCard, {
         meta: meta,
         traitTypes: traitTypes,
         key: i,
-        keyForChild: i
+        keyForChild: i,
+        handleClick: handleOpenOpensea
       });
     });
   };
@@ -320,9 +187,7 @@ var ExplorerCards = function ExplorerCards(_ref) {
   }, /*#__PURE__*/React__default["default"].createElement(InfiniteScroll__default["default"], {
     dataLength: cards.length,
     height: height || '100vh',
-    next: function next() {
-      return loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
-    },
+    next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length,
     scrollThreshold: "1200px" // scrollableTarget="content-container"
@@ -334,95 +199,12 @@ var ExplorerCards = function ExplorerCards(_ref) {
       }
     }, "Loading...")
   }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: "row small-gutters px-2 mx-0  ",
+    className: `row small-gutters px-2 mx-0  `,
     style: {
       padding: '10px'
     }
   }, renderCards()))));
 };
-
-var common = {
-  INFURA_ID: '96a0984ce6264f5a8edcf752673de5b8',
-  GALAXIS_REGISTRY: '0x1e8150050A7a4715aad42b905C08df76883f396F',
-  OPENSEA_COLLECTION: 'https://api.opensea.io/api/v1/collection',
-  GOOGLE_API: 'https://www.googleapis.com/youtube/v3/search',
-  RECAPCHA_SITEKEY: '6LfAjcYeAAAAAJTxnTgx_JVndCSmQgU1gqzEIwoL',
-  NO_PROJECT_FOUND: 'no project found',
-  COMMUNITYSPACEURL: 'https://galaxis.xyz/#'
-};
-({
-  DEPLOYED_NTW_NAME: 'goerli',
-  DEPLOYED_CHAIN_ID: 5,
-  FORTMATIC_KEY: 'pk_test_DD2BBA8AAA1D4FED',
-  RPC_URL: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
-  ETHERSCAN_URL: 'https://goerli.etherscan.io',
-  POLYGONSCAN_URL: 'https://mumbai.polygonscan.com',
-  OPENSEA_URL: 'https://testnets.opensea.io/',
-  API_URL: 'https://cms.staging.galaxis.xyz',
-  PREVIEW_URL: 'https://mcb.staging.galaxis.xyz/api/project-session',
-  LAUNCHPAD_API_URL: 'https://mcb.staging.galaxis.xyz/api',
-  PREVIEW_IMAGES: 'https://mcb.staging.galaxis.xyz/projects/',
-  AWS_URL: 'https://cms.staging.galaxis.xyz/storage/app/media',
-  AGGREGATOR_URL: 'https://nft-aggregator-goerli.herokuapp.com/token',
-  EC_TOKEN_ADDRESS: '0xAAD4475343f5150E33d6194270f04e7e5968A2f8',
-  PHOENIX_CONTRACT_ADDRESS: '0x0937aD2d26D1f37c2d8FdA1b4c071e8f3786aF5B',
-  CROSSMINT_CLIENT_ID: '7de2bbab-cec3-456b-a2e1-96bbd99cb8ad',
-  CROSSMINT_ENV: 'staging',
-  CHAINS: [{
-    id: "0x5",
-    token: "gETH",
-    label: "Goerli",
-    rpcUrl: "https://goerli.infura.io/v3/".concat(common.INFURA_ID),
-    // rpcURL required for wallet balances
-    blockExplorerUrl: "https://goerli.etherscan.io"
-  }, {
-    id: "0x13881",
-    token: "mMATIC",
-    label: "Polygon Mumbai Testnet",
-    rpcUrl: "https://polygon-mumbai.infura.io/v3/".concat(common.INFURA_ID),
-    blockExplorerUrl: "https://mumbai.polygonscan.com"
-  }]
-});
-var prod = {
-  DEPLOYED_NTW_NAME: 'mainnet',
-  DEPLOYED_CHAIN_ID: 1,
-  RPC_URL: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
-  FORTMATIC_KEY: 'pk_live_FBFF1F05F2879F29',
-  ETHERSCAN_URL: 'https://etherscan.io',
-  POLYGONSCAN_URL: 'https://polygonscan.com',
-  OPENSEA_URL: 'https://opensea.io/',
-  API_URL: 'https://cms.galaxis.xyz',
-  PREVIEW_URL: 'https://mcb.galaxis.xyz/api/project-session',
-  LAUNCHPAD_API_URL: 'https://mcb.galaxis.xyz/api',
-  PREVIEW_IMAGES: 'https://mcb.galaxis.xyz/projects/',
-  AWS_URL: 'https://cms.galaxis.xyz/storage/app/media',
-  AGGREGATOR_URL: 'https://nft-aggregator.herokuapp.com/token',
-  EC_TOKEN_ADDRESS: '0x97ca7fe0b0288f5eb85f386fed876618fb9b8ab8',
-  PHOENIX_CONTRACT_ADDRESS: '0x55B3154Ad761405B0cdd27355943Eb808d40b5A1',
-  CROSSMINT_CLIENT_ID: 'b3f5189b-66fe-43d7-8295-c73f9fa3e3ef',
-  CROSSMINT_ENV: '',
-  CHAINS: [{
-    id: "0x1",
-    // chain ID must be in hexadecimel
-    token: "ETH",
-    // main chain token
-    label: "Ethereum Mainnet",
-    rpcUrl: "https://mainnet.infura.io/v3/".concat(common.INFURA_ID),
-    // rpcURL required for wallet balances
-    blockExplorerUrl: "https://etherscan.io"
-  }, {
-    id: "0x89",
-    token: "MATIC",
-    label: "Polygon Mainnet",
-    rpcUrl: "https://polygon-mainnet.infura.io/v3/".concat(common.INFURA_ID),
-    blockExplorerUrl: "https://polygonscan.com"
-  }]
-}; // if use npm/yarn start,  NODE_ENV = "development"
-// if use npm/yarn build,  NODE_ENV = "production"
-
-var envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
-
-var config = _objectSpread2(_objectSpread2({}, envConfig), common);
 
 var _format = "hh-sol-artifact-1";
 var contractName = "Zoom2";
@@ -486,11 +268,12 @@ const ZOOM_2_ADDRESSES = {
   [SupportedChainId.MAINNET]: "0x7cdF091AF6a9ED75E3192500d3e5BB0f63e22Dea",
   [SupportedChainId.GOERLI]: "0xebC7d793d062371C11cB802e7D49eEAA0c30EB06"
 };
+const GALAXIS_REGISTRY = '0x1e8150050A7a4715aad42b905C08df76883f396F';
 
 function isAddress(value) {
   try {
     return address.getAddress(value);
-  } catch (_unused) {
+  } catch {
     return false;
   }
 } // account is not optional
@@ -507,23 +290,16 @@ function getProviderOrSigner(library, account) {
 
 function getContract(address, ABI, library, account) {
   if (!isAddress(address) || address === constants.AddressZero) {
-    throw Error("Invalid 'address' parameter '".concat(address, "'."));
+    throw Error(`Invalid 'address' parameter '${address}'.`);
   }
 
   return new contracts.Contract(address, ABI, getProviderOrSigner(library, account));
 }
-var getProvider = function getProvider(contractChainId) {
-  var chains = config.CHAINS;
-  var chain = chains.find(function (chain) {
-    return parseInt(chain.id) == contractChainId;
-  });
-
-  if (chain != null) {
-    return new ethers.ethers.providers.JsonRpcProvider(chain.rpcUrl);
-  }
+const getProvider = rpcUrl => {
+  return new ethers.ethers.providers.JsonRpcProvider(rpcUrl);
 };
-function useZoom2Contract() {
-  return getContract(ZOOM_2_ADDRESSES, abi$2, false);
+function useZoom2Contract(chainId) {
+  return getContract(ZOOM_2_ADDRESSES[chainId], abi$2, false);
 }
 
 var abi$1 = [
@@ -2671,208 +2447,116 @@ var tokenABI = {
 	abi: abi
 };
 
-var zoomFetchTokenUris = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(contract, zoom2, address) {
-    var nt, ZoomLibraryInstance, calls, i, tId, tUri, ZoomQueryBinary, combinedResult, tokenIds, _i, id, tokenURI;
+const zoomFetchTokenUris = async (contract, zoom2, address) => {
+  const nt = await contract.balanceOf(address);
+  const ZoomLibraryInstance = new zoomNext.Zoom({
+    use_reference_calls: true
+  });
 
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return contract.balanceOf(address);
+  if (nt > 0) {
+    const calls = [];
 
-          case 2:
-            nt = _context.sent;
-            ZoomLibraryInstance = new zoomNext.Zoom({
-              use_reference_calls: true
-            });
+    for (let i = 0; i < nt; i += 1) {
+      const tId = ZoomLibraryInstance.addMappingCountCall(contract, ['tokenOfOwnerByIndex', [address, i]], 'tokenOfOwnerByIndex(address,uint256) returns (uint256)', [{
+        contract: contract,
+        mapAndParams: ['tokenURI(uint256)', [i]]
+      }]);
+      calls.push(tId);
+      const tUri = ZoomLibraryInstance.addType5Call(contract, ['tokenURI(uint256)', [i]], 'tokenURI(uint256) returns (string)');
+      calls.push(tUri);
+    }
 
-            if (!(nt > 0)) {
-              _context.next = 15;
-              break;
-            }
+    const ZoomQueryBinary = ZoomLibraryInstance.getZoomCall();
+    const combinedResult = await zoom2.combine(ZoomQueryBinary);
+    ZoomLibraryInstance.resultsToCache(combinedResult, ZoomQueryBinary);
+    const tokenIds = [];
 
-            calls = [];
+    for (let i = 0; i < nt * 2; i += 2) {
+      const id = ZoomLibraryInstance.decodeCall(calls[i]).toString();
+      const tokenURI = ZoomLibraryInstance.decodeCall(calls[i + 1]).toString();
+      tokenIds.push({
+        id,
+        tokenURI
+      });
+    }
 
-            for (i = 0; i < nt; i += 1) {
-              tId = ZoomLibraryInstance.addMappingCountCall(contract, ['tokenOfOwnerByIndex', [address, i]], 'tokenOfOwnerByIndex(address,uint256) returns (uint256)', [{
-                contract: contract,
-                mapAndParams: ['tokenURI(uint256)', [i]]
-              }]);
-              calls.push(tId);
-              tUri = ZoomLibraryInstance.addType5Call(contract, ['tokenURI(uint256)', [i]], 'tokenURI(uint256) returns (string)');
-              calls.push(tUri);
-            }
+    return tokenIds.sort((a, b) => {
+      return Number(a.tokenId) - Number(b.tokenId);
+    });
+  }
+};
 
-            ZoomQueryBinary = ZoomLibraryInstance.getZoomCall();
-            _context.next = 10;
-            return zoom2.combine(ZoomQueryBinary);
+const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
+  const [zoomContract, setZoomContract] = React.useState(null);
+  const [nftList, setNftList] = React.useState([]);
+  const provider = React.useMemo(() => {
+    return getProvider(rpcUrl);
+  }, [rpcUrl]); //provider
 
-          case 10:
-            combinedResult = _context.sent;
-            ZoomLibraryInstance.resultsToCache(combinedResult, ZoomQueryBinary);
-            tokenIds = [];
+  const tokenContract = React.useMemo(() => new ethers.Contract(contractAddres, tokenABI.abi, provider), [contractAddres, provider]);
+  const fetchedRef = React.useRef(false);
+  React.useEffect(async () => {
+    if (provider) {
+      const galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
+      let zoomAddress;
 
-            for (_i = 0; _i < nt * 2; _i += 2) {
-              id = ZoomLibraryInstance.decodeCall(calls[_i]).toString();
-              tokenURI = ZoomLibraryInstance.decodeCall(calls[_i + 1]).toString();
-              tokenIds.push({
-                id: id,
-                tokenURI: tokenURI
-              });
-            }
+      if (galaxisRegistry) {
+        zoomAddress = await galaxisRegistry.getRegistryAddress('ZOOM').catch(e => {
+          console.log('registry error', e);
+        });
+      }
 
-            return _context.abrupt("return", tokenIds.sort(function (a, b) {
-              return Number(a.tokenId) - Number(b.tokenId);
-            }));
+      if (zoomAddress) {
+        let contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
 
-          case 15:
-          case "end":
-            return _context.stop();
+        if (contract) {
+          setZoomContract(contract);
+        } else {
+          zoomAddress = useZoom2Contract(chainId);
+          setZoomContract(zoomAddress);
         }
       }
-    }, _callee);
-  }));
+    } //setting up the zoom contract;
 
-  return function zoomFetchTokenUris(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-}();
-
-var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
-  var _useState = React.useState(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      zoomContract = _useState2[0],
-      setZoomContract = _useState2[1];
-
-  var _useState3 = React.useState([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      nftList = _useState4[0],
-      setNftList = _useState4[1];
-
-  var provider = React.useMemo(function () {
-    return getProvider(chainId);
-  }, [chainId]); //provider
-
-  var tokenContract = React.useMemo(function () {
-    return new ethers.Contract(contractAddres, tokenABI.abi, provider);
-  }, [contractAddres]);
-  React.useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var galaxisRegistry, zoomAddress, contract;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            if (!provider) {
-              _context.next = 7;
-              break;
-            }
-
-            galaxisRegistry = getContract(config.GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
-
-            if (!galaxisRegistry) {
-              _context.next = 6;
-              break;
-            }
-
-            _context.next = 5;
-            return galaxisRegistry.getRegistryAddress('ZOOM').catch(function (e) {
-              console.log('registry error', e);
-            });
-
-          case 5:
-            zoomAddress = _context.sent;
-
-          case 6:
-            if (zoomAddress) {
-              contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
-
-              if (contract) {
-                setZoomContract(contract);
-              }
-            } else {
-              zoomAddress = useZoom2Contract();
-              setZoomContract(zoomAddress);
-            }
-
-          case 7:
-          case "end":
-            return _context.stop();
-        }
+  }, [chainId, rpcUrl]);
+  React.useEffect(async () => {
+    if (fetchedRef.current === false) {
+      if (zoomContract && tokenContract && address) {
+        await zoomFetchTokenUris(tokenContract, zoomContract, address).then(res => {
+          setNftList(res);
+        }).catch(e => {
+          console.log(e);
+        });
       }
-    }, _callee);
-  })), [chainId, provider]);
-  React.useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            if (!(zoomContract && tokenContract && address)) {
-              _context2.next = 3;
-              break;
-            }
 
-            _context2.next = 3;
-            return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
-              setNftList(res);
-            }).catch(function (e) {
-              console.log(e);
-            });
-
-          case 3:
-          case "end":
-            return _context2.stop();
-        }
-      }
-    }, _callee2);
-  })), [zoomContract, tokenContract, address]);
+      fetchedRef.current === true;
+    }
+  }, [zoomContract, tokenContract, fetchedRef.current, address]);
   return {
-    nftList: nftList
+    nftList
   };
 };
 
-var ExplorerComponent = function ExplorerComponent(_ref) {
-  var tokenAddres = _ref.tokenAddres,
-      poolAddress = _ref.poolAddress,
-      chainId = _ref.chainId;
-
-  var _useGetNftsList = useGetNftsList(chainId, tokenAddres, poolAddress),
-      nftList = _useGetNftsList.nftList;
-
-  var _useState = React.useState(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      traitTypes = _useState2[0],
-      setTraitTypes = _useState2[1];
-
-  React.useEffect(function () {
-    var getTraitTypes = /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios__default["default"].get('https://cms.galaxis.xyz/trait_types').then(function (resp) {
-                  return setTraitTypes(resp.data);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      return function getTraitTypes() {
-        return _ref2.apply(this, arguments);
-      };
-    }();
+const ExplorerComponent = _ref => {
+  let {
+    tokenAddres,
+    poolAddress,
+    chainId,
+    rpcUrl,
+    openseaUrl,
+    etherScanUrl
+  } = _ref;
+  const {
+    nftList
+  } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
+  const [traitTypes, setTraitTypes] = React.useState(null);
+  React.useEffect(() => {
+    const getTraitTypes = async () => {
+      await axios__default["default"].get('https://cms.galaxis.xyz/trait_types').then(resp => setTraitTypes(resp.data));
+    };
 
     getTraitTypes();
   }, []);
-  console.log(nftList, ' nft list');
   return /*#__PURE__*/React__default["default"].createElement("div", {
     style: {
       width: '100%',
@@ -2883,7 +2567,10 @@ var ExplorerComponent = function ExplorerComponent(_ref) {
     }
   }, nftList.length > 0 ? /*#__PURE__*/React__default["default"].createElement(ExplorerCards, {
     nftList: nftList,
-    traitTypes: traitTypes
+    traitTypes: traitTypes,
+    tokenAddres: tokenAddres,
+    openseaUrl: openseaUrl,
+    etherScanUrl: etherScanUrl
   }) : /*#__PURE__*/React__default["default"].createElement(spinnersReact.SpinnerDotted, {
     color: "#000",
     size: 200,
