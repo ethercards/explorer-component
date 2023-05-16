@@ -9,125 +9,27 @@ import { AddressZero } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
 import { Zoom } from 'zoom-next';
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-
-  var _s, _e;
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-  return arr2;
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
 const loadNext = (nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards) => {
   let c = [];
   let end = nfts.length < ITEMS_PER_PAGE ? nfts.length : ITEMS_PER_PAGE;
-
   for (let i = 0; i < end; i++) {
     if (currentPageRef.current * ITEMS_PER_PAGE + i < nfts.length) {
       c.push(nfts[currentPageRef.current * ITEMS_PER_PAGE + i]);
     }
   }
-
   setCards(cards => cards.concat(c));
   setCurrentPage(currentPageRef.current + 1);
 };
 
 function styleInject(css, ref) {
-  if ( ref === void 0 ) ref = {};
+  if (ref === void 0) ref = {};
   var insertAt = ref.insertAt;
-
-  if (!css || typeof document === 'undefined') { return; }
-
+  if (!css || typeof document === 'undefined') {
+    return;
+  }
   var head = document.head || document.getElementsByTagName('head')[0];
   var style = document.createElement('style');
   style.type = 'text/css';
-
   if (insertAt === 'top') {
     if (head.firstChild) {
       head.insertBefore(style, head.firstChild);
@@ -137,7 +39,6 @@ function styleInject(css, ref) {
   } else {
     head.appendChild(style);
   }
-
   if (style.styleSheet) {
     style.styleSheet.cssText = css;
   } else {
@@ -149,7 +50,6 @@ var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-alig
 styleInject(css_248z);
 
 const GALAXIS_BASE_URL = 'https://cms.galaxis.xyz/';
-
 const ExplorerCard = _ref => {
   let {
     meta,
@@ -161,16 +61,13 @@ const ExplorerCard = _ref => {
   const [loading, setLoading] = useState(true);
   useEffect(() => {
     const metaURL = meta.tokenURI;
-
     const fetchMetadata = async () => {
       setLoading(true);
       await axios.get(metaURL).then(resp => setMetadata(resp.data)).catch(e => console.log('error'));
       setLoading(false);
     };
-
     fetchMetadata();
   }, []);
-
   const GetTraitImage = _ref2 => {
     let {
       traitType
@@ -180,7 +77,8 @@ const ExplorerCard = _ref => {
     return /*#__PURE__*/React.createElement("img", {
       className: "explorer-simple-card-trait",
       src: GALAXIS_BASE_URL + trait_type.icon_white
-    }); // GALAXIS_BASE_URL + traitType.icon_white;
+    });
+    // GALAXIS_BASE_URL + traitType.icon_white;
   };
 
   const Card = () => {
@@ -206,14 +104,15 @@ const ExplorerCard = _ref => {
       });
     }))));
   };
-
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     className: "col-lg-3 col-md-4 mb-4"
   }, /*#__PURE__*/React.createElement("div", {
     className: "layer-image-preview"
   }, !loading ? Card() : /*#__PURE__*/React.createElement(SpinnerCircular, {
     color: "#000"
-  }) // <GalaxisCard
+  })
+
+  // <GalaxisCard
   //   metadata={metadata}
   //   traitTypes={traitTypes}
   //   key={keyForChild}
@@ -231,19 +130,15 @@ const ExplorerCards = _ref => {
   const [cards, setCards] = useState([]);
   const [currentPage, _setCurrentPage] = useState(0);
   const currentPageRef = useRef(currentPage);
-
   const setCurrentPage = val => {
     currentPageRef.current = val;
-
     _setCurrentPage(val);
   };
-
   useEffect(() => {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
-
   const renderCards = () => {
     return cards.map((meta, i) => {
       return /*#__PURE__*/React.createElement(ExplorerCard, {
@@ -254,7 +149,6 @@ const ExplorerCards = _ref => {
       });
     });
   };
-
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
     style: {
       width: '100%'
@@ -265,7 +159,8 @@ const ExplorerCards = _ref => {
     next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length,
-    scrollThreshold: "1200px" // scrollableTarget="content-container"
+    scrollThreshold: "1200px"
+    // scrollableTarget="content-container"
     // initialScrollY={1000}
     ,
     loader: /*#__PURE__*/React.createElement("h4", {
@@ -324,12 +219,13 @@ const prod = {
     rpcUrl: `https://polygon-mainnet.infura.io/v3/${common.INFURA_ID}`,
     blockExplorerUrl: "https://polygonscan.com"
   }]
-}; // if use npm/yarn start,  NODE_ENV = "development"
+};
+
+// if use npm/yarn start,  NODE_ENV = "development"
 // if use npm/yarn build,  NODE_ENV = "production"
-
 let envConfig = prod; // process.env.NODE_ENV === "development" ? dev : prod
-
-let config = { ...envConfig,
+let config = {
+  ...envConfig,
   ...common
 };
 
@@ -396,35 +292,35 @@ const ZOOM_2_ADDRESSES = {
   [SupportedChainId.GOERLI]: "0xebC7d793d062371C11cB802e7D49eEAA0c30EB06"
 };
 
+// returns the checksummed address if the address is valid, otherwise returns false
 function isAddress(value) {
   try {
     return getAddress(value);
   } catch {
     return false;
   }
-} // account is not optional
+}
 
+// account is not optional
 function getSigner(library, account) {
   return library.getSigner(account).connectUnchecked();
-} // account is optional
+}
 
-
+// account is optional
 function getProviderOrSigner(library, account) {
   return account ? getSigner(library, account) : library;
-} // account is optional
+}
 
-
+// account is optional
 function getContract(address, ABI, library, account) {
   if (!isAddress(address) || address === AddressZero) {
     throw Error(`Invalid 'address' parameter '${address}'.`);
   }
-
   return new Contract(address, ABI, getProviderOrSigner(library, account));
 }
 const getProvider = contractChainId => {
   const chains = config.CHAINS;
   const chain = chains.find(chain => parseInt(chain.id) == contractChainId);
-
   if (chain != null) {
     return new ethers.providers.JsonRpcProvider(chain.rpcUrl);
   }
@@ -2583,10 +2479,8 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
   const ZoomLibraryInstance = new Zoom({
     use_reference_calls: true
   });
-
   if (nt > 0) {
     const calls = [];
-
     for (let i = 0; i < nt; i += 1) {
       const tId = ZoomLibraryInstance.addMappingCountCall(contract, ['tokenOfOwnerByIndex', [address, i]], 'tokenOfOwnerByIndex(address,uint256) returns (uint256)', [{
         contract: contract,
@@ -2596,12 +2490,10 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
       const tUri = ZoomLibraryInstance.addType5Call(contract, ['tokenURI(uint256)', [i]], 'tokenURI(uint256) returns (string)');
       calls.push(tUri);
     }
-
     const ZoomQueryBinary = ZoomLibraryInstance.getZoomCall();
     const combinedResult = await zoom2.combine(ZoomQueryBinary);
     ZoomLibraryInstance.resultsToCache(combinedResult, ZoomQueryBinary);
     const tokenIds = [];
-
     for (let i = 0; i < nt * 2; i += 2) {
       const id = ZoomLibraryInstance.decodeCall(calls[i]).toString();
       const tokenURI = ZoomLibraryInstance.decodeCall(calls[i + 1]).toString();
@@ -2610,143 +2502,68 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
         tokenURI
       });
     }
-
     return tokenIds.sort((a, b) => {
       return Number(a.tokenId) - Number(b.tokenId);
     });
   }
 };
 
-var useGetNftsList = function useGetNftsList(chainId, contractAddres, address) {
-  var _useState = useState(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      zoomContract = _useState2[0],
-      setZoomContract = _useState2[1];
-
-  var _useState3 = useState([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      nftList = _useState4[0],
-      setNftList = _useState4[1];
-
-  var provider = useMemo(function () {
+const useGetNftsList = (chainId, contractAddres, address) => {
+  const [zoomContract, setZoomContract] = useState(null);
+  const [nftList, setNftList] = useState([]);
+  const provider = useMemo(() => {
     return getProvider(chainId);
   }, [chainId]); //provider
-
-  var tokenContract = useMemo(function () {
-    return new Contract$1(contractAddres, tokenABI.abi, provider);
-  }, [contractAddres]);
-  useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-    var galaxisRegistry, zoomAddress, contract;
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            if (!provider) {
-              _context.next = 7;
-              break;
-            }
-
-            galaxisRegistry = getContract(config.GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
-
-            if (!galaxisRegistry) {
-              _context.next = 6;
-              break;
-            }
-
-            _context.next = 5;
-            return galaxisRegistry.getRegistryAddress('ZOOM').catch(function (e) {
-              console.log('registry error', e);
-            });
-
-          case 5:
-            zoomAddress = _context.sent;
-
-          case 6:
-            if (zoomAddress) {
-              contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
-
-              if (contract) {
-                setZoomContract(contract);
-              }
-            } else {
-              zoomAddress = useZoom2Contract();
-              setZoomContract(zoomAddress);
-            }
-
-          case 7:
-          case "end":
-            return _context.stop();
-        }
+  const tokenContract = useMemo(() => new Contract$1(contractAddres, tokenABI.abi, provider), [contractAddres]);
+  useEffect(async () => {
+    if (provider) {
+      const galaxisRegistry = getContract(config.GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
+      let zoomAddress;
+      if (galaxisRegistry) {
+        zoomAddress = await galaxisRegistry.getRegistryAddress('ZOOM').catch(e => {
+          console.log('registry error', e);
+        });
       }
-    }, _callee);
-  })), [chainId, provider]);
-  useEffect( /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-    return regeneratorRuntime.wrap(function _callee2$(_context2) {
-      while (1) {
-        switch (_context2.prev = _context2.next) {
-          case 0:
-            if (!(zoomContract && tokenContract && address)) {
-              _context2.next = 3;
-              break;
-            }
-
-            _context2.next = 3;
-            return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
-              setNftList(res);
-            }).catch(function (e) {
-              console.log(e);
-            });
-
-          case 3:
-          case "end":
-            return _context2.stop();
+      if (zoomAddress) {
+        let contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
+        if (contract) {
+          setZoomContract(contract);
         }
+      } else {
+        zoomAddress = useZoom2Contract();
+        setZoomContract(zoomAddress);
       }
-    }, _callee2);
-  })), [zoomContract, tokenContract, address]);
+    }
+    //setting up the zoom contract;
+  }, [chainId, provider]);
+  useEffect(async () => {
+    if (zoomContract && tokenContract && address) {
+      await zoomFetchTokenUris(tokenContract, zoomContract, address).then(res => {
+        setNftList(res);
+      }).catch(e => {
+        console.log(e);
+      });
+    }
+  }, [zoomContract, tokenContract, address]);
   return {
-    nftList: nftList
+    nftList
   };
 };
 
-var ExplorerComponent = function ExplorerComponent(_ref) {
-  var tokenAddres = _ref.tokenAddres,
-      poolAddress = _ref.poolAddress,
-      chainId = _ref.chainId;
-
-  var _useGetNftsList = useGetNftsList(chainId, tokenAddres, poolAddress),
-      nftList = _useGetNftsList.nftList;
-
-  var _useState = useState(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      traitTypes = _useState2[0],
-      setTraitTypes = _useState2[1];
-
-  useEffect(function () {
-    var getTraitTypes = /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios.get('https://cms.galaxis.xyz/trait_types').then(function (resp) {
-                  return setTraitTypes(resp.data);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      return function getTraitTypes() {
-        return _ref2.apply(this, arguments);
-      };
-    }();
-
+const ExplorerComponent = _ref => {
+  let {
+    tokenAddres,
+    poolAddress,
+    chainId
+  } = _ref;
+  const {
+    nftList
+  } = useGetNftsList(chainId, tokenAddres, poolAddress);
+  const [traitTypes, setTraitTypes] = useState(null);
+  useEffect(() => {
+    const getTraitTypes = async () => {
+      await axios.get('https://cms.galaxis.xyz/trait_types').then(resp => setTraitTypes(resp.data));
+    };
     getTraitTypes();
   }, []);
   console.log(nftList, ' nft list');
