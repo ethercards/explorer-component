@@ -168,12 +168,14 @@ const ExplorerCard = _ref => {
       className: "explorer-simple-card-token-name"
     }, metadata.name), /*#__PURE__*/React.createElement("div", {
       className: "explorer-simple-card-traits"
-    }, metadata.traits && metadata.traits.length > 0 && metadata.traits.map(trait => {
+    }, metadata.traits && metadata.traits.length > 0 && metadata.traits.map((trait, index) => {
       return trait.icon_url ? /*#__PURE__*/React.createElement("img", {
         className: "explorer-simple-card-trait",
-        src: trait.icon_url
+        src: trait.icon_url,
+        key: index
       }) : /*#__PURE__*/React.createElement(GetTraitImage, {
-        traitType: trait.type
+        traitType: trait.type,
+        key: index
       });
     }))));
   };

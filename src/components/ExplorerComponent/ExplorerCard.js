@@ -34,7 +34,7 @@ const ExplorerCard = ({ meta, traitTypes, key, keyForChild, handleClick }) => {
 
   const Card = () => {
     return (
-      <div className="explorer-simple-card" onClick={()=>handleClick(meta.id)}>
+      <div className="explorer-simple-card" onClick={() => handleClick(meta.id)}>
         <img src={metadata.image} style={{ maxWidth: '100%' }} />
         <div className="explorer-simple-card-trait-container" >
           <div className="explorer-simple-card-token-name">{metadata.name}</div>
@@ -42,14 +42,15 @@ const ExplorerCard = ({ meta, traitTypes, key, keyForChild, handleClick }) => {
           <div className="explorer-simple-card-traits">
             {metadata.traits &&
               metadata.traits.length > 0 &&
-              metadata.traits.map((trait) => {
+              metadata.traits.map((trait, index) => {
                 return trait.icon_url ? (
                   <img
                     className="explorer-simple-card-trait"
                     src={trait.icon_url}
+                    key={index}
                   />
                 ) : (
-                  <GetTraitImage traitType={trait.type} />
+                  <GetTraitImage traitType={trait.type} key={index} />
                 );
               })}
           </div>
