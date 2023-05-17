@@ -14,7 +14,7 @@
 }
 .explorer-simple-card-trait-div {
   padding-right: 5px;
-  position: relative;
+  /* position: relative; */
 }
 .explorer-simple-card-trait-div:hover .explorer-simple-card-trait-name {
   display: block;
@@ -22,13 +22,18 @@
 }
 .explorer-simple-card-trait-name {
   display: none;
-  background-color: #6d6c6cec;
+  background-color: #6d6c6c;
   position: absolute;
   top: 0;
+  left: 0;
   white-space: nowrap;
   z-index: 22222222222;
-  padding: 5px;
+  padding: 10px 0;
   border-radius: 5px;
+  width: 100%;
+  text-align: center;
+  height: 100%;
+  line-height: 15px;
 }
 .explorer-simple-card {
   display: flex;
@@ -47,6 +52,7 @@
   max-width: 30px;
 }
 .explorer-simple-card-traits {
+  position: relative;
   display: flex;
   flex-wrap: wrap;
   margin-top: 10px;

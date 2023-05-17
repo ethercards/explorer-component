@@ -58,9 +58,9 @@ const ExplorerCard = ({
                       src={trait.icon_url}
                       key={index}
                     />
-                    {/* <div className="explorer-simple-card-trait-name">
+                    <div className="explorer-simple-card-trait-name">
                       {trait.name}
-                    </div> */}
+                    </div>
                   </div>
                 ) : (
                   <GetTraitImage traitType={trait.type} key={index} />
