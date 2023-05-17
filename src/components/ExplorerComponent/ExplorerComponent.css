@@ -12,7 +12,24 @@
 .infinite-scroll-component::-webkit-scrollbar {
   width: 0;
 }
-
+.explorer-simple-card-trait-div {
+  padding-right: 5px;
+  position: relative;
+}
+.explorer-simple-card-trait-div:hover .explorer-simple-card-trait-name {
+  display: block;
+  cursor: pointer;
+}
+.explorer-simple-card-trait-name {
+  display: none;
+  background-color: #6d6c6cec;
+  position: absolute;
+  top: 0;
+  white-space: nowrap;
+  z-index: 22222222222;
+  padding: 5px;
+  border-radius: 5px;
+}
 .explorer-simple-card {
   display: flex;
   flex-direction: column;
@@ -28,9 +45,10 @@
 }
 .explorer-simple-card-trait {
   max-width: 30px;
-  margin-right: 8px;
 }
 .explorer-simple-card-traits {
+  display: flex;
+  flex-wrap: wrap;
   margin-top: 10px;
   min-height: 30px;
 }
@@ -198,7 +216,7 @@
     max-width: 50%;
   }
 }
-@media (max-width: 500px) {
+@media (max-width: 650px) {
   .col-lg-3 {
     flex: 0 0 100%;
     max-width: 100%;

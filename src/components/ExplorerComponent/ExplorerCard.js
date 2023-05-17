@@ -38,7 +38,6 @@ const ExplorerCard = ({
   };
 
   const Card = () => {
-    const traits = [];
     return (
       <div
         className="explorer-simple-card"
@@ -53,11 +52,16 @@ const ExplorerCard = ({
               metadata.traits.length > 0 &&
               metadata.traits.map((trait, index) => {
                 return trait.icon_url ? (
-                  <img
-                    className="explorer-simple-card-trait"
-                    src={trait.icon_url}
-                    key={index}
-                  />
+                  <div className="explorer-simple-card-trait-div">
+                    <img
+                      className="explorer-simple-card-trait"
+                      src={trait.icon_url}
+                      key={index}
+                    />
+                    {/* <div className="explorer-simple-card-trait-name">
+                      {trait.name}
+                    </div> */}
+                  </div>
                 ) : (
                   <GetTraitImage traitType={trait.type} key={index} />
                 );

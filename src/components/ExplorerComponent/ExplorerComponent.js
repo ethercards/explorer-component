@@ -36,7 +36,7 @@ const ExplorerComponent = ({
         justifyContent: 'center',
       }}
     >
-      {nftList.length > 0 ? (
+      {nftList && nftList.length > 0 ? (
         <ExplorerCards
           nftList={nftList}
           traitTypes={traitTypes}
