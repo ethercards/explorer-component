@@ -18,117 +18,19 @@ var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var InfiniteScroll__default = /*#__PURE__*/_interopDefaultLegacy(InfiniteScroll);
 var axios__default = /*#__PURE__*/_interopDefaultLegacy(axios);
 
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-        args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-
-      _next(undefined);
-    });
-  };
-}
-
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArrayLimit(arr, i) {
-  var _i = arr == null ? null : typeof Symbol !== "undefined" && arr[Symbol.iterator] || arr["@@iterator"];
-
-  if (_i == null) return;
-  var _arr = [];
-  var _n = true;
-  var _d = false;
-
-  var _s, _e;
-
-  try {
-    for (_i = _i.call(arr); !(_n = (_s = _i.next()).done); _n = true) {
-      _arr.push(_s.value);
-
-      if (i && _arr.length === i) break;
-    }
-  } catch (err) {
-    _d = true;
-    _e = err;
-  } finally {
-    try {
-      if (!_n && _i["return"] != null) _i["return"]();
-    } finally {
-      if (_d) throw _e;
-    }
-  }
-
-  return _arr;
-}
-
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-
-  return arr2;
-}
-
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
 const loadNext = (nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards) => {
   let c = [];
   let end = nfts.length < ITEMS_PER_PAGE ? nfts.length : ITEMS_PER_PAGE;
-
   for (let i = 0; i < end; i++) {
     if (currentPageRef.current * ITEMS_PER_PAGE + i < nfts.length) {
       c.push(nfts[currentPageRef.current * ITEMS_PER_PAGE + i]);
     }
   }
-
   setCards(cards => cards.concat(c));
   setCurrentPage(currentPageRef.current + 1);
 };
 
 const GALAXIS_BASE_URL = 'https://cms.galaxis.xyz/';
-
 const ExplorerCard = _ref => {
   let {
     meta,
@@ -141,16 +43,13 @@ const ExplorerCard = _ref => {
   const [loading, setLoading] = React.useState(true);
   React.useEffect(() => {
     const metaURL = meta.tokenURI;
-
     const fetchMetadata = async () => {
       setLoading(true);
       await axios__default["default"].get(metaURL).then(resp => setMetadata(resp.data)).catch(e => console.log('error'));
       setLoading(false);
     };
-
     fetchMetadata();
   }, []);
-
   const GetTraitImage = _ref2 => {
     let {
       traitType
@@ -160,7 +59,8 @@ const ExplorerCard = _ref => {
     return /*#__PURE__*/React__default["default"].createElement("img", {
       className: "explorer-simple-card-trait",
       src: GALAXIS_BASE_URL + trait_type.icon_white
-    }); // GALAXIS_BASE_URL + traitType.icon_white;
+    });
+    // GALAXIS_BASE_URL + traitType.icon_white;
   };
 
   const Card = () => {
@@ -189,14 +89,15 @@ const ExplorerCard = _ref => {
       });
     }))));
   };
-
   return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: "col-lg-3 col-md-4 mb-4"
+    className: "col-lg-3 col-md-2 mb-4"
   }, /*#__PURE__*/React__default["default"].createElement("div", {
     className: "layer-image-preview"
   }, !loading ? Card() : /*#__PURE__*/React__default["default"].createElement(spinnersReact.SpinnerCircular, {
     color: "#000"
-  }) // <GalaxisCard
+  })
+
+  // <GalaxisCard
   //   metadata={metadata}
   //   traitTypes={traitTypes}
   //   key={keyForChild}
@@ -231,48 +132,37 @@ function styleInject(css, ref) {
   }
 }
 
-var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n\r\n/* card */\r\n.explorer-simple-card-container {\r\n}\r\n.explorer-simple-card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff;\r\n  cursor: pointer;\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 30px;\r\n}\r\n.explorer-simple-card-traits {\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n.dust-pool-root{\r\n  max-width: 1140px;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  margin-top: 30px;\r\n  font-family: poppins;\r\n}\r\n.dust-pool-textbox{\r\ntext-align: center;\r\nmax-width: 600px;\r\nmargin: 0 auto;\r\n}\r\n.pool-subtitle{\r\n  font-size: 30px;\r\n  font-weight: 600;\r\n}\r\n.tab-choose{\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-bottom: 30px;\r\n  text-transform: uppercase;\r\n}\r\n.tab-choose div{\r\n  font-size: 14px;\r\n  font-weight: 500;\r\n  padding: 12px 15px\r\n}\r\n.tab-choose div:hover{\r\n  cursor: pointer;\r\n}\r\n.tab-choose .active-tab{\r\n  background-color: #000;\r\n  color: #fff;\r\n}\r\n.tab-choose div:first-child{\r\n  border: 2px solid #000;\r\n  border-top-left-radius: 10px;\r\n  border-bottom-left-radius: 10px;\r\n}\r\n.tab-choose div:nth-child(2){\r\n  border-top: 2px solid #000;\r\n  border-bottom: 2px solid #000;\r\n}\r\n.tab-choose div:nth-child(3){\r\n  border: 2px solid #000;\r\n  border-top-right-radius: 10px;\r\n  border-bottom-right-radius: 10px;\r\n}\r\n/*classes from bootstrap*/\r\n*{\r\n  box-sizing: border-box;\r\n}\r\n.container {\r\n  width: 100%;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n  margin-right: auto;\r\n  margin-left: auto;\r\n}\r\n.mt-5, .my-5 {\r\n  margin-top: 3rem!important;\r\n}\r\n.row {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  margin-right: -15px;\r\n  margin-left: -15px;\r\n}\r\n.col-12 {\r\n  flex: 0 0 100%;\r\n  max-width: 100%;\r\n}\r\n.col-12, .col-lg-6, .col-lg-3, .col-md-6{\r\n  position: relative;\r\n  width: 100%;\r\n  min-height: 1px;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n}\r\n.col-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n.mb-1{\r\n  margin-bottom: 0.25rem!important;\r\n}\r\n.mb-2{\r\n  margin-bottom: 0.5rem!important;\r\n}\r\n.mb-3{\r\n  margin-bottom: 0.75rem!important;\r\n}\r\n.mt-2{\r\n  margin-top: 0.5rem!important;\r\n}\r\n.pb-4{\r\n  padding-bottom: 1.5rem!important;\r\n}\r\n.w-100 {\r\n  width: 100%!important;\r\n}\r\n.text-right{\r\n  text-align: right!important;\r\n}\r\n.dust-pool-card p {\r\n  margin-block-start: 0;\r\n}\r\n.section-divider-img{\r\n  max-height: 35px;\r\n  z-index: 2;\r\n}\r\n@media only screen and (max-width: 500px) {\r\n  .section-divider-img{\r\n    max-height: 25px;\r\n    z-index: 2;\r\n  }\r\n}\r\n@media (min-width: 576px){\r\n.container {\r\n  max-width: 540px;\r\n}\r\n}\r\n@media (max-width: 600px){\r\n  .dust-pool-card .dust-pool-btn{\r\n      position: unset!important;\r\n  }\r\n  }\r\n@media (min-width: 768px){\r\n  .container {\r\n      max-width: 720px;\r\n  }}\r\n  .col-md-6{\r\n      flex: 0 0 50%;\r\n      max-width: 50%;\r\n  }\r\n@media (min-width: 992px){\r\n  .container {\r\n      max-width: 960px;\r\n  }\r\n  .col-lg-6 {\r\n      flex: 0 0 50%;\r\n      max-width: 50%;\r\n  }\r\n  .col-lg-3 {\r\n      flex: 0 0 25%;\r\n      max-width: 25%;\r\n  }\r\n}\r\n@media (min-width: 1200px){\r\n  .container {\r\n      max-width: 1140px;\r\n  }\r\n}\r\n@media only screen and (max-width: 945px) {\r\n  .dust-pool-root {\r\n    max-width: 100%;\r\n  }\r\n}";
+var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n.infinite-scroll-component::-webkit-scrollbar {\r\n  width: 0;\r\n}\r\n\r\n.explorer-simple-card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff;\r\n  cursor: pointer;\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 30px;\r\n  margin-right: 8px;\r\n}\r\n.explorer-simple-card-traits {\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n.dust-pool-root {\r\n  max-width: 1140px;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  margin-top: 30px;\r\n  font-family: poppins;\r\n}\r\n.dust-pool-textbox {\r\n  text-align: center;\r\n  max-width: 600px;\r\n  margin: 0 auto;\r\n}\r\n.pool-subtitle {\r\n  font-size: 30px;\r\n  font-weight: 600;\r\n}\r\n.tab-choose {\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-bottom: 30px;\r\n  text-transform: uppercase;\r\n}\r\n.tab-choose div {\r\n  font-size: 14px;\r\n  font-weight: 500;\r\n  padding: 12px 15px;\r\n}\r\n.tab-choose div:hover {\r\n  cursor: pointer;\r\n}\r\n.tab-choose .active-tab {\r\n  background-color: #000;\r\n  color: #fff;\r\n}\r\n.tab-choose div:first-child {\r\n  border: 2px solid #000;\r\n  border-top-left-radius: 10px;\r\n  border-bottom-left-radius: 10px;\r\n}\r\n.tab-choose div:nth-child(2) {\r\n  border-top: 2px solid #000;\r\n  border-bottom: 2px solid #000;\r\n}\r\n.tab-choose div:nth-child(3) {\r\n  border: 2px solid #000;\r\n  border-top-right-radius: 10px;\r\n  border-bottom-right-radius: 10px;\r\n}\r\n/*classes from bootstrap*/\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n.container {\r\n  width: 100%;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n  margin-right: auto;\r\n  margin-left: auto;\r\n}\r\n.mt-5,\r\n.my-5 {\r\n  margin-top: 3rem !important;\r\n}\r\n.row {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  margin-right: -15px;\r\n  margin-left: -15px;\r\n}\r\n.col-12 {\r\n  flex: 0 0 100%;\r\n  max-width: 100%;\r\n}\r\n.col-12,\r\n.col-lg-6,\r\n.col-lg-3,\r\n.col-md-6 {\r\n  position: relative;\r\n  width: 100%;\r\n  min-height: 1px;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n}\r\n.col-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n.mb-1 {\r\n  margin-bottom: 0.25rem !important;\r\n}\r\n.mb-2 {\r\n  margin-bottom: 0.5rem !important;\r\n}\r\n.mb-3 {\r\n  margin-bottom: 0.75rem !important;\r\n}\r\n.mt-2 {\r\n  margin-top: 0.5rem !important;\r\n}\r\n.pb-4 {\r\n  padding-bottom: 1.5rem !important;\r\n}\r\n.w-100 {\r\n  width: 100% !important;\r\n}\r\n.text-right {\r\n  text-align: right !important;\r\n}\r\n.dust-pool-card p {\r\n  margin-block-start: 0;\r\n}\r\n.section-divider-img {\r\n  max-height: 35px;\r\n  z-index: 2;\r\n}\r\n@media only screen and (max-width: 500px) {\r\n  .section-divider-img {\r\n    max-height: 25px;\r\n    z-index: 2;\r\n  }\r\n}\r\n@media (min-width: 576px) {\r\n  .container {\r\n    max-width: 540px;\r\n  }\r\n}\r\n@media (max-width: 600px) {\r\n  .dust-pool-card .dust-pool-btn {\r\n    position: unset !important;\r\n  }\r\n}\r\n@media (min-width: 768px) {\r\n  .container {\r\n    max-width: 720px;\r\n  }\r\n}\r\n.col-md-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n@media (min-width: 992px) {\r\n  .container {\r\n    max-width: 960px;\r\n  }\r\n  .col-lg-6 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n  .col-lg-3 {\r\n    flex: 0 0 25%;\r\n    max-width: 25%;\r\n  }\r\n}\r\n@media (min-width: 1200px) {\r\n  .container {\r\n    max-width: 1140px;\r\n  }\r\n}\r\n@media (max-width: 1000px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n}\r\n@media (max-width: 500px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 100%;\r\n    max-width: 100%;\r\n  }\r\n}\r\n@media only screen and (max-width: 945px) {\r\n  .dust-pool-root {\r\n    max-width: 100%;\r\n  }\r\n}\r\n";
 styleInject(css_248z);
 
-var ExplorerCards = function ExplorerCards(_ref) {
-  var nftList = _ref.nftList,
-      traitTypes = _ref.traitTypes,
-      height = _ref.height,
-      tokenAddres = _ref.tokenAddres,
-      openseaUrl = _ref.openseaUrl;
-      _ref.etherScanUrl;
-  var ITEMS_PER_PAGE = 29;
-
-  var _useState = React.useState([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      cards = _useState2[0],
-      setCards = _useState2[1];
-
-  var _useState3 = React.useState(0),
-      _useState4 = _slicedToArray(_useState3, 2),
-      currentPage = _useState4[0],
-      _setCurrentPage = _useState4[1];
-
-  var currentPageRef = React.useRef(currentPage);
-
-  var setCurrentPage = function setCurrentPage(val) {
+const ExplorerCards = _ref => {
+  let {
+    nftList,
+    traitTypes,
+    height,
+    tokenAddres,
+    openseaUrl,
+    etherScanUrl,
+    componentHeight
+  } = _ref;
+  const ITEMS_PER_PAGE = 29;
+  const [cards, setCards] = React.useState([]);
+  const [currentPage, _setCurrentPage] = React.useState(0);
+  const currentPageRef = React.useRef(currentPage);
+  const setCurrentPage = val => {
     currentPageRef.current = val;
-
     _setCurrentPage(val);
   };
-
-  var handleOpenOpensea = function handleOpenOpensea(id) {
-    window.open("".concat(openseaUrl, "/").concat(tokenAddres, "/").concat(id));
+  const handleOpenOpensea = id => {
+    window.open(`${openseaUrl}/${tokenAddres}/${id}`);
   };
-
-  React.useEffect(function () {
+  React.useEffect(() => {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
-
-  var renderCards = function renderCards() {
-    return cards.map(function (meta, i) {
+  const renderCards = () => {
+    return cards.map((meta, i) => {
       return /*#__PURE__*/React__default["default"].createElement(ExplorerCard, {
         meta: meta,
         traitTypes: traitTypes,
@@ -282,20 +172,18 @@ var ExplorerCards = function ExplorerCards(_ref) {
       });
     });
   };
-
   return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement("div", {
     style: {
       width: '100%'
     }
   }, /*#__PURE__*/React__default["default"].createElement(InfiniteScroll__default["default"], {
     dataLength: cards.length,
-    height: height || '100vh',
-    next: function next() {
-      return loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
-    },
+    height: componentHeight || '100vh',
+    next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length,
-    scrollThreshold: "1200px" // scrollableTarget="content-container"
+    scrollThreshold: "1200px"
+    // scrollableTarget="content-container"
     // initialScrollY={1000}
     ,
     loader: /*#__PURE__*/React__default["default"].createElement("h4", {
@@ -304,12 +192,92 @@ var ExplorerCards = function ExplorerCards(_ref) {
       }
     }, "Loading...")
   }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: "row small-gutters px-2 mx-0  ",
+    className: `row small-gutters px-2 mx-0  `,
     style: {
       padding: '10px'
     }
   }, renderCards()))));
 };
+
+function _iterableToArrayLimit(arr, i) {
+  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+  if (null != _i) {
+    var _s,
+      _e,
+      _x,
+      _r,
+      _arr = [],
+      _n = !0,
+      _d = !1;
+    try {
+      if (_x = (_i = _i.call(arr)).next, 0 === i) {
+        if (Object(_i) !== _i) return;
+        _n = !1;
+      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+    } catch (err) {
+      _d = !0, _e = err;
+    } finally {
+      try {
+        if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return;
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+    return _arr;
+  }
+}
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+      args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+      _next(undefined);
+    });
+  };
+}
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+  return arr2;
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
 
 var _format = "hh-sol-artifact-1";
 var contractName = "Zoom2";
@@ -375,29 +343,30 @@ const ZOOM_2_ADDRESSES = {
 };
 const GALAXIS_REGISTRY = '0x1e8150050A7a4715aad42b905C08df76883f396F';
 
+// returns the checksummed address if the address is valid, otherwise returns false
 function isAddress(value) {
   try {
     return address.getAddress(value);
   } catch {
     return false;
   }
-} // account is not optional
+}
 
+// account is not optional
 function getSigner(library, account) {
   return library.getSigner(account).connectUnchecked();
-} // account is optional
+}
 
-
+// account is optional
 function getProviderOrSigner(library, account) {
   return account ? getSigner(library, account) : library;
-} // account is optional
+}
 
-
+// account is optional
 function getContract(address, ABI, library, account) {
   if (!isAddress(address) || address === constants.AddressZero) {
     throw Error(`Invalid 'address' parameter '${address}'.`);
   }
-
   return new contracts.Contract(address, ABI, getProviderOrSigner(library, account));
 }
 const getProvider = rpcUrl => {
@@ -2557,10 +2526,8 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
   const ZoomLibraryInstance = new zoomNext.Zoom({
     use_reference_calls: true
   });
-
   if (nt > 0) {
     const calls = [];
-
     for (let i = 0; i < nt; i += 1) {
       const tId = ZoomLibraryInstance.addMappingCountCall(contract, ['tokenOfOwnerByIndex', [address, i]], 'tokenOfOwnerByIndex(address,uint256) returns (uint256)', [{
         contract: contract,
@@ -2570,12 +2537,10 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
       const tUri = ZoomLibraryInstance.addType5Call(contract, ['tokenURI(uint256)', [i]], 'tokenURI(uint256) returns (string)');
       calls.push(tUri);
     }
-
     const ZoomQueryBinary = ZoomLibraryInstance.getZoomCall();
     const combinedResult = await zoom2.combine(ZoomQueryBinary);
     ZoomLibraryInstance.resultsToCache(combinedResult, ZoomQueryBinary);
     const tokenIds = [];
-
     for (let i = 0; i < nt * 2; i += 2) {
       const id = ZoomLibraryInstance.decodeCall(calls[i]).toString();
       const tokenURI = ZoomLibraryInstance.decodeCall(calls[i + 1]).toString();
@@ -2584,7 +2549,6 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
         tokenURI
       });
     }
-
     return tokenIds.sort((a, b) => {
       return Number(a.tokenId) - Number(b.tokenId);
     });
@@ -2593,24 +2557,20 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
 
 var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, rpcUrl) {
   var _useState = React.useState(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      zoomContract = _useState2[0],
-      setZoomContract = _useState2[1];
-
+    _useState2 = _slicedToArray(_useState, 2),
+    zoomContract = _useState2[0],
+    setZoomContract = _useState2[1];
   var _useState3 = React.useState([]),
-      _useState4 = _slicedToArray(_useState3, 2),
-      nftList = _useState4[0],
-      setNftList = _useState4[1];
-
+    _useState4 = _slicedToArray(_useState3, 2),
+    nftList = _useState4[0],
+    setNftList = _useState4[1];
   var provider = React.useMemo(function () {
     return getProvider(rpcUrl);
   }, [rpcUrl]); //provider
-
   var tokenContract = React.useMemo(function () {
     return new ethers.Contract(contractAddres, tokenABI.abi, provider);
   }, [contractAddres, provider]);
   var fetchedRef = React.useRef(false);
-
   var createZoomcontract = /*#__PURE__*/function () {
     var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
       var galaxisRegistry, zoomAddress, contract;
@@ -2622,26 +2582,20 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
                 _context.next = 7;
                 break;
               }
-
               galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
-
               if (!galaxisRegistry) {
                 _context.next = 6;
                 break;
               }
-
               _context.next = 5;
               return galaxisRegistry.getRegistryAddress('ZOOM').catch(function (e) {
                 console.log('registry error', e);
               });
-
             case 5:
               zoomAddress = _context.sent;
-
             case 6:
               if (zoomAddress) {
                 contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
-
                 if (contract) {
                   setZoomContract(contract);
                 } else {
@@ -2649,7 +2603,6 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
                   setZoomContract(zoomAddress);
                 }
               }
-
             case 7:
             case "end":
               return _context.stop();
@@ -2657,12 +2610,10 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
         }
       }, _callee);
     }));
-
     return function createZoomcontract() {
       return _ref.apply(this, arguments);
     };
   }();
-
   var getNftList = /*#__PURE__*/function () {
     var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
       return regeneratorRuntime.wrap(function _callee2$(_context2) {
@@ -2673,7 +2624,6 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
                 _context2.next = 3;
                 break;
               }
-
               _context2.next = 3;
               return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
                 setNftList(res);
@@ -2682,7 +2632,6 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
                 console.log(e);
                 fetchedRef.current = true;
               });
-
             case 3:
             case "end":
               return _context2.stop();
@@ -2690,12 +2639,10 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
         }
       }, _callee2);
     }));
-
     return function getNftList() {
       return _ref2.apply(this, arguments);
     };
   }();
-
   React.useEffect(function () {
     createZoomcontract();
   }, [chainId, rpcUrl]);
@@ -2709,47 +2656,24 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
   };
 };
 
-var ExplorerComponent = function ExplorerComponent(_ref) {
-  var tokenAddres = _ref.tokenAddres,
-      poolAddress = _ref.poolAddress,
-      chainId = _ref.chainId,
-      rpcUrl = _ref.rpcUrl,
-      openseaUrl = _ref.openseaUrl,
-      etherScanUrl = _ref.etherScanUrl;
-
-  var _useGetNftsList = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl),
-      nftList = _useGetNftsList.nftList;
-
-  var _useState = React.useState(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      traitTypes = _useState2[0],
-      setTraitTypes = _useState2[1];
-
-  React.useEffect(function () {
-    var getTraitTypes = /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                _context.next = 2;
-                return axios__default["default"].get('https://cms.galaxis.xyz/trait_types').then(function (resp) {
-                  return setTraitTypes(resp.data);
-                });
-
-              case 2:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee);
-      }));
-
-      return function getTraitTypes() {
-        return _ref2.apply(this, arguments);
-      };
-    }();
-
+const ExplorerComponent = _ref => {
+  let {
+    tokenAddres,
+    poolAddress,
+    chainId,
+    rpcUrl,
+    openseaUrl,
+    etherScanUrl,
+    componentHeight
+  } = _ref;
+  const {
+    nftList
+  } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
+  const [traitTypes, setTraitTypes] = React.useState(null);
+  React.useEffect(() => {
+    const getTraitTypes = async () => {
+      await axios__default["default"].get('https://cms.galaxis.xyz/trait_types').then(resp => setTraitTypes(resp.data));
+    };
     getTraitTypes();
   }, []);
   return /*#__PURE__*/React__default["default"].createElement("div", {
@@ -2765,7 +2689,8 @@ var ExplorerComponent = function ExplorerComponent(_ref) {
     traitTypes: traitTypes,
     tokenAddres: tokenAddres,
     openseaUrl: openseaUrl,
-    etherScanUrl: etherScanUrl
+    etherScanUrl: etherScanUrl,
+    componentHeight: componentHeight
   }) : /*#__PURE__*/React__default["default"].createElement(spinnersReact.SpinnerDotted, {
     color: "#000",
     size: 200,

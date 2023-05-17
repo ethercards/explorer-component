@@ -4,7 +4,15 @@ import { useGetNftsList } from '../../hooks/useGetNftsList';
 import { SpinnerDotted } from 'spinners-react';
 import axios from 'axios';
 
-const ExplorerComponent = ({ tokenAddres, poolAddress, chainId, rpcUrl, openseaUrl, etherScanUrl }) => {
+const ExplorerComponent = ({
+  tokenAddres,
+  poolAddress,
+  chainId,
+  rpcUrl,
+  openseaUrl,
+  etherScanUrl,
+  componentHeight,
+}) => {
   const { nftList } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
   const [traitTypes, setTraitTypes] = useState(null);
 
@@ -28,8 +36,13 @@ const ExplorerComponent = ({ tokenAddres, poolAddress, chainId, rpcUrl, openseaU
       }}
     >
       {nftList.length > 0 ? (
-        <ExplorerCards nftList={nftList} traitTypes={traitTypes}
-          tokenAddres={tokenAddres} openseaUrl={openseaUrl} etherScanUrl={etherScanUrl}
+        <ExplorerCards
+          nftList={nftList}
+          traitTypes={traitTypes}
+          tokenAddres={tokenAddres}
+          openseaUrl={openseaUrl}
+          etherScanUrl={etherScanUrl}
+          componentHeight={componentHeight}
         />
       ) : (
         <SpinnerDotted color="#000" size={200} style={{ paddingTop: '30px' }} />

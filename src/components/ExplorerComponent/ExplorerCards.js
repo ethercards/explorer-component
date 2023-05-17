@@ -1,11 +1,19 @@
-import React, {useEffect, useState, useRef} from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { loadNext } from '../InfiniteScrollHelpers';
 import ExplorerCard from './ExplorerCard';
 import './ExplorerComponent.css';
 
-const ExplorerCards = ({ nftList, traitTypes, height, tokenAddres, openseaUrl, etherScanUrl }) => {
+const ExplorerCards = ({
+  nftList,
+  traitTypes,
+  height,
+  tokenAddres,
+  openseaUrl,
+  etherScanUrl,
+  componentHeight,
+}) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
   const [currentPage, _setCurrentPage] = useState(0);
@@ -15,8 +23,8 @@ const ExplorerCards = ({ nftList, traitTypes, height, tokenAddres, openseaUrl, e
     _setCurrentPage(val);
   };
   const handleOpenOpensea = (id) => {
-    window.open(`${openseaUrl}/${tokenAddres}/${id}`)
-  }
+    window.open(`${openseaUrl}/${tokenAddres}/${id}`);
+  };
   useEffect(() => {
     setCards([]);
     setCurrentPage(0);
@@ -41,7 +49,7 @@ const ExplorerCards = ({ nftList, traitTypes, height, tokenAddres, openseaUrl, e
       <div style={{ width: '100%' }}>
         <InfiniteScroll
           dataLength={cards.length}
-          height={height || '100vh'}
+          height={componentHeight || '100vh'}
           next={() =>
             loadNext(
               nftList,

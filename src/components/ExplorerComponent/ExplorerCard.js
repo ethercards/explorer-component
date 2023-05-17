@@ -33,10 +33,14 @@ const ExplorerCard = ({ meta, traitTypes, key, keyForChild, handleClick }) => {
   };
 
   const Card = () => {
+    const traits = [];
     return (
-      <div className="explorer-simple-card" onClick={() => handleClick(meta.id)}>
+      <div
+        className="explorer-simple-card"
+        onClick={() => handleClick(meta.id)}
+      >
         <img src={metadata.image} style={{ maxWidth: '100%' }} />
-        <div className="explorer-simple-card-trait-container" >
+        <div className="explorer-simple-card-trait-container">
           <div className="explorer-simple-card-token-name">{metadata.name}</div>
           {/* <div>{metadata.tokenId}</div> */}
           <div className="explorer-simple-card-traits">
@@ -64,7 +68,7 @@ const ExplorerCard = ({ meta, traitTypes, key, keyForChild, handleClick }) => {
 
   return (
     <>
-      <div className="col-lg-3 col-md-4 mb-4">
+      <div className="col-lg-3 col-md-2 mb-4">
         <div className="layer-image-preview">
           {
             !loading ? Card() : <SpinnerCircular color="#000" />
