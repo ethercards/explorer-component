@@ -12,6 +12,7 @@ const ExplorerComponent = ({
   openseaUrl,
   etherScanUrl,
   componentHeight,
+  serverUrl,
 }) => {
   const { nftList } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
   const [traitTypes, setTraitTypes] = useState(null);
@@ -43,6 +44,7 @@ const ExplorerComponent = ({
           openseaUrl={openseaUrl}
           etherScanUrl={etherScanUrl}
           componentHeight={componentHeight}
+          serverUrl={serverUrl}
         />
       ) : (
         <SpinnerDotted color="#000" size={200} style={{ paddingTop: '30px' }} />

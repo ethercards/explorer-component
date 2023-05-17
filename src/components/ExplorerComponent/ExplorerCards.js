@@ -13,6 +13,7 @@ const ExplorerCards = ({
   openseaUrl,
   etherScanUrl,
   componentHeight,
+  serverUrl,
 }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
@@ -40,6 +41,7 @@ const ExplorerCards = ({
           key={i}
           keyForChild={i}
           handleClick={handleOpenOpensea}
+          serverUrl={serverUrl}
         />
       );
     });

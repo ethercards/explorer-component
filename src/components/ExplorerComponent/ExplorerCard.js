@@ -2,9 +2,14 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { SpinnerCircular } from 'spinners-react';
 
-const GALAXIS_BASE_URL = 'https://cms.galaxis.xyz/';
-
-const ExplorerCard = ({ meta, traitTypes, key, keyForChild, handleClick }) => {
+const ExplorerCard = ({
+  meta,
+  traitTypes,
+  key,
+  keyForChild,
+  handleClick,
+  serverUrl,
+}) => {
   const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(true);
   useEffect(() => {
@@ -26,7 +31,7 @@ const ExplorerCard = ({ meta, traitTypes, key, keyForChild, handleClick }) => {
     return (
       <img
         className="explorer-simple-card-trait"
-        src={GALAXIS_BASE_URL + trait_type.icon_white}
+        src={serverUrl + trait_type.icon_white}
       />
     );
     // GALAXIS_BASE_URL + traitType.icon_white;

@@ -30,14 +30,14 @@ const loadNext = (nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards
   setCurrentPage(currentPageRef.current + 1);
 };
 
-const GALAXIS_BASE_URL = 'https://cms.galaxis.xyz/';
 const ExplorerCard = _ref => {
   let {
     meta,
     traitTypes,
     key,
     keyForChild,
-    handleClick
+    handleClick,
+    serverUrl
   } = _ref;
   const [metadata, setMetadata] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -58,7 +58,7 @@ const ExplorerCard = _ref => {
     const trait_type = traitTypes[traitType];
     return /*#__PURE__*/React__default["default"].createElement("img", {
       className: "explorer-simple-card-trait",
-      src: GALAXIS_BASE_URL + trait_type.icon_white
+      src: serverUrl + trait_type.icon_white
     });
     // GALAXIS_BASE_URL + traitType.icon_white;
   };
@@ -143,7 +143,8 @@ const ExplorerCards = _ref => {
     tokenAddres,
     openseaUrl,
     etherScanUrl,
-    componentHeight
+    componentHeight,
+    serverUrl
   } = _ref;
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = React.useState([]);
@@ -168,7 +169,8 @@ const ExplorerCards = _ref => {
         traitTypes: traitTypes,
         key: i,
         keyForChild: i,
-        handleClick: handleOpenOpensea
+        handleClick: handleOpenOpensea,
+        serverUrl: serverUrl
       });
     });
   };
@@ -2664,7 +2666,8 @@ const ExplorerComponent = _ref => {
     rpcUrl,
     openseaUrl,
     etherScanUrl,
-    componentHeight
+    componentHeight,
+    serverUrl
   } = _ref;
   const {
     nftList
@@ -2690,7 +2693,8 @@ const ExplorerComponent = _ref => {
     tokenAddres: tokenAddres,
     openseaUrl: openseaUrl,
     etherScanUrl: etherScanUrl,
-    componentHeight: componentHeight
+    componentHeight: componentHeight,
+    serverUrl: serverUrl
   }) : /*#__PURE__*/React__default["default"].createElement(spinnersReact.SpinnerDotted, {
     color: "#000",
     size: 200,
