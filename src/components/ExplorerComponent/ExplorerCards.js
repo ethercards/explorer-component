@@ -14,6 +14,10 @@ const ExplorerCards = ({
   etherScanUrl,
   componentHeight,
   serverUrl,
+  isAdmin,
+  updateSelectedIds,
+  selectedCardIds,
+  showCardName,
 }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
@@ -22,6 +26,30 @@ const ExplorerCards = ({
   const setCurrentPage = (val) => {
     currentPageRef.current = val;
     _setCurrentPage(val);
+  };
+
+  const handleClick = (e, itemId) => {
+    if (!isAdmin) {
+      handleOpenOpensea(itemId);
+      return;
+    }
+    if (e.ctrlKey) {
+      const isSelected = selectedCardIds.includes(itemId);
+      if (isSelected) {
+        // Item already selected, remove it from the selection
+        updateSelectedIds((prevSelectedItems) =>
+          prevSelectedItems.filter((id) => id !== itemId)
+        );
+      } else {
+        // Item not selected, add it to the selection
+        updateSelectedIds((prevSelectedItems) => [
+          ...prevSelectedItems,
+          itemId,
+        ]);
+      }
+    } else {
+      handleOpenOpensea(itemId);
+    }
   };
   const handleOpenOpensea = (id) => {
     window.open(`${openseaUrl}/${tokenAddres}/${id}`);
@@ -36,12 +64,15 @@ const ExplorerCards = ({
     return cards.map((meta, i) => {
       return (
         <ExplorerCard
+          onKeyDown={(e) => keyboardEventHandler(e.key)}
           meta={meta}
           traitTypes={traitTypes}
           key={i}
           keyForChild={i}
-          handleClick={handleOpenOpensea}
+          handleClick={handleClick}
           serverUrl={serverUrl}
+          selectedItems={selectedCardIds}
+          showCardName={showCardName}
         />
       );
     });

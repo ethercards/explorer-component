@@ -13,6 +13,10 @@ const ExplorerComponent = ({
   etherScanUrl,
   componentHeight,
   serverUrl,
+  isAdmin,
+  updateSelectedIds,
+  selectedCardIds,
+  showCardName,
 }) => {
   const { nftList } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
   const [traitTypes, setTraitTypes] = useState(null);
@@ -36,16 +40,26 @@ const ExplorerComponent = ({
         justifyContent: 'center',
       }}
     >
-      {nftList && nftList.length > 0 ? (
-        <ExplorerCards
-          nftList={nftList}
-          traitTypes={traitTypes}
-          tokenAddres={tokenAddres}
-          openseaUrl={openseaUrl}
-          etherScanUrl={etherScanUrl}
-          componentHeight={componentHeight}
-          serverUrl={serverUrl}
-        />
+      {nftList ? (
+        <>
+          {nftList.length > 0 ? (
+            <ExplorerCards
+              nftList={nftList}
+              traitTypes={traitTypes}
+              tokenAddres={tokenAddres}
+              openseaUrl={openseaUrl}
+              etherScanUrl={etherScanUrl}
+              componentHeight={componentHeight}
+              serverUrl={serverUrl}
+              isAdmin={isAdmin}
+              updateSelectedIds={updateSelectedIds}
+              selectedCardIds={selectedCardIds}
+              showCardName={showCardName}
+            />
+          ) : (
+            <p>Empty pool</p>
+          )}
+        </>
       ) : (
         <SpinnerDotted color="#000" size={200} style={{ paddingTop: '30px' }} />
       )}

@@ -27,7 +27,9 @@ const ExplorerCard = _ref => {
     key,
     keyForChild,
     handleClick,
-    serverUrl
+    serverUrl,
+    selectedItems,
+    showCardName
   } = _ref;
   const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -56,7 +58,10 @@ const ExplorerCard = _ref => {
   const Card = () => {
     return /*#__PURE__*/React.createElement("div", {
       className: "explorer-simple-card",
-      onClick: () => handleClick(meta.id)
+      onClick: e => handleClick(e, meta.id),
+      style: {
+        border: selectedItems.includes(meta.id) ? '2px solid black' : '2px solid transparent'
+      }
     }, /*#__PURE__*/React.createElement("img", {
       src: metadata.image,
       style: {
@@ -66,7 +71,7 @@ const ExplorerCard = _ref => {
       className: "explorer-simple-card-trait-container"
     }, /*#__PURE__*/React.createElement("div", {
       className: "explorer-simple-card-token-name"
-    }, metadata.name), /*#__PURE__*/React.createElement("div", {
+    }, showCardName ? metadata.name : '#' + meta.id), /*#__PURE__*/React.createElement("div", {
       className: "explorer-simple-card-traits"
     }, metadata.traits && metadata.traits.length > 0 && metadata.traits.map((trait, index) => {
       return trait.icon_url ? /*#__PURE__*/React.createElement("div", {
@@ -75,9 +80,7 @@ const ExplorerCard = _ref => {
         className: "explorer-simple-card-trait",
         src: trait.icon_url,
         key: index
-      }), /*#__PURE__*/React.createElement("div", {
-        className: "explorer-simple-card-trait-name"
-      }, trait.name)) : /*#__PURE__*/React.createElement(GetTraitImage, {
+      })) : /*#__PURE__*/React.createElement(GetTraitImage, {
         traitType: trait.type,
         key: index
       });
@@ -138,7 +141,11 @@ const ExplorerCards = _ref => {
     openseaUrl,
     etherScanUrl,
     componentHeight,
-    serverUrl
+    serverUrl,
+    isAdmin,
+    updateSelectedIds,
+    selectedCardIds,
+    showCardName
   } = _ref;
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
@@ -147,6 +154,24 @@ const ExplorerCards = _ref => {
   const setCurrentPage = val => {
     currentPageRef.current = val;
     _setCurrentPage(val);
+  };
+  const handleClick = (e, itemId) => {
+    if (!isAdmin) {
+      handleOpenOpensea(itemId);
+      return;
+    }
+    if (e.ctrlKey) {
+      const isSelected = selectedCardIds.includes(itemId);
+      if (isSelected) {
+        // Item already selected, remove it from the selection
+        updateSelectedIds(prevSelectedItems => prevSelectedItems.filter(id => id !== itemId));
+      } else {
+        // Item not selected, add it to the selection
+        updateSelectedIds(prevSelectedItems => [...prevSelectedItems, itemId]);
+      }
+    } else {
+      handleOpenOpensea(itemId);
+    }
   };
   const handleOpenOpensea = id => {
     window.open(`${openseaUrl}/${tokenAddres}/${id}`);
@@ -159,12 +184,15 @@ const ExplorerCards = _ref => {
   const renderCards = () => {
     return cards.map((meta, i) => {
       return /*#__PURE__*/React.createElement(ExplorerCard, {
+        onKeyDown: e => keyboardEventHandler(e.key),
         meta: meta,
         traitTypes: traitTypes,
         key: i,
         keyForChild: i,
-        handleClick: handleOpenOpensea,
-        serverUrl: serverUrl
+        handleClick: handleClick,
+        serverUrl: serverUrl,
+        selectedItems: selectedCardIds,
+        showCardName: showCardName
       });
     });
   };
@@ -2556,7 +2584,7 @@ var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, r
     _useState2 = _slicedToArray(_useState, 2),
     zoomContract = _useState2[0],
     setZoomContract = _useState2[1];
-  var _useState3 = useState([]),
+  var _useState3 = useState(null),
     _useState4 = _slicedToArray(_useState3, 2),
     nftList = _useState4[0],
     setNftList = _useState4[1];
@@ -2661,7 +2689,11 @@ const ExplorerComponent = _ref => {
     openseaUrl,
     etherScanUrl,
     componentHeight,
-    serverUrl
+    serverUrl,
+    isAdmin,
+    updateSelectedIds,
+    selectedCardIds,
+    showCardName
   } = _ref;
   const {
     nftList
@@ -2681,15 +2713,19 @@ const ExplorerComponent = _ref => {
       alignItems: 'center',
       justifyContent: 'center'
     }
-  }, nftList && nftList.length > 0 ? /*#__PURE__*/React.createElement(ExplorerCards, {
+  }, nftList ? /*#__PURE__*/React.createElement(React.Fragment, null, nftList.length > 0 ? /*#__PURE__*/React.createElement(ExplorerCards, {
     nftList: nftList,
     traitTypes: traitTypes,
     tokenAddres: tokenAddres,
     openseaUrl: openseaUrl,
     etherScanUrl: etherScanUrl,
     componentHeight: componentHeight,
-    serverUrl: serverUrl
-  }) : /*#__PURE__*/React.createElement(SpinnerDotted, {
+    serverUrl: serverUrl,
+    isAdmin: isAdmin,
+    updateSelectedIds: updateSelectedIds,
+    selectedCardIds: selectedCardIds,
+    showCardName: showCardName
+  }) : /*#__PURE__*/React.createElement("p", null, "Empty pool")) : /*#__PURE__*/React.createElement(SpinnerDotted, {
     color: "#000",
     size: 200,
     style: {

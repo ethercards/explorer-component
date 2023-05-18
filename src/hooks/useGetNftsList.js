@@ -11,7 +11,7 @@ import { GALAXIS_REGISTRY } from '../abi/constants/addresses';
 
 export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const [zoomContract, setZoomContract] = useState(null);
-  const [nftList, setNftList] = useState([]);
+  const [nftList, setNftList] = useState(null);
   const provider = useMemo(() => {
     return getProvider(rpcUrl);
   }, [rpcUrl]); //provider
@@ -47,7 +47,7 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
         }
       }
     }
-  }
+  };
   const getNftList = async () => {
     if (zoomContract && tokenContract && address) {
       await zoomFetchTokenUris(tokenContract, zoomContract, address)
@@ -59,9 +59,8 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
           console.log(e);
           fetchedRef.current = true;
         });
-
     }
-  }
+  };
 
   useEffect(() => {
     createZoomcontract();
