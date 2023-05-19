@@ -16,7 +16,7 @@ const ExplorerCards = ({
   serverUrl,
   isAdmin,
   updateSelectedIds,
-  selectedCardIds,
+  selectedCardIds = [],
   showCardName,
 }) => {
   const ITEMS_PER_PAGE = 29;
@@ -30,30 +30,32 @@ const ExplorerCards = ({
 
   const handleClick = (e, itemId) => {
     if (!isAdmin) {
-      handleOpenOpensea(itemId);
+      // handleOpenOpensea(itemId);
       return;
     }
     if (e.ctrlKey) {
       const isSelected = selectedCardIds.includes(itemId);
       if (isSelected) {
-        // Item already selected, remove it from the selection
-        updateSelectedIds((prevSelectedItems) =>
-          prevSelectedItems.filter((id) => id !== itemId)
-        );
+        if (updateSelectedIds) {
+          updateSelectedIds((prevSelectedItems) =>
+            prevSelectedItems.filter((id) => id !== itemId)
+          );
+        }
       } else {
-        // Item not selected, add it to the selection
-        updateSelectedIds((prevSelectedItems) => [
-          ...prevSelectedItems,
-          itemId,
-        ]);
+        if (updateSelectedIds) {
+          updateSelectedIds((prevSelectedItems) => [
+            ...prevSelectedItems,
+            itemId,
+          ]);
+        }
       }
-    } else {
-      handleOpenOpensea(itemId);
     }
   };
   const handleOpenOpensea = (id) => {
     window.open(`${openseaUrl}/${tokenAddres}/${id}`);
   };
+  const handleEtherscan = () => {};
+
   useEffect(() => {
     setCards([]);
     setCurrentPage(0);
@@ -73,6 +75,7 @@ const ExplorerCards = ({
           serverUrl={serverUrl}
           selectedItems={selectedCardIds}
           showCardName={showCardName}
+          handleOpenOpensea={handleOpenOpensea}
         />
       );
     });
