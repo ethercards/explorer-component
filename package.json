@@ -1,6 +1,6 @@
 {
   "name": "explorer-component",
-  "version": "0.1.49",
+  "version": "0.1.50",
   "private": true,
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
