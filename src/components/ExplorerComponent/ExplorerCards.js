@@ -18,6 +18,8 @@ const ExplorerCards = ({
   updateSelectedIds,
   selectedCardIds = [],
   showCardName,
+  etherscanUrl,
+  columns,
 }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
@@ -54,7 +56,9 @@ const ExplorerCards = ({
   const handleOpenOpensea = (id) => {
     window.open(`${openseaUrl}/${tokenAddres}/${id}`);
   };
-  const handleEtherscan = () => {};
+  const handleEtherscan = () => {
+    window.open(etherscanUrl);
+  };
 
   useEffect(() => {
     setCards([]);
@@ -76,6 +80,8 @@ const ExplorerCards = ({
           selectedItems={selectedCardIds}
           showCardName={showCardName}
           handleOpenOpensea={handleOpenOpensea}
+          handleEtherscan={handleEtherscan}
+          columns={columns}
         />
       );
     });

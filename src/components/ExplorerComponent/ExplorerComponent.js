@@ -17,6 +17,9 @@ const ExplorerComponent = ({
   updateSelectedIds,
   selectedCardIds,
   showCardName,
+  darkMode,
+  etherscanUrl,
+  columns,
 }) => {
   const { nftList } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
   const [traitTypes, setTraitTypes] = useState(null);
@@ -24,7 +27,7 @@ const ExplorerComponent = ({
   useEffect(() => {
     const getTraitTypes = async () => {
       await axios
-        .get('https://cms.galaxis.xyz/trait_types')
+        .get(serverUrl + '/trait_types')
         .then((resp) => setTraitTypes(resp.data));
     };
     getTraitTypes();
@@ -39,6 +42,7 @@ const ExplorerComponent = ({
         alignItems: 'center',
         justifyContent: 'center',
       }}
+      className={`${darkMode && 'explorer-dark'}`}
     >
       {nftList ? (
         <>
@@ -55,6 +59,8 @@ const ExplorerComponent = ({
               updateSelectedIds={updateSelectedIds}
               selectedCardIds={selectedCardIds}
               showCardName={showCardName}
+              etherscanUrl={etherscanUrl}
+              columns={columns}
             />
           ) : (
             <p>Empty pool</p>

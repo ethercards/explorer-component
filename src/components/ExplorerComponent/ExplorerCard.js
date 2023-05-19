@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import axios from 'axios';
 import { SpinnerCircular } from 'spinners-react';
 import openseaIcon from '../../assets/icons/opensea.svg';
-
+import etherscanIcon from '../../assets/icons/etherscan.svg';
+import traitsIcon from '../../assets/icons/traits.svg';
 const ExplorerCard = ({
   meta,
   traitTypes,
@@ -12,7 +13,9 @@ const ExplorerCard = ({
   serverUrl,
   selectedItems = [],
   handleOpenOpensea,
+  handleEtherscan,
   showCardName,
+  columns,
 }) => {
   const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -68,11 +71,13 @@ const ExplorerCard = ({
                   {metadata.traits.map((trait, index) => {
                     return trait.icon_url ? (
                       <div className="explorer-simple-card-trait-div">
-                        <img
-                          className="explorer-simple-card-trait"
-                          src={trait.icon_url}
-                          key={index}
-                        />
+                        <div className="explorer-simple-card-trait-icon-container">
+                          <img
+                            className="explorer-simple-card-trait"
+                            src={trait.icon_url}
+                            key={index}
+                          />
+                        </div>
                         <div className="explorer-simple-card-trait-name">
                           {trait.name}
                         </div>
@@ -86,7 +91,11 @@ const ExplorerCard = ({
                   className="explorer-simple-card-trait-toggler"
                   onClick={() => setShowTraits(!showTraits)}
                 >
-                  {metadata.traits.length}
+                  <img src={traitsIcon} />
+                  <div className="explorer-simple-card-trait-count">
+                    <div>{metadata.traits.length} </div>
+                  </div>
+                  {/* // {metadata.traits.length} */}
                 </div>
               </>
             )}
@@ -102,6 +111,11 @@ const ExplorerCard = ({
               style={{ maxHeight: '30px' }}
               onClick={() => handleOpenOpensea(meta.id)}
             />
+            <img
+              src={etherscanIcon}
+              style={{ maxHeight: '30px' }}
+              onClick={() => handleEtherscan()}
+            />
           </div>
         </div>
       </div>
@@ -110,7 +124,9 @@ const ExplorerCard = ({
 
   return (
     <>
-      <div className="col-lg-3 col-md-2 mb-4">
+      <div
+        className={`${columns === 3 ? `col-lg-4` : 'col-lg-3'}  col-md-2 mb-4`}
+      >
         <div className="layer-image-preview">
           {!loading ? Card() : <SpinnerCircular color="#000" />}
         </div>
