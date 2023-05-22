@@ -31,7 +31,7 @@ const ExplorerCard = ({
       setLoading(false);
     };
     fetchMetadata();
-  }, []);
+  }, [meta]);
 
   const GetTraitImage = ({ traitType }) => {
     if (!traitType) return;

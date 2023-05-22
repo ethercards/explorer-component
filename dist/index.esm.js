@@ -51,7 +51,7 @@ const ExplorerCard = _ref => {
       setLoading(false);
     };
     fetchMetadata();
-  }, []);
+  }, [meta]);
   const GetTraitImage = _ref2 => {
     let {
       traitType
