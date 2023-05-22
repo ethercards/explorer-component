@@ -239,6 +239,9 @@
   max-height: 35px;
   z-index: 2;
 }
+.h-50vh {
+  height: 50vh !important;
+}
 @media only screen and (max-width: 500px) {
   .section-divider-img {
     max-height: 25px;

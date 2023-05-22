@@ -20,6 +20,7 @@ const ExplorerComponent = ({
   darkMode,
   etherscanUrl,
   columns,
+  styleClass,
 }) => {
   const { nftList } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
   const [traitTypes, setTraitTypes] = useState(null);
@@ -61,6 +62,7 @@ const ExplorerComponent = ({
               showCardName={showCardName}
               etherscanUrl={etherscanUrl}
               columns={columns}
+              styleClass={styleClass}
             />
           ) : (
             <p>Empty pool</p>

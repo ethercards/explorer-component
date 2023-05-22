@@ -20,6 +20,7 @@ const ExplorerCards = ({
   showCardName,
   etherscanUrl,
   columns,
+  styleClass,
 }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
@@ -91,7 +92,7 @@ const ExplorerCards = ({
       <div style={{ width: '100%' }}>
         <InfiniteScroll
           dataLength={cards.length}
-          height={componentHeight || '100vh'}
+          className={styleClass}
           next={() =>
             loadNext(
               nftList,
@@ -103,7 +104,6 @@ const ExplorerCards = ({
           }
           pullDownToRefreshThreshold={500}
           hasMore={currentPageRef.current * ITEMS_PER_PAGE < nftList.length}
-          scrollThreshold="1200px"
           // scrollableTarget="content-container"
           // initialScrollY={1000}
           loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
