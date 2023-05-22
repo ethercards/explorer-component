@@ -18,6 +18,68 @@ var React__default = /*#__PURE__*/_interopDefaultLegacy(React);
 var InfiniteScroll__default = /*#__PURE__*/_interopDefaultLegacy(InfiniteScroll);
 var axios__default = /*#__PURE__*/_interopDefaultLegacy(axios);
 
+function _iterableToArrayLimit(arr, i) {
+  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
+  if (null != _i) {
+    var _s,
+      _e,
+      _x,
+      _r,
+      _arr = [],
+      _n = !0,
+      _d = !1;
+    try {
+      if (_x = (_i = _i.call(arr)).next, 0 === i) {
+        if (Object(_i) !== _i) return;
+        _n = !1;
+      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
+    } catch (err) {
+      _d = !0, _e = err;
+    } finally {
+      try {
+        if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return;
+      } finally {
+        if (_d) throw _e;
+      }
+    }
+    return _arr;
+  }
+}
+function _slicedToArray(arr, i) {
+  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
+}
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+function _arrayWithHoles(arr) {
+  if (Array.isArray(arr)) return arr;
+}
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
+}
+function _unsupportedIterableToArray(o, minLen) {
+  if (!o) return;
+  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
+  var n = Object.prototype.toString.call(o).slice(8, -1);
+  if (n === "Object" && o.constructor) n = o.constructor.name;
+  if (n === "Map" || n === "Set") return Array.from(o);
+  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
+}
+function _arrayLikeToArray(arr, len) {
+  if (len == null || len > arr.length) len = arr.length;
+  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
+  return arr2;
+}
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+function _nonIterableRest() {
+  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
+}
+
 const loadNext = (nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards) => {
   let c = [];
   let end = nfts.length < ITEMS_PER_PAGE ? nfts.length : ITEMS_PER_PAGE;
@@ -174,65 +236,78 @@ function styleInject(css, ref) {
 var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n.infinite-scroll-component::-webkit-scrollbar {\r\n  width: 0;\r\n}\r\n.explorer-simple-card-trait-div {\r\n  padding-right: 5px;\r\n  display: flex;\r\n  margin: 10px 0;\r\n  /* position: relative; */\r\n}\r\n.explorer-simple-card-trait-name {\r\n  background-color: #000;\r\n  padding: 5px 10px;\r\n  border-radius: 5px;\r\n  margin-left: 10px;\r\n  text-overflow: ellipsis;\r\n}\r\n.explorer-simple-card-trait-div:hover .explorer-simple-card-trait-name {\r\n  display: block;\r\n  cursor: pointer;\r\n}\r\n/* .explorer-simple-card-trait-name {\r\n  display: none;\r\n  background-color: #6d6c6c;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  white-space: nowrap;\r\n  z-index: 22222222222;\r\n  padding: 10px 0;\r\n  border-radius: 5px;\r\n  width: 100%;\r\n  text-align: center;\r\n  height: 100%;\r\n  line-height: 15px;\r\n} */\r\n.explorer-simple-card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff;\r\n  cursor: pointer;\r\n}\r\n.explorer-dark .explorer-simple-card-trait-container {\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 30px;\r\n}\r\n.explorer-simple-card-img-trait {\r\n  position: relative;\r\n  display: flex;\r\n  z-index: 333333333;\r\n}\r\n.explorer-simple-card-trait-toggler {\r\n  position: relative;\r\n  background-color: #fff9f9db;\r\n  /* padding: 10px 15px; */\r\n  height: 45px;\r\n  max-width: 40px;\r\n  border-radius: 5px;\r\n}\r\n.explorer-simple-card-trait-icon-container {\r\n  background-color: #000000db;\r\n  padding: 3px;\r\n  border-radius: 5px;\r\n}\r\n.explorer-simple-card-trait-count {\r\n  position: absolute;\r\n  bottom: -5px;\r\n  right: -5px;\r\n  color: #fff;\r\n  font-weight: 600;\r\n  background-color: red;\r\n  border-radius: 100%;\r\n  font-size: 12px;\r\n  width: 16px;\r\n  height: 16px;\r\n  text-align: center;\r\n}\r\n.explorer-simple-card-trait-count div {\r\n  /* position: absolute; */\r\n  left: 0;\r\n  right: 0;\r\n  margin: auto;\r\n}\r\n.explorer-simple-card-shown {\r\n  opacity: 1;\r\n  transition: all 0.3s;\r\n}\r\n.explorer-simple-card-hided {\r\n  opacity: 0;\r\n  transition: all 0.3s;\r\n}\r\n.explorer-simple-card-opensea-etherscan {\r\n  padding-top: 10px;\r\n  display: flex;\r\n  gap: 5px;\r\n}\r\n.explorer-simple-card-traits {\r\n  position: absolute;\r\n  bottom: 10px;\r\n  left: 10px;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  flex-direction: column;\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n.dust-pool-root {\r\n  max-width: 1140px;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  margin-top: 30px;\r\n  font-family: poppins;\r\n}\r\n.dust-pool-textbox {\r\n  text-align: center;\r\n  max-width: 600px;\r\n  margin: 0 auto;\r\n}\r\n.pool-subtitle {\r\n  font-size: 30px;\r\n  font-weight: 600;\r\n}\r\n.tab-choose {\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-bottom: 30px;\r\n  text-transform: uppercase;\r\n}\r\n.tab-choose div {\r\n  font-size: 14px;\r\n  font-weight: 500;\r\n  padding: 12px 15px;\r\n}\r\n.tab-choose div:hover {\r\n  cursor: pointer;\r\n}\r\n.tab-choose .active-tab {\r\n  background-color: #000;\r\n  color: #fff;\r\n}\r\n.tab-choose div:first-child {\r\n  border: 2px solid #000;\r\n  border-top-left-radius: 10px;\r\n  border-bottom-left-radius: 10px;\r\n}\r\n.tab-choose div:nth-child(2) {\r\n  border-top: 2px solid #000;\r\n  border-bottom: 2px solid #000;\r\n}\r\n.tab-choose div:nth-child(3) {\r\n  border: 2px solid #000;\r\n  border-top-right-radius: 10px;\r\n  border-bottom-right-radius: 10px;\r\n}\r\n/*classes from bootstrap*/\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n.container {\r\n  width: 100%;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n  margin-right: auto;\r\n  margin-left: auto;\r\n}\r\n.mt-5,\r\n.my-5 {\r\n  margin-top: 3rem !important;\r\n}\r\n.row {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  margin-right: -15px;\r\n  margin-left: -15px;\r\n}\r\n.col-12 {\r\n  flex: 0 0 100%;\r\n  max-width: 100%;\r\n}\r\n.col-12,\r\n.col-lg-6,\r\n.col-lg-3,\r\n.col-lg-4,\r\n.col-md-6 {\r\n  position: relative;\r\n  width: 100%;\r\n  min-height: 1px;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n}\r\n.col-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n.mb-1 {\r\n  margin-bottom: 0.25rem !important;\r\n}\r\n.mb-2 {\r\n  margin-bottom: 0.5rem !important;\r\n}\r\n.mb-3 {\r\n  margin-bottom: 0.75rem !important;\r\n}\r\n.mt-2 {\r\n  margin-top: 0.5rem !important;\r\n}\r\n.pb-4 {\r\n  padding-bottom: 1.5rem !important;\r\n}\r\n.w-100 {\r\n  width: 100% !important;\r\n}\r\n.text-right {\r\n  text-align: right !important;\r\n}\r\n.dust-pool-card p {\r\n  margin-block-start: 0;\r\n}\r\n.section-divider-img {\r\n  max-height: 35px;\r\n  z-index: 2;\r\n}\r\n.h-50vh {\r\n  height: 50vh !important;\r\n}\r\n@media only screen and (max-width: 500px) {\r\n  .section-divider-img {\r\n    max-height: 25px;\r\n    z-index: 2;\r\n  }\r\n}\r\n@media (min-width: 576px) {\r\n  .container {\r\n    max-width: 540px;\r\n  }\r\n}\r\n@media (max-width: 600px) {\r\n  .dust-pool-card .dust-pool-btn {\r\n    position: unset !important;\r\n  }\r\n}\r\n@media (min-width: 768px) {\r\n  .container {\r\n    max-width: 720px;\r\n  }\r\n}\r\n.col-md-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n@media (min-width: 992px) {\r\n  .container {\r\n    max-width: 960px;\r\n  }\r\n  .col-lg-6 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n  .col-lg-3 {\r\n    flex: 0 0 25%;\r\n    max-width: 25%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 33.333333%;\r\n    max-width: 33.333333%;\r\n  }\r\n}\r\n@media (min-width: 1200px) {\r\n  .container {\r\n    max-width: 1140px;\r\n  }\r\n}\r\n@media (max-width: 1000px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n}\r\n@media (max-width: 650px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 100%;\r\n    max-width: 100%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 100%;\r\n    max-width: 100%;\r\n  }\r\n}\r\n@media only screen and (max-width: 945px) {\r\n  .dust-pool-root {\r\n    max-width: 100%;\r\n  }\r\n}\r\n";
 styleInject(css_248z);
 
-const ExplorerCards = _ref => {
-  let {
-    nftList,
-    traitTypes,
-    height,
-    tokenAddres,
-    openseaUrl,
-    etherScanUrl,
-    componentHeight,
-    serverUrl,
-    isAdmin,
-    updateSelectedIds,
-    selectedCardIds = [],
-    showCardName,
-    etherscanUrl,
-    columns,
-    styleClass
-  } = _ref;
-  const ITEMS_PER_PAGE = 29;
-  const [cards, setCards] = React.useState([]);
-  const [currentPage, _setCurrentPage] = React.useState(0);
-  const currentPageRef = React.useRef(currentPage);
-  const setCurrentPage = val => {
+var ExplorerCards = function ExplorerCards(_ref) {
+  var nftList = _ref.nftList,
+    traitTypes = _ref.traitTypes;
+    _ref.height;
+    var tokenAddres = _ref.tokenAddres,
+    openseaUrl = _ref.openseaUrl;
+    _ref.etherScanUrl;
+    _ref.componentHeight;
+    var serverUrl = _ref.serverUrl,
+    isAdmin = _ref.isAdmin,
+    updateSelectedIds = _ref.updateSelectedIds,
+    _ref$selectedCardIds = _ref.selectedCardIds,
+    selectedCardIds = _ref$selectedCardIds === void 0 ? [] : _ref$selectedCardIds,
+    showCardName = _ref.showCardName,
+    etherscanUrl = _ref.etherscanUrl,
+    columns = _ref.columns,
+    styleClass = _ref.styleClass;
+  var ITEMS_PER_PAGE = 29;
+  var _useState = React.useState([]),
+    _useState2 = _slicedToArray(_useState, 2),
+    cards = _useState2[0],
+    setCards = _useState2[1];
+  var _useState3 = React.useState(0),
+    _useState4 = _slicedToArray(_useState3, 2),
+    currentPage = _useState4[0],
+    _setCurrentPage = _useState4[1];
+  var currentPageRef = React.useRef(currentPage);
+  var setCurrentPage = function setCurrentPage(val) {
     currentPageRef.current = val;
     _setCurrentPage(val);
   };
-  const handleClick = (e, itemId) => {
+  var handleClick = function handleClick(e, itemId) {
     if (!isAdmin) {
       // handleOpenOpensea(itemId);
       return;
     }
     if (e.ctrlKey) {
-      const isSelected = selectedCardIds.includes(itemId);
+      var isSelected = selectedCardIds.includes(itemId);
       if (isSelected) {
         if (updateSelectedIds) {
-          updateSelectedIds(prevSelectedItems => prevSelectedItems.filter(id => id !== itemId));
+          updateSelectedIds(function (prevSelectedItems) {
+            return prevSelectedItems.filter(function (id) {
+              return id !== itemId;
+            });
+          });
         }
       } else {
         if (updateSelectedIds) {
-          updateSelectedIds(prevSelectedItems => [...prevSelectedItems, itemId]);
+          updateSelectedIds(function (prevSelectedItems) {
+            return [].concat(_toConsumableArray(prevSelectedItems), [itemId]);
+          });
         }
       }
     }
   };
-  const handleOpenOpensea = id => {
-    window.open(`${openseaUrl}/${tokenAddres}/${id}`);
+  var handleOpenOpensea = function handleOpenOpensea(id) {
+    window.open("".concat(openseaUrl, "/").concat(tokenAddres, "/").concat(id));
   };
-  const handleEtherscan = () => {
+  var handleEtherscan = function handleEtherscan() {
     window.open(etherscanUrl);
   };
-  React.useEffect(() => {
+  React.useEffect(function () {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
-  const renderCards = () => {
-    return cards.map((meta, i) => {
+  var renderCards = function renderCards() {
+    return cards.map(function (meta, i) {
       return /*#__PURE__*/React__default["default"].createElement(ExplorerCard, {
-        onKeyDown: e => keyboardEventHandler(e.key),
+        onKeyDown: function onKeyDown(e) {
+          return keyboardEventHandler(e.key);
+        },
         meta: meta,
         traitTypes: traitTypes,
         key: i,
@@ -254,7 +329,9 @@ const ExplorerCards = _ref => {
   }, /*#__PURE__*/React__default["default"].createElement(InfiniteScroll__default["default"], {
     dataLength: cards.length,
     className: styleClass,
-    next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
+    next: function next() {
+      return loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
+    },
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length
     // scrollableTarget="content-container"
@@ -266,92 +343,12 @@ const ExplorerCards = _ref => {
       }
     }, "Loading...")
   }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: `row small-gutters px-2 mx-0  `,
+    className: "row small-gutters px-2 mx-0  ",
     style: {
       padding: '10px'
     }
   }, renderCards()))));
 };
-
-function _iterableToArrayLimit(arr, i) {
-  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
-  if (null != _i) {
-    var _s,
-      _e,
-      _x,
-      _r,
-      _arr = [],
-      _n = !0,
-      _d = !1;
-    try {
-      if (_x = (_i = _i.call(arr)).next, 0 === i) {
-        if (Object(_i) !== _i) return;
-        _n = !1;
-      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
-    } catch (err) {
-      _d = !0, _e = err;
-    } finally {
-      try {
-        if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return;
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-    return _arr;
-  }
-}
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
-  try {
-    var info = gen[key](arg);
-    var value = info.value;
-  } catch (error) {
-    reject(error);
-    return;
-  }
-  if (info.done) {
-    resolve(value);
-  } else {
-    Promise.resolve(value).then(_next, _throw);
-  }
-}
-function _asyncToGenerator(fn) {
-  return function () {
-    var self = this,
-      args = arguments;
-    return new Promise(function (resolve, reject) {
-      var gen = fn.apply(self, args);
-      function _next(value) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
-      }
-      function _throw(err) {
-        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
-      }
-      _next(undefined);
-    });
-  };
-}
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-  return arr2;
-}
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
 
 var _format = "hh-sol-artifact-1";
 var contractName = "Zoom2";
@@ -2629,104 +2626,56 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
   }
 };
 
-var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, rpcUrl) {
-  var _useState = React.useState(null),
-    _useState2 = _slicedToArray(_useState, 2),
-    zoomContract = _useState2[0],
-    setZoomContract = _useState2[1];
-  var _useState3 = React.useState(null),
-    _useState4 = _slicedToArray(_useState3, 2),
-    nftList = _useState4[0],
-    setNftList = _useState4[1];
-  var provider = React.useMemo(function () {
+const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
+  const [zoomContract, setZoomContract] = React.useState(null);
+  const [nftList, setNftList] = React.useState(null);
+  const provider = React.useMemo(() => {
     return getProvider(rpcUrl);
   }, [rpcUrl]); //provider
-  var tokenContract = React.useMemo(function () {
-    return new ethers.Contract(contractAddres, tokenABI.abi, provider);
-  }, [contractAddres, provider]);
-  var fetchedRef = React.useRef(false);
-  var createZoomcontract = /*#__PURE__*/function () {
-    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-      var galaxisRegistry, zoomAddress, contract;
-      return regeneratorRuntime.wrap(function _callee$(_context) {
-        while (1) {
-          switch (_context.prev = _context.next) {
-            case 0:
-              if (!provider) {
-                _context.next = 7;
-                break;
-              }
-              galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
-              if (!galaxisRegistry) {
-                _context.next = 6;
-                break;
-              }
-              _context.next = 5;
-              return galaxisRegistry.getRegistryAddress('ZOOM').catch(function (e) {
-                console.log('registry error', e);
-              });
-            case 5:
-              zoomAddress = _context.sent;
-            case 6:
-              if (zoomAddress) {
-                contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
-                if (contract) {
-                  setZoomContract(contract);
-                } else {
-                  zoomAddress = useZoom2Contract(chainId);
-                  setZoomContract(zoomAddress);
-                }
-              }
-            case 7:
-            case "end":
-              return _context.stop();
-          }
+  const tokenContract = React.useMemo(() => new ethers.Contract(contractAddres, tokenABI.abi, provider), [contractAddres, provider]);
+  const fetchedRef = React.useRef(false);
+  const createZoomcontract = async () => {
+    if (provider) {
+      const galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
+      let zoomAddress;
+      if (galaxisRegistry) {
+        zoomAddress = await galaxisRegistry.getRegistryAddress('ZOOM').catch(e => {
+          console.log('registry error', e);
+        });
+      }
+      if (zoomAddress) {
+        let contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
+        if (contract) {
+          setZoomContract(contract);
+        } else {
+          zoomAddress = useZoom2Contract(chainId);
+          setZoomContract(zoomAddress);
         }
-      }, _callee);
-    }));
-    return function createZoomcontract() {
-      return _ref.apply(this, arguments);
-    };
-  }();
-  var getNftList = /*#__PURE__*/function () {
-    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
-      return regeneratorRuntime.wrap(function _callee2$(_context2) {
-        while (1) {
-          switch (_context2.prev = _context2.next) {
-            case 0:
-              if (!(zoomContract && tokenContract && address)) {
-                _context2.next = 3;
-                break;
-              }
-              _context2.next = 3;
-              return zoomFetchTokenUris(tokenContract, zoomContract, address).then(function (res) {
-                setNftList(res);
-                fetchedRef.current = true;
-              }).catch(function (e) {
-                console.log(e);
-                fetchedRef.current = true;
-              });
-            case 3:
-            case "end":
-              return _context2.stop();
-          }
-        }
-      }, _callee2);
-    }));
-    return function getNftList() {
-      return _ref2.apply(this, arguments);
-    };
-  }();
-  React.useEffect(function () {
+      }
+    }
+  };
+  const getNftList = async () => {
+    if (zoomContract && tokenContract && address) {
+      await zoomFetchTokenUris(tokenContract, zoomContract, address).then(res => {
+        setNftList(res);
+        fetchedRef.current = true;
+      }).catch(e => {
+        console.log(e);
+        fetchedRef.current = true;
+      });
+    }
+  };
+  React.useEffect(() => {
     createZoomcontract();
   }, [chainId, rpcUrl]);
-  React.useEffect(function () {
-    if (fetchedRef.current === false) {
-      getNftList();
-    }
+  React.useEffect(() => {
+    console.log(tokenContract, ' tokencontract valtozott');
+    // if (fetchedRef.current === false) {
+    getNftList();
+    // }
   }, [zoomContract, tokenContract, fetchedRef.current, address]);
   return {
-    nftList: nftList
+    nftList
   };
 };
 

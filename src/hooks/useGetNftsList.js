@@ -67,9 +67,10 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   }, [chainId, rpcUrl]);
 
   useEffect(() => {
-    if (fetchedRef.current === false) {
-      getNftList();
-    }
+    console.log(tokenContract, ' tokencontract valtozott');
+    // if (fetchedRef.current === false) {
+    getNftList();
+    // }
   }, [zoomContract, tokenContract, fetchedRef.current, address]);
 
   return { nftList };
