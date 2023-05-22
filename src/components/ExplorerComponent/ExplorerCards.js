@@ -89,33 +89,31 @@ const ExplorerCards = ({
   };
   return (
     <>
-      <div style={{ width: '100%' }}>
-        <InfiniteScroll
-          dataLength={cards.length}
-          className={styleClass}
-          next={() =>
-            loadNext(
-              nftList,
-              ITEMS_PER_PAGE,
-              currentPageRef,
-              setCurrentPage,
-              setCards
-            )
-          }
-          pullDownToRefreshThreshold={500}
-          hasMore={currentPageRef.current * ITEMS_PER_PAGE < nftList.length}
-          // scrollableTarget="content-container"
-          // initialScrollY={1000}
-          loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
+      <InfiniteScroll
+        dataLength={cards.length}
+        className={styleClass}
+        next={() =>
+          loadNext(
+            nftList,
+            ITEMS_PER_PAGE,
+            currentPageRef,
+            setCurrentPage,
+            setCards
+          )
+        }
+        pullDownToRefreshThreshold={500}
+        hasMore={currentPageRef.current * ITEMS_PER_PAGE < nftList.length}
+        // scrollableTarget="content-container"
+        // initialScrollY={1000}
+        loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
+      >
+        <div
+          className={`row small-gutters px-2 mx-0  `}
+          style={{ padding: '10px' }}
         >
-          <div
-            className={`row small-gutters px-2 mx-0  `}
-            style={{ padding: '10px' }}
-          >
-            {renderCards()}
-          </div>
-        </InfiniteScroll>
-      </div>
+          {renderCards()}
+        </div>
+      </InfiniteScroll>
     </>
   );
 };

@@ -8,68 +8,6 @@ import { AddressZero } from '@ethersproject/constants';
 import { Contract } from '@ethersproject/contracts';
 import { Zoom } from 'zoom-next';
 
-function _iterableToArrayLimit(arr, i) {
-  var _i = null == arr ? null : "undefined" != typeof Symbol && arr[Symbol.iterator] || arr["@@iterator"];
-  if (null != _i) {
-    var _s,
-      _e,
-      _x,
-      _r,
-      _arr = [],
-      _n = !0,
-      _d = !1;
-    try {
-      if (_x = (_i = _i.call(arr)).next, 0 === i) {
-        if (Object(_i) !== _i) return;
-        _n = !1;
-      } else for (; !(_n = (_s = _x.call(_i)).done) && (_arr.push(_s.value), _arr.length !== i); _n = !0);
-    } catch (err) {
-      _d = !0, _e = err;
-    } finally {
-      try {
-        if (!_n && null != _i.return && (_r = _i.return(), Object(_r) !== _r)) return;
-      } finally {
-        if (_d) throw _e;
-      }
-    }
-    return _arr;
-  }
-}
-function _slicedToArray(arr, i) {
-  return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
-}
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-function _arrayWithHoles(arr) {
-  if (Array.isArray(arr)) return arr;
-}
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
-}
-function _unsupportedIterableToArray(o, minLen) {
-  if (!o) return;
-  if (typeof o === "string") return _arrayLikeToArray(o, minLen);
-  var n = Object.prototype.toString.call(o).slice(8, -1);
-  if (n === "Object" && o.constructor) n = o.constructor.name;
-  if (n === "Map" || n === "Set") return Array.from(o);
-  if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen);
-}
-function _arrayLikeToArray(arr, len) {
-  if (len == null || len > arr.length) len = arr.length;
-  for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
-  return arr2;
-}
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-function _nonIterableRest() {
-  throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
 const loadNext = (nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards) => {
   let c = [];
   let end = nfts.length < ITEMS_PER_PAGE ? nfts.length : ITEMS_PER_PAGE;
@@ -226,78 +164,65 @@ function styleInject(css, ref) {
 var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  max-width: 1200px;\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n}\r\n.infinite-scroll-component::-webkit-scrollbar {\r\n  width: 0;\r\n}\r\n.explorer-simple-card-trait-div {\r\n  padding-right: 5px;\r\n  display: flex;\r\n  margin: 10px 0;\r\n  /* position: relative; */\r\n}\r\n.explorer-simple-card-trait-name {\r\n  background-color: #000;\r\n  padding: 5px 10px;\r\n  border-radius: 5px;\r\n  margin-left: 10px;\r\n  text-overflow: ellipsis;\r\n}\r\n.explorer-simple-card-trait-div:hover .explorer-simple-card-trait-name {\r\n  display: block;\r\n  cursor: pointer;\r\n}\r\n/* .explorer-simple-card-trait-name {\r\n  display: none;\r\n  background-color: #6d6c6c;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  white-space: nowrap;\r\n  z-index: 22222222222;\r\n  padding: 10px 0;\r\n  border-radius: 5px;\r\n  width: 100%;\r\n  text-align: center;\r\n  height: 100%;\r\n  line-height: 15px;\r\n} */\r\n.explorer-simple-card {\r\n  display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff;\r\n  cursor: pointer;\r\n}\r\n.explorer-dark .explorer-simple-card-trait-container {\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 30px;\r\n}\r\n.explorer-simple-card-img-trait {\r\n  position: relative;\r\n  display: flex;\r\n  z-index: 333333333;\r\n}\r\n.explorer-simple-card-trait-toggler {\r\n  position: relative;\r\n  background-color: #fff9f9db;\r\n  /* padding: 10px 15px; */\r\n  height: 45px;\r\n  max-width: 40px;\r\n  border-radius: 5px;\r\n}\r\n.explorer-simple-card-trait-icon-container {\r\n  background-color: #000000db;\r\n  padding: 3px;\r\n  border-radius: 5px;\r\n}\r\n.explorer-simple-card-trait-count {\r\n  position: absolute;\r\n  bottom: -5px;\r\n  right: -5px;\r\n  color: #fff;\r\n  font-weight: 600;\r\n  background-color: red;\r\n  border-radius: 100%;\r\n  font-size: 12px;\r\n  width: 16px;\r\n  height: 16px;\r\n  text-align: center;\r\n}\r\n.explorer-simple-card-trait-count div {\r\n  /* position: absolute; */\r\n  left: 0;\r\n  right: 0;\r\n  margin: auto;\r\n}\r\n.explorer-simple-card-shown {\r\n  opacity: 1;\r\n  transition: all 0.3s;\r\n}\r\n.explorer-simple-card-hided {\r\n  opacity: 0;\r\n  transition: all 0.3s;\r\n}\r\n.explorer-simple-card-opensea-etherscan {\r\n  padding-top: 10px;\r\n  display: flex;\r\n  gap: 5px;\r\n}\r\n.explorer-simple-card-traits {\r\n  position: absolute;\r\n  bottom: 10px;\r\n  left: 10px;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  flex-direction: column;\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n.dust-pool-root {\r\n  max-width: 1140px;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  margin-top: 30px;\r\n  font-family: poppins;\r\n}\r\n.dust-pool-textbox {\r\n  text-align: center;\r\n  max-width: 600px;\r\n  margin: 0 auto;\r\n}\r\n.pool-subtitle {\r\n  font-size: 30px;\r\n  font-weight: 600;\r\n}\r\n.tab-choose {\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-bottom: 30px;\r\n  text-transform: uppercase;\r\n}\r\n.tab-choose div {\r\n  font-size: 14px;\r\n  font-weight: 500;\r\n  padding: 12px 15px;\r\n}\r\n.tab-choose div:hover {\r\n  cursor: pointer;\r\n}\r\n.tab-choose .active-tab {\r\n  background-color: #000;\r\n  color: #fff;\r\n}\r\n.tab-choose div:first-child {\r\n  border: 2px solid #000;\r\n  border-top-left-radius: 10px;\r\n  border-bottom-left-radius: 10px;\r\n}\r\n.tab-choose div:nth-child(2) {\r\n  border-top: 2px solid #000;\r\n  border-bottom: 2px solid #000;\r\n}\r\n.tab-choose div:nth-child(3) {\r\n  border: 2px solid #000;\r\n  border-top-right-radius: 10px;\r\n  border-bottom-right-radius: 10px;\r\n}\r\n/*classes from bootstrap*/\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n.container {\r\n  width: 100%;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n  margin-right: auto;\r\n  margin-left: auto;\r\n}\r\n.mt-5,\r\n.my-5 {\r\n  margin-top: 3rem !important;\r\n}\r\n.row {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  margin-right: -15px;\r\n  margin-left: -15px;\r\n}\r\n.col-12 {\r\n  flex: 0 0 100%;\r\n  max-width: 100%;\r\n}\r\n.col-12,\r\n.col-lg-6,\r\n.col-lg-3,\r\n.col-lg-4,\r\n.col-md-6 {\r\n  position: relative;\r\n  width: 100%;\r\n  min-height: 1px;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n}\r\n.col-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n.mb-1 {\r\n  margin-bottom: 0.25rem !important;\r\n}\r\n.mb-2 {\r\n  margin-bottom: 0.5rem !important;\r\n}\r\n.mb-3 {\r\n  margin-bottom: 0.75rem !important;\r\n}\r\n.mt-2 {\r\n  margin-top: 0.5rem !important;\r\n}\r\n.pb-4 {\r\n  padding-bottom: 1.5rem !important;\r\n}\r\n.w-100 {\r\n  width: 100% !important;\r\n}\r\n.text-right {\r\n  text-align: right !important;\r\n}\r\n.dust-pool-card p {\r\n  margin-block-start: 0;\r\n}\r\n.section-divider-img {\r\n  max-height: 35px;\r\n  z-index: 2;\r\n}\r\n.h-50vh {\r\n  height: 50vh !important;\r\n}\r\n@media only screen and (max-width: 500px) {\r\n  .section-divider-img {\r\n    max-height: 25px;\r\n    z-index: 2;\r\n  }\r\n}\r\n@media (min-width: 576px) {\r\n  .container {\r\n    max-width: 540px;\r\n  }\r\n}\r\n@media (max-width: 600px) {\r\n  .dust-pool-card .dust-pool-btn {\r\n    position: unset !important;\r\n  }\r\n}\r\n@media (min-width: 768px) {\r\n  .container {\r\n    max-width: 720px;\r\n  }\r\n}\r\n.col-md-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n@media (min-width: 992px) {\r\n  .container {\r\n    max-width: 960px;\r\n  }\r\n  .col-lg-6 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n  .col-lg-3 {\r\n    flex: 0 0 25%;\r\n    max-width: 25%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 33.333333%;\r\n    max-width: 33.333333%;\r\n  }\r\n}\r\n@media (min-width: 1200px) {\r\n  .container {\r\n    max-width: 1140px;\r\n  }\r\n}\r\n@media (max-width: 1000px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n}\r\n@media (max-width: 650px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 100%;\r\n    max-width: 100%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 100%;\r\n    max-width: 100%;\r\n  }\r\n}\r\n@media only screen and (max-width: 945px) {\r\n  .dust-pool-root {\r\n    max-width: 100%;\r\n  }\r\n}\r\n";
 styleInject(css_248z);
 
-var ExplorerCards = function ExplorerCards(_ref) {
-  var nftList = _ref.nftList,
-    traitTypes = _ref.traitTypes;
-    _ref.height;
-    var tokenAddres = _ref.tokenAddres,
-    openseaUrl = _ref.openseaUrl;
-    _ref.etherScanUrl;
-    _ref.componentHeight;
-    var serverUrl = _ref.serverUrl,
-    isAdmin = _ref.isAdmin,
-    updateSelectedIds = _ref.updateSelectedIds,
-    _ref$selectedCardIds = _ref.selectedCardIds,
-    selectedCardIds = _ref$selectedCardIds === void 0 ? [] : _ref$selectedCardIds,
-    showCardName = _ref.showCardName,
-    etherscanUrl = _ref.etherscanUrl,
-    columns = _ref.columns,
-    styleClass = _ref.styleClass;
-  var ITEMS_PER_PAGE = 29;
-  var _useState = useState([]),
-    _useState2 = _slicedToArray(_useState, 2),
-    cards = _useState2[0],
-    setCards = _useState2[1];
-  var _useState3 = useState(0),
-    _useState4 = _slicedToArray(_useState3, 2),
-    currentPage = _useState4[0],
-    _setCurrentPage = _useState4[1];
-  var currentPageRef = useRef(currentPage);
-  var setCurrentPage = function setCurrentPage(val) {
+const ExplorerCards = _ref => {
+  let {
+    nftList,
+    traitTypes,
+    height,
+    tokenAddres,
+    openseaUrl,
+    etherScanUrl,
+    componentHeight,
+    serverUrl,
+    isAdmin,
+    updateSelectedIds,
+    selectedCardIds = [],
+    showCardName,
+    etherscanUrl,
+    columns,
+    styleClass
+  } = _ref;
+  const ITEMS_PER_PAGE = 29;
+  const [cards, setCards] = useState([]);
+  const [currentPage, _setCurrentPage] = useState(0);
+  const currentPageRef = useRef(currentPage);
+  const setCurrentPage = val => {
     currentPageRef.current = val;
     _setCurrentPage(val);
   };
-  var handleClick = function handleClick(e, itemId) {
+  const handleClick = (e, itemId) => {
     if (!isAdmin) {
       // handleOpenOpensea(itemId);
       return;
     }
     if (e.ctrlKey) {
-      var isSelected = selectedCardIds.includes(itemId);
+      const isSelected = selectedCardIds.includes(itemId);
       if (isSelected) {
         if (updateSelectedIds) {
-          updateSelectedIds(function (prevSelectedItems) {
-            return prevSelectedItems.filter(function (id) {
-              return id !== itemId;
-            });
-          });
+          updateSelectedIds(prevSelectedItems => prevSelectedItems.filter(id => id !== itemId));
         }
       } else {
         if (updateSelectedIds) {
-          updateSelectedIds(function (prevSelectedItems) {
-            return [].concat(_toConsumableArray(prevSelectedItems), [itemId]);
-          });
+          updateSelectedIds(prevSelectedItems => [...prevSelectedItems, itemId]);
         }
       }
     }
   };
-  var handleOpenOpensea = function handleOpenOpensea(id) {
-    window.open("".concat(openseaUrl, "/").concat(tokenAddres, "/").concat(id));
+  const handleOpenOpensea = id => {
+    window.open(`${openseaUrl}/${tokenAddres}/${id}`);
   };
-  var handleEtherscan = function handleEtherscan() {
+  const handleEtherscan = () => {
     window.open(etherscanUrl);
   };
-  useEffect(function () {
+  useEffect(() => {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
-  var renderCards = function renderCards() {
-    return cards.map(function (meta, i) {
+  const renderCards = () => {
+    return cards.map((meta, i) => {
       return /*#__PURE__*/React.createElement(ExplorerCard, {
-        onKeyDown: function onKeyDown(e) {
-          return keyboardEventHandler(e.key);
-        },
+        onKeyDown: e => keyboardEventHandler(e.key),
         meta: meta,
         traitTypes: traitTypes,
         key: i,
@@ -312,16 +237,10 @@ var ExplorerCards = function ExplorerCards(_ref) {
       });
     });
   };
-  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: '100%'
-    }
-  }, /*#__PURE__*/React.createElement(InfiniteScroll, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(InfiniteScroll, {
     dataLength: cards.length,
     className: styleClass,
-    next: function next() {
-      return loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
-    },
+    next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length
     // scrollableTarget="content-container"
@@ -333,11 +252,11 @@ var ExplorerCards = function ExplorerCards(_ref) {
       }
     }, "Loading...")
   }, /*#__PURE__*/React.createElement("div", {
-    className: "row small-gutters px-2 mx-0  ",
+    className: `row small-gutters px-2 mx-0  `,
     style: {
       padding: '10px'
     }
-  }, renderCards()))));
+  }, renderCards())));
 };
 
 var _format = "hh-sol-artifact-1";
@@ -2698,16 +2617,7 @@ const ExplorerComponent = _ref => {
     };
     getTraitTypes();
   }, []);
-  return /*#__PURE__*/React.createElement("div", {
-    style: {
-      width: '100%',
-      height: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center'
-    },
-    className: `${darkMode && 'explorer-dark'}`
-  }, nftList ? /*#__PURE__*/React.createElement(React.Fragment, null, nftList.length > 0 ? /*#__PURE__*/React.createElement(ExplorerCards, {
+  return /*#__PURE__*/React.createElement(React.Fragment, null, nftList ? /*#__PURE__*/React.createElement(React.Fragment, null, nftList.length > 0 ? /*#__PURE__*/React.createElement(ExplorerCards, {
     nftList: nftList,
     traitTypes: traitTypes,
     tokenAddres: tokenAddres,
@@ -2722,13 +2632,24 @@ const ExplorerComponent = _ref => {
     etherscanUrl: etherscanUrl,
     columns: columns,
     styleClass: styleClass
-  }) : /*#__PURE__*/React.createElement("p", null, "Empty pool")) : /*#__PURE__*/React.createElement(SpinnerDotted, {
+  }) : /*#__PURE__*/React.createElement("p", null, "Empty pool")) : /*#__PURE__*/React.createElement("div", {
+    style: {
+      width: '100%',
+      height: '100%',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+    className: `${darkMode && 'explorer-dark'}`
+  }, /*#__PURE__*/React.createElement(SpinnerDotted, {
     color: "#000",
     size: 200,
     style: {
       paddingTop: '30px'
     }
-  }));
+  })))
+  // </div>
+  ;
 };
 
 export { ExplorerComponent };

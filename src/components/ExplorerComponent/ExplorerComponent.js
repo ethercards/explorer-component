@@ -35,16 +35,7 @@ const ExplorerComponent = ({
   }, []);
 
   return (
-    <div
-      style={{
-        width: '100%',
-        height: '100%',
-        display: 'flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      className={`${darkMode && 'explorer-dark'}`}
-    >
+    <>
       {nftList ? (
         <>
           {nftList.length > 0 ? (
@@ -69,9 +60,25 @@ const ExplorerComponent = ({
           )}
         </>
       ) : (
-        <SpinnerDotted color="#000" size={200} style={{ paddingTop: '30px' }} />
+        <div
+          style={{
+            width: '100%',
+            height: '100%',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+          }}
+          className={`${darkMode && 'explorer-dark'}`}
+        >
+          <SpinnerDotted
+            color="#000"
+            size={200}
+            style={{ paddingTop: '30px' }}
+          />
+        </div>
       )}
-    </div>
+    </>
+    // </div>
   );
 };
 
