@@ -178,19 +178,16 @@ const ExplorerCards = _ref => {
   let {
     nftList,
     traitTypes,
-    height,
     tokenAddres,
     openseaUrl,
     etherScanUrl,
-    componentHeight,
     serverUrl,
     isAdmin,
     updateSelectedIds,
     selectedCardIds = [],
     showCardName,
     etherscanUrl,
-    columns,
-    styleClass
+    columns
   } = _ref;
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = React.useState([]);
@@ -249,7 +246,6 @@ const ExplorerCards = _ref => {
   };
   return /*#__PURE__*/React__default["default"].createElement(React__default["default"].Fragment, null, /*#__PURE__*/React__default["default"].createElement(InfiniteScroll__default["default"], {
     dataLength: cards.length,
-    className: styleClass,
     next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length
@@ -2548,6 +2544,7 @@ const zoomFetchTokenUris = async (contract, zoom2, address) => {
 const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const [zoomContract, setZoomContract] = React.useState(null);
   const [nftList, setNftList] = React.useState(null);
+  const [error, setError] = React.useState(null);
   const provider = React.useMemo(() => {
     return getProvider(rpcUrl);
   }, [rpcUrl]); //provider
@@ -2579,7 +2576,7 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
         setNftList(res);
         fetchedRef.current = true;
       }).catch(e => {
-        console.log(e);
+        setError('Contract error');
         fetchedRef.current = true;
       });
     }
@@ -2594,7 +2591,8 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
     // }
   }, [zoomContract, tokenContract, fetchedRef.current, address]);
   return {
-    nftList
+    nftList,
+    error
   };
 };
 
@@ -2606,7 +2604,6 @@ const ExplorerComponent = _ref => {
     rpcUrl,
     openseaUrl,
     etherScanUrl,
-    componentHeight,
     serverUrl,
     isAdmin,
     updateSelectedIds,
@@ -2614,11 +2611,11 @@ const ExplorerComponent = _ref => {
     showCardName,
     darkMode,
     etherscanUrl,
-    columns,
-    styleClass
+    columns
   } = _ref;
   const {
-    nftList
+    nftList,
+    error
   } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
   const [traitTypes, setTraitTypes] = React.useState(null);
   React.useEffect(() => {
@@ -2633,15 +2630,13 @@ const ExplorerComponent = _ref => {
     tokenAddres: tokenAddres,
     openseaUrl: openseaUrl,
     etherScanUrl: etherScanUrl,
-    componentHeight: componentHeight,
     serverUrl: serverUrl,
     isAdmin: isAdmin,
     updateSelectedIds: updateSelectedIds,
     selectedCardIds: selectedCardIds,
     showCardName: showCardName,
     etherscanUrl: etherscanUrl,
-    columns: columns,
-    styleClass: styleClass
+    columns: columns
   }) : /*#__PURE__*/React__default["default"].createElement("p", null, "Empty pool")) : /*#__PURE__*/React__default["default"].createElement("div", {
     style: {
       width: '100%',
@@ -2651,13 +2646,13 @@ const ExplorerComponent = _ref => {
       justifyContent: 'center'
     },
     className: `${darkMode && 'explorer-dark'}`
-  }, /*#__PURE__*/React__default["default"].createElement(spinnersReact.SpinnerDotted, {
+  }, !error ? /*#__PURE__*/React__default["default"].createElement(spinnersReact.SpinnerDotted, {
     color: "#000",
     size: 200,
     style: {
       paddingTop: '30px'
     }
-  })))
+  }) : /*#__PURE__*/React__default["default"].createElement("p", null, error)))
   // </div>
   ;
 };

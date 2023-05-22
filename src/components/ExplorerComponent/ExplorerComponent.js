@@ -11,7 +11,6 @@ const ExplorerComponent = ({
   rpcUrl,
   openseaUrl,
   etherScanUrl,
-  componentHeight,
   serverUrl,
   isAdmin,
   updateSelectedIds,
@@ -20,9 +19,13 @@ const ExplorerComponent = ({
   darkMode,
   etherscanUrl,
   columns,
-  styleClass,
 }) => {
-  const { nftList } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
+  const { nftList, error } = useGetNftsList(
+    chainId,
+    tokenAddres,
+    poolAddress,
+    rpcUrl
+  );
   const [traitTypes, setTraitTypes] = useState(null);
 
   useEffect(() => {
@@ -45,7 +48,6 @@ const ExplorerComponent = ({
               tokenAddres={tokenAddres}
               openseaUrl={openseaUrl}
               etherScanUrl={etherScanUrl}
-              componentHeight={componentHeight}
               serverUrl={serverUrl}
               isAdmin={isAdmin}
               updateSelectedIds={updateSelectedIds}
@@ -53,7 +55,6 @@ const ExplorerComponent = ({
               showCardName={showCardName}
               etherscanUrl={etherscanUrl}
               columns={columns}
-              styleClass={styleClass}
             />
           ) : (
             <p>Empty pool</p>
@@ -70,11 +71,15 @@ const ExplorerComponent = ({
           }}
           className={`${darkMode && 'explorer-dark'}`}
         >
-          <SpinnerDotted
-            color="#000"
-            size={200}
-            style={{ paddingTop: '30px' }}
-          />
+          {!error ? (
+            <SpinnerDotted
+              color="#000"
+              size={200}
+              style={{ paddingTop: '30px' }}
+            />
+          ) : (
+            <p>{error}</p>
+          )}
         </div>
       )}
     </>

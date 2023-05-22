@@ -8,11 +8,9 @@ import './ExplorerComponent.css';
 const ExplorerCards = ({
   nftList,
   traitTypes,
-  height,
   tokenAddres,
   openseaUrl,
   etherScanUrl,
-  componentHeight,
   serverUrl,
   isAdmin,
   updateSelectedIds,
@@ -20,7 +18,6 @@ const ExplorerCards = ({
   showCardName,
   etherscanUrl,
   columns,
-  styleClass,
 }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
@@ -91,7 +88,6 @@ const ExplorerCards = ({
     <>
       <InfiniteScroll
         dataLength={cards.length}
-        className={styleClass}
         next={() =>
           loadNext(
             nftList,

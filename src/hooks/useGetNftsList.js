@@ -12,6 +12,7 @@ import { GALAXIS_REGISTRY } from '../abi/constants/addresses';
 export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const [zoomContract, setZoomContract] = useState(null);
   const [nftList, setNftList] = useState(null);
+  const [error, setError] = useState(null);
   const provider = useMemo(() => {
     return getProvider(rpcUrl);
   }, [rpcUrl]); //provider
@@ -56,7 +57,7 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
           fetchedRef.current = true;
         })
         .catch((e) => {
-          console.log(e);
+          setError('Contract error');
           fetchedRef.current = true;
         });
     }
@@ -73,5 +74,5 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
     // }
   }, [zoomContract, tokenContract, fetchedRef.current, address]);
 
-  return { nftList };
+  return { nftList, error };
 };
