@@ -1,25 +1,26 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, forwardRef } from 'react';
 import ExplorerCards from './ExplorerCards';
 import { useGetNftsList } from '../../hooks/useGetNftsList';
 import { SpinnerDotted } from 'spinners-react';
 import axios from 'axios';
 
-const ExplorerComponent = ({
-  tokenAddres,
-  poolAddress,
-  chainId,
-  rpcUrl,
-  openseaUrl,
-  etherScanUrl,
-  serverUrl,
-  isAdmin,
-  updateSelectedIds,
-  selectedCardIds,
-  showCardName,
-  darkMode,
-  etherscanUrl,
-  columns,
-}) => {
+const ExplorerComponent = forwardRef((props, ref) => {
+  const {
+    tokenAddres,
+    poolAddress,
+    chainId,
+    rpcUrl,
+    openseaUrl,
+    etherScanUrl,
+    serverUrl,
+    isAdmin,
+    updateSelectedIds,
+    selectedCardIds,
+    showCardName,
+    darkMode,
+    etherscanUrl,
+    columns,
+  } = props;
   const { nftList, error } = useGetNftsList(
     chainId,
     tokenAddres,
@@ -38,7 +39,7 @@ const ExplorerComponent = ({
   }, []);
 
   return (
-    <>
+    <div ref={ref}>
       {nftList ? (
         <>
           {nftList.length > 0 ? (
@@ -82,9 +83,9 @@ const ExplorerComponent = ({
           )}
         </div>
       )}
-    </>
+    </div>
     // </div>
   );
-};
+});
 
 export default ExplorerComponent;
