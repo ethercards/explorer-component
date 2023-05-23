@@ -18,6 +18,7 @@ const ExplorerCards = ({
   showCardName,
   etherscanUrl,
   columns,
+  cardClass,
 }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
@@ -80,6 +81,7 @@ const ExplorerCards = ({
           handleOpenOpensea={handleOpenOpensea}
           handleEtherscan={handleEtherscan}
           columns={columns}
+          cardClass={cardClass}
         />
       );
     });

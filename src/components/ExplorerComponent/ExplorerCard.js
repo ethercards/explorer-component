@@ -16,6 +16,7 @@ const ExplorerCard = ({
   handleEtherscan,
   showCardName,
   columns,
+  cardClass,
 }) => {
   const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -48,7 +49,7 @@ const ExplorerCard = ({
   const Card = () => {
     return (
       <div
-        className="explorer-simple-card"
+        className={`explorer-simple-card ${cardClass && cardClass}`}
         onClick={(e) => handleClick(e, meta.id)}
         style={{
           border: selectedItems.includes(meta.id)

@@ -50,6 +50,7 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
     }
   };
   const getNftList = async () => {
+    setNftList(null);
     if (zoomContract && tokenContract && address) {
       await zoomFetchTokenUris(tokenContract, zoomContract, address)
         .then((res) => {

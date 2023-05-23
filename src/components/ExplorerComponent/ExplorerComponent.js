@@ -20,7 +20,10 @@ const ExplorerComponent = forwardRef((props, ref) => {
     darkMode,
     etherscanUrl,
     columns,
+    componentClass,
+    cardClass,
   } = props;
+
   const { nftList, error } = useGetNftsList(
     chainId,
     tokenAddres,
@@ -39,7 +42,7 @@ const ExplorerComponent = forwardRef((props, ref) => {
   }, []);
 
   return (
-    <div ref={ref}>
+    <div ref={ref} className={componentClass && componentClass}>
       {nftList ? (
         <>
           {nftList.length > 0 ? (
@@ -56,6 +59,7 @@ const ExplorerComponent = forwardRef((props, ref) => {
               showCardName={showCardName}
               etherscanUrl={etherscanUrl}
               columns={columns}
+              cardClass={cardClass}
             />
           ) : (
             <p>Empty pool</p>
