@@ -15,7 +15,7 @@
 .explorer-simple-card-trait-div {
   padding-right: 5px;
   display: flex;
-  margin: 10px 0;
+  margin: 8px 0;
   /* position: relative; */
 }
 .explorer-simple-card-trait-name {
@@ -61,7 +61,7 @@
   background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));
 }
 .explorer-simple-card-trait {
-  max-width: 30px;
+  max-width: 24px;
 }
 .explorer-simple-card-img-trait {
   position: relative;
@@ -72,8 +72,8 @@
   position: relative;
   background-color: #fff9f9db;
   /* padding: 10px 15px; */
-  height: 45px;
-  max-width: 40px;
+  height: 35px;
+  max-width: 30px;
   border-radius: 5px;
 }
 .explorer-simple-card-trait-icon-container {
@@ -246,6 +246,18 @@
   .section-divider-img {
     max-height: 25px;
     z-index: 2;
+  }
+}
+@media only screen and (max-width: 450px) {
+  .explorer-simple-card-trait {
+    max-width: 20px;
+  }
+  .explorer-simple-card-trait-toggler {
+    height: 31px;
+    max-width: 25px;
+  }
+  .explorer-simple-card-trait-div {
+    margin: 6px 0;
   }
 }
 @media (min-width: 576px) {
