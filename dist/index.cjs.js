@@ -2548,7 +2548,14 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const provider = React.useMemo(() => {
     return getProvider(rpcUrl);
   }, [rpcUrl]); //provider
-  const tokenContract = React.useMemo(() => new ethers.Contract(contractAddres, tokenABI.abi, provider), [contractAddres, provider]);
+  const makeContract = () => {
+    if (!contractAddres || !rpcUrl) {
+      setError('No token contract or rpc');
+      return;
+    }
+    return new ethers.Contract(contractAddres, tokenABI.abi, provider);
+  };
+  const tokenContract = React.useMemo(() => makeContract(), [(provider)]);
   const fetchedRef = React.useRef(false);
   const createZoomcontract = async () => {
     if (provider) {

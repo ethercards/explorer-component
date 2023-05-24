@@ -16,10 +16,18 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const provider = useMemo(() => {
     return getProvider(rpcUrl);
   }, [rpcUrl]); //provider
+  const makeContract = () => {
+    if (!contractAddres || !rpcUrl) {
+      setError('No token contract or rpc');
+      return;
+    }
+    return new Contract(contractAddres, tokenABI.abi, provider);
+  };
   const tokenContract = useMemo(
-    () => new Contract(contractAddres, tokenABI.abi, provider),
-    [contractAddres, provider]
+    () => makeContract(),
+    [(contractAddres, provider)]
   );
+
   const fetchedRef = useRef(false);
 
   const createZoomcontract = async () => {
