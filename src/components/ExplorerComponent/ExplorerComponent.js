@@ -22,8 +22,9 @@ const ExplorerComponent = forwardRef((props, ref) => {
     columns,
     componentClass,
     cardClass,
+    disableLoading,
   } = props;
-
+  if (disableLoading) return <p style={{ textAlign: 'center' }}>Empty pool</p>;
   const { nftList, error } = useGetNftsList(
     chainId,
     tokenAddres,
@@ -42,7 +43,11 @@ const ExplorerComponent = forwardRef((props, ref) => {
   }, []);
 
   return (
-    <div ref={ref} className={componentClass && componentClass}>
+    <div
+      ref={ref}
+      style={{ height: '100%' }}
+      className={componentClass && componentClass}
+    >
       {nftList ? (
         <>
           {nftList.length > 0 ? (
@@ -74,7 +79,6 @@ const ExplorerComponent = forwardRef((props, ref) => {
             alignItems: 'center',
             justifyContent: 'center',
           }}
-          className={`${darkMode && 'explorer-dark'}`}
         >
           {!error ? (
             <SpinnerDotted

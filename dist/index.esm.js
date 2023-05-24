@@ -30,8 +30,6 @@ const ExplorerCard = _ref => {
   let {
     meta,
     traitTypes,
-    key,
-    keyForChild,
     handleClick,
     serverUrl,
     selectedItems = [],
@@ -224,7 +222,6 @@ const ExplorerCards = _ref => {
         onKeyDown: e => keyboardEventHandler(e.key),
         meta: meta,
         traitTypes: traitTypes,
-        key: i,
         keyForChild: i,
         handleClick: handleClick,
         serverUrl: serverUrl,
@@ -253,7 +250,7 @@ const ExplorerCards = _ref => {
   }, /*#__PURE__*/React.createElement("div", {
     className: `row small-gutters px-2 mx-0  `,
     style: {
-      padding: '10px'
+      padding: '0 10px'
     }
   }, renderCards())));
 };
@@ -2583,7 +2580,7 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
     // if (fetchedRef.current === false) {
     getNftList();
     // }
-  }, [zoomContract, tokenContract, fetchedRef.current, address]);
+  }, [zoomContract, tokenContract, address]);
   return {
     nftList,
     error
@@ -2607,8 +2604,14 @@ const ExplorerComponent = /*#__PURE__*/forwardRef((props, ref) => {
     etherscanUrl,
     columns,
     componentClass,
-    cardClass
+    cardClass,
+    disableLoading
   } = props;
+  if (disableLoading) return /*#__PURE__*/React.createElement("p", {
+    style: {
+      textAlign: 'center'
+    }
+  }, "Empty pool");
   const {
     nftList,
     error
@@ -2622,6 +2625,9 @@ const ExplorerComponent = /*#__PURE__*/forwardRef((props, ref) => {
   }, []);
   return /*#__PURE__*/React.createElement("div", {
     ref: ref,
+    style: {
+      height: '100%'
+    },
     className: componentClass && componentClass
   }, nftList ? /*#__PURE__*/React.createElement(React.Fragment, null, nftList.length > 0 ? /*#__PURE__*/React.createElement(ExplorerCards, {
     nftList: nftList,
@@ -2644,8 +2650,7 @@ const ExplorerComponent = /*#__PURE__*/forwardRef((props, ref) => {
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'center'
-    },
-    className: `${darkMode && 'explorer-dark'}`
+    }
   }, !error ? /*#__PURE__*/React.createElement(SpinnerDotted, {
     color: "#000",
     size: 200,

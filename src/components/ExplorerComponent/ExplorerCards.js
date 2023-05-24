@@ -72,7 +72,6 @@ const ExplorerCards = ({
           onKeyDown={(e) => keyboardEventHandler(e.key)}
           meta={meta}
           traitTypes={traitTypes}
-          key={i}
           keyForChild={i}
           handleClick={handleClick}
           serverUrl={serverUrl}
@@ -107,7 +106,7 @@ const ExplorerCards = ({
       >
         <div
           className={`row small-gutters px-2 mx-0  `}
-          style={{ padding: '10px' }}
+          style={{ padding: '0 10px' }}
         >
           {renderCards()}
         </div>

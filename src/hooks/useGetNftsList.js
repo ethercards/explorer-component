@@ -73,7 +73,7 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
     // if (fetchedRef.current === false) {
     getNftList();
     // }
-  }, [zoomContract, tokenContract, fetchedRef.current, address]);
+  }, [zoomContract, tokenContract, address]);
 
   return { nftList, error };
 };

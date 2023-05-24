@@ -7,8 +7,6 @@ import traitsIcon from '../../assets/icons/traits.svg';
 const ExplorerCard = ({
   meta,
   traitTypes,
-  key,
-  keyForChild,
   handleClick,
   serverUrl,
   selectedItems = [],
