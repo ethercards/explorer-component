@@ -13,74 +13,68 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const [zoomContract, setZoomContract] = useState(null);
   const [nftList, setNftList] = useState(null);
   const [error, setError] = useState(null);
-  const provider = useMemo(() => {
-    return getProvider(rpcUrl);
-  }, [rpcUrl]); //provider
-  const makeContract = () => {
+  const provider = useMemo(() => getProvider(rpcUrl), [rpcUrl]);
+
+  const tokenContract = useMemo(() => {
     if (!contractAddres || !rpcUrl) {
       setError('No token contract or rpc');
-      return;
+      return null;
     }
     return new Contract(contractAddres, tokenABI.abi, provider);
-  };
-  const tokenContract = useMemo(
-    () => makeContract(),
-    [(contractAddres, provider)]
-  );
+  }, [contractAddres, provider, rpcUrl]);
 
   const fetchedRef = useRef(false);
 
-  const createZoomcontract = async () => {
-    if (provider) {
-      const galaxisRegistry = getContract(
-        GALAXIS_REGISTRY,
-        GalaxisRegistry.abi,
-        provider,
-        false
-      );
-      let zoomAddress;
-      if (galaxisRegistry) {
-        zoomAddress = await galaxisRegistry
-          .getRegistryAddress('ZOOM')
-          .catch((e) => {
-            console.log('registry error', e);
-          });
-      }
-      if (zoomAddress) {
+  const createZoomContract = async () => {
+    if (!provider) return;
+
+    const galaxisRegistry = getContract(
+      GALAXIS_REGISTRY,
+      GalaxisRegistry.abi,
+      provider,
+      false
+    );
+
+    if (galaxisRegistry) {
+      try {
+        const zoomAddress = await galaxisRegistry.getRegistryAddress('ZOOM');
         let contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
         if (contract) {
           setZoomContract(contract);
         } else {
-          zoomAddress = useZoom2Contract(chainId);
+          const zoomAddress = useZoom2Contract(chainId);
           setZoomContract(zoomAddress);
         }
+      } catch (error) {
+        console.log('registry error', error);
       }
     }
   };
+
   const getNftList = async () => {
     setNftList(null);
     if (zoomContract && tokenContract && address) {
-      await zoomFetchTokenUris(tokenContract, zoomContract, address)
-        .then((res) => {
-          setNftList(res);
-          fetchedRef.current = true;
-        })
-        .catch((e) => {
-          setError('Contract error');
-          fetchedRef.current = true;
-        });
+      try {
+        const res = await zoomFetchTokenUris(
+          tokenContract,
+          zoomContract,
+          address
+        );
+        setNftList(res);
+        fetchedRef.current = true;
+      } catch (error) {
+        setError('Contract error');
+        fetchedRef.current = true;
+      }
     }
   };
 
   useEffect(() => {
-    createZoomcontract();
+    createZoomContract();
   }, [chainId, rpcUrl]);
 
   useEffect(() => {
-    console.log(tokenContract, ' tokencontract valtozott');
-    // if (fetchedRef.current === false) {
     getNftList();
-    // }
   }, [zoomContract, tokenContract, address]);
 
   return { nftList, error };

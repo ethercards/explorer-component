@@ -1,30 +1,24 @@
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useEffect, useState, useRef, useContext } from 'react';
 import InfiniteScroll from 'react-infinite-scroll-component';
 
 import { loadNext } from '../InfiniteScrollHelpers';
 import ExplorerCard from './ExplorerCard';
 import './ExplorerComponent.css';
+import { ExpContext } from './ExpContext';
 
 const ExplorerCards = ({
   nftList,
   traitTypes,
-  tokenAddres,
-  openseaUrl,
-  etherScanUrl,
-  serverUrl,
-  isAdmin,
   updateSelectedIds,
   selectedCardIds = [],
-  showCardName,
-  etherscanUrl,
-  columns,
-  cardClass,
-  componentHeight,
 }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
   const [currentPage, _setCurrentPage] = useState(0);
   const currentPageRef = useRef(currentPage);
+  const { tokenAddres, openseaUrl, isAdmin, etherscanUrl, componentHeight } =
+    useContext(ExpContext);
+
   const setCurrentPage = (val) => {
     currentPageRef.current = val;
     _setCurrentPage(val);
@@ -75,13 +69,9 @@ const ExplorerCards = ({
           traitTypes={traitTypes}
           keyForChild={i}
           handleClick={handleClick}
-          serverUrl={serverUrl}
           selectedItems={selectedCardIds}
-          showCardName={showCardName}
           handleOpenOpensea={handleOpenOpensea}
           handleEtherscan={handleEtherscan}
-          columns={columns}
-          cardClass={cardClass}
         />
       );
     });
