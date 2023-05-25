@@ -53,8 +53,8 @@
   color: #fff;
   cursor: pointer;
 }
-.explorer-dark .explorer-simple-card-trait-container {
-  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));
+.dark .explorer-simple-card-trait-container {
+  background: linear-gradient(rgb(62 97 133), rgb(35 63 90));
 }
 .explorer-simple-card-trait-container {
   padding: 10px;
