@@ -23,6 +23,7 @@ const ExplorerComponent = forwardRef((props, ref) => {
     componentClass,
     cardClass,
     disableLoading,
+    componentHeight,
   } = props;
   if (disableLoading) return <p style={{ textAlign: 'center' }}>Empty pool</p>;
   const { nftList, error } = useGetNftsList(
@@ -65,6 +66,7 @@ const ExplorerComponent = forwardRef((props, ref) => {
               etherscanUrl={etherscanUrl}
               columns={columns}
               cardClass={cardClass}
+              componentHeight={componentHeight}
             />
           ) : (
             <p>Empty pool</p>

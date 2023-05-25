@@ -19,6 +19,7 @@ const ExplorerCards = ({
   etherscanUrl,
   columns,
   cardClass,
+  componentHeight,
 }) => {
   const ITEMS_PER_PAGE = 29;
   const [cards, setCards] = useState([]);
@@ -102,6 +103,7 @@ const ExplorerCards = ({
         hasMore={currentPageRef.current * ITEMS_PER_PAGE < nftList.length}
         // scrollableTarget="content-container"
         // initialScrollY={1000}
+        height={componentHeight}
         loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
       >
         <div
