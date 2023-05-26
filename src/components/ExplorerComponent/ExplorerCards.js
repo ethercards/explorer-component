@@ -68,6 +68,7 @@ const ExplorerCards = ({
         <ExplorerCard
           onKeyDown={(e) => keyboardEventHandler(e.key)}
           meta={meta}
+          key={i}
           traitTypes={traitTypes}
           keyForChild={i}
           handleClick={handleClick}

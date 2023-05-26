@@ -65,7 +65,7 @@ const ExplorerCard = ({
 
     return (
       <div
-        className={`explorer-simple-card ${cardClass && cardClass} ${
+        className={`explorer-simple-card ${cardClass ? cardClass : ''} ${
           selectedCardClass && selectedItems.includes(meta.id)
             ? selectedCardClass
             : ''
