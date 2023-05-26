@@ -291,6 +291,7 @@ const ExplorerCards = _ref => {
   const currentPageRef = React.useRef(currentPage);
   const {
     tokenAddres,
+    poolAddress,
     openseaUrl,
     isAdmin,
     etherscanUrl,
@@ -328,8 +329,10 @@ const ExplorerCards = _ref => {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
-    updateSelectedIds([]);
   }, [nftList]);
+  React.useEffect(() => {
+    updateSelectedIds([]);
+  }, [nftList, tokenAddres, poolAddress]);
   const renderCards = () => {
     return cards.map((meta, i) => {
       return /*#__PURE__*/React__default["default"].createElement(ExplorerCard, {

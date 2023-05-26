@@ -16,8 +16,14 @@ const ExplorerCards = ({
   const [cards, setCards] = useState([]);
   const [currentPage, _setCurrentPage] = useState(0);
   const currentPageRef = useRef(currentPage);
-  const { tokenAddres, openseaUrl, isAdmin, etherscanUrl, componentHeight } =
-    useContext(ExpContext);
+  const {
+    tokenAddres,
+    poolAddress,
+    openseaUrl,
+    isAdmin,
+    etherscanUrl,
+    componentHeight,
+  } = useContext(ExpContext);
 
   const setCurrentPage = (val) => {
     currentPageRef.current = val;
@@ -59,8 +65,11 @@ const ExplorerCards = ({
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
-    updateSelectedIds([]);
   }, [nftList]);
+
+  useEffect(() => {
+    updateSelectedIds([]);
+  }, [nftList, tokenAddres, poolAddress]);
 
   const renderCards = () => {
     return cards.map((meta, i) => {
