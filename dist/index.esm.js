@@ -166,7 +166,7 @@ const ExplorerCard = _ref => {
       handleEtherscan();
     };
     return /*#__PURE__*/React.createElement("div", {
-      className: `explorer-simple-card ${cardClass && cardClass} ${selectedCardClass && selectedItems.includes(meta.id) ? selectedCardClass : ''}`,
+      className: `explorer-simple-card ${cardClass ? cardClass : ''} ${selectedCardClass && selectedItems.includes(meta.id) ? selectedCardClass : ''}`,
       onClick: handleCardClick
     }, /*#__PURE__*/React.createElement("div", {
       className: "explorer-simple-card-img-trait"
@@ -325,6 +325,7 @@ const ExplorerCards = _ref => {
       return /*#__PURE__*/React.createElement(ExplorerCard, {
         onKeyDown: e => keyboardEventHandler(e.key),
         meta: meta,
+        key: i,
         traitTypes: traitTypes,
         keyForChild: i,
         handleClick: handleClick,
