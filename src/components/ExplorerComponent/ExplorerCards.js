@@ -47,6 +47,7 @@ const ExplorerCards = ({
       }
     }
   };
+
   const handleOpenOpensea = (id) => {
     window.open(`${openseaUrl}/${tokenAddres}/${id}`);
   };
@@ -58,6 +59,7 @@ const ExplorerCards = ({
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
+    updateSelectedIds([]);
   }, [nftList]);
 
   const renderCards = () => {
