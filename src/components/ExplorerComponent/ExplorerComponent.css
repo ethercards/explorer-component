@@ -52,6 +52,10 @@
   overflow: hidden;
   color: #fff;
   cursor: pointer;
+  border: 2px solid transparent;
+}
+.selected-simple-card {
+  border: 2px solid #000;
 }
 .dark .explorer-simple-card-trait-container {
   background: linear-gradient(rgb(62 97 133), rgb(35 63 90));

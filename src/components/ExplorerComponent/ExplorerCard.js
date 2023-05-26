@@ -17,7 +17,7 @@ const ExplorerCard = ({
   const [metadata, setMetadata] = useState(null);
   const [loading, setLoading] = useState(true);
   const [showTraits, setShowTraits] = useState(false);
-  const { serverUrl, showCardName, columns, cardClass } =
+  const { serverUrl, showCardName, columns, cardClass, selectedCardClass } =
     useContext(ExpContext);
 
   useEffect(() => {
@@ -65,13 +65,12 @@ const ExplorerCard = ({
 
     return (
       <div
-        className={`explorer-simple-card ${cardClass && cardClass}`}
+        className={`explorer-simple-card ${cardClass && cardClass} ${
+          selectedCardClass && selectedItems.includes(meta.id)
+            ? selectedCardClass
+            : ''
+        }`}
         onClick={handleCardClick}
-        style={{
-          border: selectedItems.includes(meta.id)
-            ? '2px solid black'
-            : '2px solid transparent',
-        }}
       >
         <div className="explorer-simple-card-img-trait">
           <img src={metadata.image} style={{ maxWidth: '100%' }} />
