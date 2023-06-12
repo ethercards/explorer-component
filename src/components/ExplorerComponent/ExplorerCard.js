@@ -5,7 +5,7 @@ import openseaIcon from '../../assets/icons/opensea.svg';
 import etherscanIcon from '../../assets/icons/etherscan.svg';
 import traitsIcon from '../../assets/icons/traits.svg';
 import { ExpContext } from './ExpContext';
-
+import { GalaxisCard } from 'galaxis-upgraded-card';
 const ExplorerCard = ({
   meta,
   traitTypes,
@@ -26,6 +26,7 @@ const ExplorerCard = ({
       try {
         const response = await axios.get(meta.tokenURI);
         setMetadata(response.data);
+        console.log(response, ' response');
       } catch (error) {
         console.log('Error:', error);
       }
@@ -72,77 +73,96 @@ const ExplorerCard = ({
         }`}
         onClick={handleCardClick}
       >
-        <div className="explorer-simple-card-img-trait">
-          <img src={metadata.image} style={{ maxWidth: '100%' }} />
-          <div className="explorer-simple-card-traits">
-            {metadata.traits && metadata.traits.length > 0 && (
-              <>
-                <div
-                  className={`${
-                    showTraits
-                      ? 'explorer-simple-card-shown'
-                      : 'explorer-simple-card-hided'
-                  }`}
-                >
-                  {metadata.traits.map((trait, index) => {
-                    if (trait.icon_url) {
-                      return (
-                        <div
-                          className="explorer-simple-card-trait-div"
-                          key={index}
-                        >
-                          <div className="explorer-simple-card-trait-icon-container">
-                            <img
-                              className="explorer-simple-card-trait"
-                              src={trait.icon_url}
-                              alt={`Trait ${index}`}
-                            />
-                          </div>
-                          <div className="explorer-simple-card-trait-name">
-                            {trait.name}
-                          </div>
-                        </div>
-                      );
-                    } else {
-                      return (
-                        <GetTraitImage traitType={trait.type} key={index} />
-                      );
-                    }
-                  })}
-                </div>
-                <div
-                  className="explorer-simple-card-trait-toggler"
-                  onClick={handleTraitTogglerClick}
-                >
-                  <img src={traitsIcon} alt="Traits Icon" />
-                  <div className="explorer-simple-card-trait-count">
-                    <div>{metadata.traits.length}</div>
-                  </div>
-                </div>
-              </>
-            )}
-          </div>
-        </div>
-        <div className="explorer-simple-card-trait-container">
-          <div className="explorer-simple-card-token-name">
-            {showCardName ? metadata.name : `#${meta.id}`}
-          </div>
-          <div className="explorer-simple-card-opensea-etherscan">
-            <img
-              src={openseaIcon}
-              style={{ maxHeight: '30px' }}
-              onClick={handleOpenseaClick}
-              alt="Opensea Icon"
-            />
-            <img
-              src={etherscanIcon}
-              style={{ maxHeight: '30px' }}
-              onClick={handleEtherscanClick}
-              alt="Etherscan Icon"
-            />
-          </div>
+        <div style={{ height: '300px' }}>
+          <GalaxisCard
+            name="Teszt"
+            metadata={metadata}
+            traitTypes={traitTypes}
+            horizontalPadding={20}
+            imageContainerWidth={400}
+            apiUrl={serverUrl}
+          />
         </div>
       </div>
+      // <div
+      //   className={`explorer-simple-card ${cardClass ? cardClass : ''} ${
+      //     selectedCardClass && selectedItems.includes(meta.id)
+      //       ? selectedCardClass
+      //       : ''
+      //   }`}
+      //   onClick={handleCardClick}
+      // >
+      //   <div className="explorer-simple-card-img-trait">
+      //     <img src={metadata.image} style={{ maxWidth: '100%' }} />
+      //     <div className="explorer-simple-card-traits">
+      //       {metadata.traits && metadata.traits.length > 0 && (
+      //         <>
+      //           <div
+      //             className={`${
+      //               showTraits
+      //                 ? 'explorer-simple-card-shown'
+      //                 : 'explorer-simple-card-hided'
+      //             }`}
+      //           >
+      //             {metadata.traits.map((trait, index) => {
+      //               if (trait.icon_url) {
+      //                 return (
+      //                   <div
+      //                     className="explorer-simple-card-trait-div"
+      //                     key={index}
+      //                   >
+      //                     <div className="explorer-simple-card-trait-icon-container">
+      //                       <img
+      //                         className="explorer-simple-card-trait"
+      //                         src={trait.icon_url}
+      //                         alt={`Trait ${index}`}
+      //                       />
+      //                     </div>
+      //                     <div className="explorer-simple-card-trait-name">
+      //                       {trait.name}
+      //                     </div>
+      //                   </div>
+      //                 );
+      //               } else {
+      //                 return (
+      //                   <GetTraitImage traitType={trait.type} key={index} />
+      //                 );
+      //               }
+      //             })}
+      //           </div>
+      //           <div
+      //             className="explorer-simple-card-trait-toggler"
+      //             onClick={handleTraitTogglerClick}
+      //           >
+      //             <img src={traitsIcon} alt="Traits Icon" />
+      //             <div className="explorer-simple-card-trait-count">
+      //               <div>{metadata.traits.length}</div>
+      //             </div>
+      //           </div>
+      //         </>
+      //       )}
+      //     </div>
+      //   </div>
+      //   <div className="explorer-simple-card-trait-container">
+      //     <div className="explorer-simple-card-token-name">
+      //       {showCardName ? metadata.name : `#${meta.id}`}
+      //     </div>
+      //     <div className="explorer-simple-card-opensea-etherscan">
+      //       <img
+      //         src={openseaIcon}
+      //         style={{ maxHeight: '30px' }}
+      //         onClick={handleOpenseaClick}
+      //         alt="Opensea Icon"
+      //       />
+      //       <img
+      //         src={etherscanIcon}
+      //         style={{ maxHeight: '30px' }}
+      //         onClick={handleEtherscanClick}
+      //         alt="Etherscan Icon"
+      //       />
+      //     </div>
+      //   </div>
+      // </div>
     );
   };
 

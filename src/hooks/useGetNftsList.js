@@ -1,6 +1,7 @@
 import { useEffect, useMemo, useState, useRef } from 'react';
 import { Contract } from 'ethers';
-
+import { Buffer } from 'buffer';
+window.Buffer = window.Buffer || Buffer;
 import { getProvider, useZoom2Contract } from '../utils/contract';
 import { getContract } from '../utils/contract';
 import GalaxisRegistry from '../abi/GalaxisRegistry.json';
@@ -14,7 +15,6 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const [nftList, setNftList] = useState(null);
   const [error, setError] = useState(null);
   const provider = useMemo(() => getProvider(rpcUrl), [rpcUrl]);
-
   const tokenContract = useMemo(() => {
     if (!contractAddres || !rpcUrl) {
       setError('No token contract or rpc');
@@ -53,6 +53,12 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
 
   const getNftList = async () => {
     setNftList(null);
+    console.log(
+      zoomContract,
+      tokenContract,
+      address,
+      ' zoomContract && tokenContract && address'
+    );
     if (zoomContract && tokenContract && address) {
       try {
         const res = await zoomFetchTokenUris(
@@ -63,6 +69,7 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
         setNftList(res);
         fetchedRef.current = true;
       } catch (error) {
+        console.log(error, ' error');
         setError('Contract error');
         fetchedRef.current = true;
       }
