@@ -12,11 +12,10 @@
 .infinite-scroll-component::-webkit-scrollbar {
   width: 0;
 }
-.explorer-simple-card-trait-div {
+/* .explorer-simple-card-trait-div {
   padding-right: 5px;
   display: flex;
   margin: 8px 0;
-  /* position: relative; */
 }
 .explorer-simple-card-trait-name {
   background-color: #000;
@@ -28,7 +27,7 @@
 .explorer-simple-card-trait-div:hover .explorer-simple-card-trait-name {
   display: block;
   cursor: pointer;
-}
+} */
 /* .explorer-simple-card-trait-name {
   display: none;
   background-color: #6d6c6c;

@@ -66,6 +66,7 @@ const ExplorerCard = ({
 
     return (
       <div
+        style={{ height: '400px' }}
         className={`explorer-simple-card ${cardClass ? cardClass : ''} ${
           selectedCardClass && selectedItems.includes(meta.id)
             ? selectedCardClass
@@ -73,17 +74,16 @@ const ExplorerCard = ({
         }`}
         onClick={handleCardClick}
       >
-        <div style={{ height: '300px' }}>
-          <GalaxisCard
-            name="Teszt"
-            metadata={metadata}
-            traitTypes={traitTypes}
-            horizontalPadding={20}
-            imageContainerWidth={400}
-            apiUrl={serverUrl}
-          />
-        </div>
+        <GalaxisCard
+          name="Teszt"
+          metadata={metadata}
+          traitTypes={traitTypes}
+          horizontalPadding={20}
+          imageContainerWidth={400}
+          apiUrl={serverUrl}
+        />
       </div>
+
       // <div
       //   className={`explorer-simple-card ${cardClass ? cardClass : ''} ${
       //     selectedCardClass && selectedItems.includes(meta.id)
