@@ -44,12 +44,12 @@
   line-height: 15px;
 } */
 .explorer-simple-card {
-  display: flex;
+  /* display: flex;
   flex-direction: column;
   text-align: left;
   border-radius: 10px;
   overflow: hidden;
-  color: #fff;
+  color: #fff; */
   cursor: pointer;
   border: 2px solid transparent;
 }
