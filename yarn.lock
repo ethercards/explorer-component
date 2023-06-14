@@ -8936,8 +8936,8 @@ functions-have-names@^1.2.2, functions-have-names@^1.2.3:
   integrity sha512-xckBUXyTIqT97tq2x2AMb+g163b5JFysYk0x4qxNFwbfQkmNZoiRHb6sPzI9/QV33WeuvVYBUIiD4NzNIyqaRQ==
 
 "galaxis-upgraded-card@https://github.com/ethercards/galaxis-upgraded-card.git":
-  version "0.1.15"
-  resolved "https://github.com/ethercards/galaxis-upgraded-card.git#33d5d3ba09840cc66971a99ee8a9abf9ebef1592"
+  version "0.1.16"
+  resolved "https://github.com/ethercards/galaxis-upgraded-card.git#7186ffa4cefcbb86375aba628ee739c9c136779e"
 
 ganache-core@^2.13.2:
   version "2.13.2"
