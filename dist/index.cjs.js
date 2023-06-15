@@ -433,10 +433,7 @@ var ExplorerCards = function ExplorerCards(_ref) {
       }
     }, "Loading...")
   }, /*#__PURE__*/React__default["default"].createElement("div", {
-    className: "row small-gutters px-2 mx-0  ",
-    style: {
-      padding: '0 10px'
-    }
+    className: "row small-gutters px-2 mx-0  "
   }, renderCards())));
 };
 

@@ -108,12 +108,7 @@ const ExplorerCards = ({
         height={componentHeight}
         loader={<h4 style={{ textAlign: 'center' }}>Loading...</h4>}
       >
-        <div
-          className={`row small-gutters px-2 mx-0  `}
-          style={{ padding: '0 10px' }}
-        >
-          {renderCards()}
-        </div>
+        <div className={`row small-gutters px-2 mx-0  `}>{renderCards()}</div>
       </InfiniteScroll>
     </>
   );
