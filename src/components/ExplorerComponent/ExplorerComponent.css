@@ -3,7 +3,6 @@
   text-align: center;
 }
 .infinite-scroll-component__outerdiv {
-  max-width: 1200px;
   margin: 0 auto;
 }
 .infinite-scroll-component {
@@ -207,8 +206,8 @@
   position: relative;
   width: 100%;
   min-height: 1px;
-  padding-right: 15px;
-  padding-left: 15px;
+  padding-right: 10px;
+  padding-left: 10px;
 }
 .col-6 {
   flex: 0 0 50%;
