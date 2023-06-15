@@ -7,6 +7,7 @@
 }
 .infinite-scroll-component {
   overflow-x: hidden !important;
+  padding: 5px;
 }
 .infinite-scroll-component::-webkit-scrollbar {
   width: 0;
@@ -54,6 +55,7 @@
 }
 .selected-simple-card {
   border: 2px solid #000;
+  border-radius: 22px;
 }
 .dark .explorer-simple-card-trait-container {
   background: linear-gradient(rgb(62 97 133), rgb(35 63 90));
