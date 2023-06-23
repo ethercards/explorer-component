@@ -2901,6 +2901,7 @@ const ExplorerComponent = /*#__PURE__*/forwardRef((props, ref) => {
     getTraitTypes();
   }, [serverUrl]);
   useEffect(() => {
+    if (!setLoaded) return;
     setLoaded(loaded);
   }, [loaded]);
   return /*#__PURE__*/React.createElement("div", {

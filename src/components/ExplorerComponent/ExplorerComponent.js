@@ -45,6 +45,7 @@ const ExplorerComponent = forwardRef((props, ref) => {
     getTraitTypes();
   }, [serverUrl]);
   useEffect(() => {
+    if (!setLoaded) return;
     setLoaded(loaded);
   }, [loaded]);
 
