@@ -2795,7 +2795,7 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const [zoomContract, setZoomContract] = useState(null);
   const [nftList, setNftList] = useState(null);
   const [error, setError] = useState(null);
-  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const provider = useMemo(() => getProvider(rpcUrl), [rpcUrl]);
   const tokenContract = useMemo(() => {
     if (!contractAddres || !rpcUrl) {
@@ -2809,7 +2809,6 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const createZoomContract = async () => {
     if (!provider) return;
     const galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
-    setLoading(true);
 
     if (galaxisRegistry) {
       try {
@@ -2823,7 +2822,6 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
           setZoomContract(zoomAddress);
         }
       } catch (error) {
-        setLoading(false);
         console.log('registry error', error);
       }
     }
@@ -2838,12 +2836,12 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
         const res = await zoomFetchTokenUris(tokenContract, zoomContract, address);
         setNftList(res);
         fetchedRef.current = true;
-        setLoading(false);
+        setLoaded(true);
       } catch (error) {
         console.log(error, ' error');
         setError('Contract error');
         fetchedRef.current = true;
-        setLoading(false);
+        setLoaded(true);
       }
     }
   };
@@ -2857,7 +2855,7 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   return {
     nftList,
     error,
-    loading
+    loaded
   };
 };
 
@@ -2872,7 +2870,7 @@ const ExplorerComponent = /*#__PURE__*/forwardRef((props, ref) => {
     updateSelectedIds,
     componentClass,
     disableLoading,
-    setLoading
+    setLoaded
   } = props;
   if (disableLoading) return /*#__PURE__*/React.createElement("p", {
     style: {
@@ -2887,7 +2885,7 @@ const ExplorerComponent = /*#__PURE__*/forwardRef((props, ref) => {
   const {
     nftList,
     error,
-    loading
+    loaded
   } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
   const [traitTypes, setTraitTypes] = useState(null);
   useEffect(() => {
@@ -2903,8 +2901,8 @@ const ExplorerComponent = /*#__PURE__*/forwardRef((props, ref) => {
     getTraitTypes();
   }, [serverUrl]);
   useEffect(() => {
-    setLoading(loading);
-  }, [loading]);
+    setLoaded(loaded);
+  }, [loaded]);
   return /*#__PURE__*/React.createElement("div", {
     ref: ref,
     style: {

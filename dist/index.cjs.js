@@ -2805,7 +2805,7 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const [zoomContract, setZoomContract] = React.useState(null);
   const [nftList, setNftList] = React.useState(null);
   const [error, setError] = React.useState(null);
-  const [loading, setLoading] = React.useState(false);
+  const [loaded, setLoaded] = React.useState(false);
   const provider = React.useMemo(() => getProvider(rpcUrl), [rpcUrl]);
   const tokenContract = React.useMemo(() => {
     if (!contractAddres || !rpcUrl) {
@@ -2819,7 +2819,6 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const createZoomContract = async () => {
     if (!provider) return;
     const galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
-    setLoading(true);
 
     if (galaxisRegistry) {
       try {
@@ -2833,7 +2832,6 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
           setZoomContract(zoomAddress);
         }
       } catch (error) {
-        setLoading(false);
         console.log('registry error', error);
       }
     }
@@ -2848,12 +2846,12 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
         const res = await zoomFetchTokenUris(tokenContract, zoomContract, address);
         setNftList(res);
         fetchedRef.current = true;
-        setLoading(false);
+        setLoaded(true);
       } catch (error) {
         console.log(error, ' error');
         setError('Contract error');
         fetchedRef.current = true;
-        setLoading(false);
+        setLoaded(true);
       }
     }
   };
@@ -2867,7 +2865,7 @@ const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   return {
     nftList,
     error,
-    loading
+    loaded
   };
 };
 
@@ -2882,7 +2880,7 @@ const ExplorerComponent = /*#__PURE__*/React.forwardRef((props, ref) => {
     updateSelectedIds,
     componentClass,
     disableLoading,
-    setLoading
+    setLoaded
   } = props;
   if (disableLoading) return /*#__PURE__*/React__default["default"].createElement("p", {
     style: {
@@ -2897,7 +2895,7 @@ const ExplorerComponent = /*#__PURE__*/React.forwardRef((props, ref) => {
   const {
     nftList,
     error,
-    loading
+    loaded
   } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
   const [traitTypes, setTraitTypes] = React.useState(null);
   React.useEffect(() => {
@@ -2913,8 +2911,8 @@ const ExplorerComponent = /*#__PURE__*/React.forwardRef((props, ref) => {
     getTraitTypes();
   }, [serverUrl]);
   React.useEffect(() => {
-    setLoading(loading);
-  }, [loading]);
+    setLoaded(loaded);
+  }, [loaded]);
   return /*#__PURE__*/React__default["default"].createElement("div", {
     ref: ref,
     style: {

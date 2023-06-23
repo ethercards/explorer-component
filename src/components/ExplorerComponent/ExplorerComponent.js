@@ -16,7 +16,7 @@ const ExplorerComponent = forwardRef((props, ref) => {
     updateSelectedIds,
     componentClass,
     disableLoading,
-    setLoading,
+    setLoaded,
   } = props;
 
   if (disableLoading) return <p style={{ textAlign: 'center' }}>Empty pool</p>;
@@ -24,7 +24,7 @@ const ExplorerComponent = forwardRef((props, ref) => {
   if (!chainId || !tokenAddres || !poolAddress || !rpcUrl) {
     return;
   }
-  const { nftList, error, loading } = useGetNftsList(
+  const { nftList, error, loaded } = useGetNftsList(
     chainId,
     tokenAddres,
     poolAddress,
@@ -45,8 +45,8 @@ const ExplorerComponent = forwardRef((props, ref) => {
     getTraitTypes();
   }, [serverUrl]);
   useEffect(() => {
-    setLoading(loading);
-  }, [loading]);
+    setLoaded(loaded);
+  }, [loaded]);
 
   return (
     <div ref={ref} style={{ height: '100%' }} className={componentClass}>
