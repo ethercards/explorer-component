@@ -16,16 +16,21 @@ const ExplorerComponent = forwardRef((props, ref) => {
     updateSelectedIds,
     componentClass,
     disableLoading,
+    setLoading,
   } = props;
 
   if (disableLoading) return <p style={{ textAlign: 'center' }}>Empty pool</p>;
 
-  const { nftList, error } = useGetNftsList(
+  if (!chainId || !tokenAddres || !poolAddress || !rpcUrl) {
+    return;
+  }
+  const { nftList, error, loading } = useGetNftsList(
     chainId,
     tokenAddres,
     poolAddress,
     rpcUrl
   );
+
   const [traitTypes, setTraitTypes] = useState(null);
 
   useEffect(() => {
@@ -39,6 +44,9 @@ const ExplorerComponent = forwardRef((props, ref) => {
     };
     getTraitTypes();
   }, [serverUrl]);
+  useEffect(() => {
+    setLoading(loading);
+  }, [loading]);
 
   return (
     <div ref={ref} style={{ height: '100%' }} className={componentClass}>

@@ -14,10 +14,10 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
   const [zoomContract, setZoomContract] = useState(null);
   const [nftList, setNftList] = useState(null);
   const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(false);
   const provider = useMemo(() => getProvider(rpcUrl), [rpcUrl]);
   const tokenContract = useMemo(() => {
     if (!contractAddres || !rpcUrl) {
-      setError('No token contract or rpc');
       return null;
     }
     return new Contract(contractAddres, tokenABI.abi, provider);
@@ -34,7 +34,7 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
       provider,
       false
     );
-
+    setLoading(true);
     if (galaxisRegistry) {
       try {
         const zoomAddress = await galaxisRegistry.getRegistryAddress('ZOOM');
@@ -46,6 +46,7 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
           setZoomContract(zoomAddress);
         }
       } catch (error) {
+        setLoading(false);
         console.log('registry error', error);
       }
     }
@@ -68,10 +69,12 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
         );
         setNftList(res);
         fetchedRef.current = true;
+        setLoading(false);
       } catch (error) {
         console.log(error, ' error');
         setError('Contract error');
         fetchedRef.current = true;
+        setLoading(false);
       }
     }
   };
@@ -84,5 +87,5 @@ export const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
     getNftList();
   }, [zoomContract, tokenContract, address]);
 
-  return { nftList, error };
+  return { nftList, error, loading };
 };
