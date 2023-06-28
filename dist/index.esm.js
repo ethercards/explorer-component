@@ -51,8 +51,20 @@ function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 
+function _toConsumableArray(arr) {
+  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
+}
+
+function _arrayWithoutHoles(arr) {
+  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
+}
+
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
+}
+
+function _iterableToArray(iter) {
+  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 function _iterableToArrayLimit(arr, i) {
@@ -100,6 +112,10 @@ function _arrayLikeToArray(arr, len) {
   for (var i = 0, arr2 = new Array(len); i < len; i++) arr2[i] = arr[i];
 
   return arr2;
+}
+
+function _nonIterableSpread() {
+  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
 function _nonIterableRest() {
@@ -295,72 +311,88 @@ function styleInject(css, ref) {
 var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n  padding: 5px;\r\n}\r\n.infinite-scroll-component::-webkit-scrollbar {\r\n  width: 0;\r\n}\r\n/* .explorer-simple-card-trait-div {\r\n  padding-right: 5px;\r\n  display: flex;\r\n  margin: 8px 0;\r\n}\r\n.explorer-simple-card-trait-name {\r\n  background-color: #000;\r\n  padding: 5px 10px;\r\n  border-radius: 5px;\r\n  margin-left: 10px;\r\n  text-overflow: ellipsis;\r\n}\r\n.explorer-simple-card-trait-div:hover .explorer-simple-card-trait-name {\r\n  display: block;\r\n  cursor: pointer;\r\n} */\r\n/* .explorer-simple-card-trait-name {\r\n  display: none;\r\n  background-color: #6d6c6c;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  white-space: nowrap;\r\n  z-index: 22222222222;\r\n  padding: 10px 0;\r\n  border-radius: 5px;\r\n  width: 100%;\r\n  text-align: center;\r\n  height: 100%;\r\n  line-height: 15px;\r\n} */\r\n.explorer-simple-card {\r\n  /* display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff; */\r\n  cursor: pointer;\r\n  border: 2px solid transparent;\r\n}\r\n.selected-simple-card {\r\n  border: 2px solid #000;\r\n  border-radius: 22px;\r\n}\r\n.dark .explorer-simple-card-trait-container {\r\n  background: linear-gradient(rgb(62 97 133), rgb(35 63 90));\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 24px;\r\n}\r\n.explorer-simple-card-img-trait {\r\n  position: relative;\r\n  display: flex;\r\n  z-index: 333333333;\r\n}\r\n.explorer-simple-card-trait-toggler {\r\n  position: relative;\r\n  background-color: #fff9f9db;\r\n  /* padding: 10px 15px; */\r\n  height: 35px;\r\n  max-width: 30px;\r\n  border-radius: 5px;\r\n}\r\n.explorer-simple-card-trait-icon-container {\r\n  background-color: #000000db;\r\n  padding: 3px;\r\n  border-radius: 5px;\r\n}\r\n.explorer-simple-card-trait-count {\r\n  position: absolute;\r\n  bottom: -5px;\r\n  right: -5px;\r\n  color: #fff;\r\n  font-weight: 600;\r\n  background-color: red;\r\n  border-radius: 100%;\r\n  font-size: 12px;\r\n  width: 16px;\r\n  height: 16px;\r\n  text-align: center;\r\n}\r\n.explorer-simple-card-trait-count div {\r\n  /* position: absolute; */\r\n  left: 0;\r\n  right: 0;\r\n  margin: auto;\r\n}\r\n.explorer-simple-card-shown {\r\n  opacity: 1;\r\n  transition: all 0.3s;\r\n}\r\n.explorer-simple-card-hided {\r\n  opacity: 0;\r\n  transition: all 0.3s;\r\n}\r\n.explorer-simple-card-opensea-etherscan {\r\n  padding-top: 10px;\r\n  display: flex;\r\n  gap: 5px;\r\n}\r\n.explorer-simple-card-traits {\r\n  position: absolute;\r\n  bottom: 10px;\r\n  left: 10px;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  flex-direction: column;\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n.dust-pool-root {\r\n  max-width: 1140px;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  margin-top: 30px;\r\n  font-family: poppins;\r\n}\r\n.dust-pool-textbox {\r\n  text-align: center;\r\n  max-width: 600px;\r\n  margin: 0 auto;\r\n}\r\n.pool-subtitle {\r\n  font-size: 30px;\r\n  font-weight: 600;\r\n}\r\n.tab-choose {\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-bottom: 30px;\r\n  text-transform: uppercase;\r\n}\r\n.tab-choose div {\r\n  font-size: 14px;\r\n  font-weight: 500;\r\n  padding: 12px 15px;\r\n}\r\n.tab-choose div:hover {\r\n  cursor: pointer;\r\n}\r\n.tab-choose .active-tab {\r\n  background-color: #000;\r\n  color: #fff;\r\n}\r\n.tab-choose div:first-child {\r\n  border: 2px solid #000;\r\n  border-top-left-radius: 10px;\r\n  border-bottom-left-radius: 10px;\r\n}\r\n.tab-choose div:nth-child(2) {\r\n  border-top: 2px solid #000;\r\n  border-bottom: 2px solid #000;\r\n}\r\n.tab-choose div:nth-child(3) {\r\n  border: 2px solid #000;\r\n  border-top-right-radius: 10px;\r\n  border-bottom-right-radius: 10px;\r\n}\r\n/*classes from bootstrap*/\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n.container {\r\n  width: 100%;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n  margin-right: auto;\r\n  margin-left: auto;\r\n}\r\n.mt-5,\r\n.my-5 {\r\n  margin-top: 3rem !important;\r\n}\r\n.row {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  margin-right: -15px;\r\n  margin-left: -15px;\r\n}\r\n.col-12 {\r\n  flex: 0 0 100%;\r\n  max-width: 100%;\r\n}\r\n.col-12,\r\n.col-lg-6,\r\n.col-lg-3,\r\n.col-lg-4,\r\n.col-md-6 {\r\n  position: relative;\r\n  width: 100%;\r\n  min-height: 1px;\r\n  padding-right: 10px;\r\n  padding-left: 10px;\r\n}\r\n.col-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n.mb-1 {\r\n  margin-bottom: 0.25rem !important;\r\n}\r\n.mb-2 {\r\n  margin-bottom: 0.5rem !important;\r\n}\r\n.mb-3 {\r\n  margin-bottom: 0.75rem !important;\r\n}\r\n.mt-2 {\r\n  margin-top: 0.5rem !important;\r\n}\r\n.pb-4 {\r\n  padding-bottom: 1.5rem !important;\r\n}\r\n.w-100 {\r\n  width: 100% !important;\r\n}\r\n.text-right {\r\n  text-align: right !important;\r\n}\r\n.dust-pool-card p {\r\n  margin-block-start: 0;\r\n}\r\n.section-divider-img {\r\n  max-height: 35px;\r\n  z-index: 2;\r\n}\r\n.h-50vh {\r\n  height: 50vh !important;\r\n}\r\n@media only screen and (max-width: 500px) {\r\n  .section-divider-img {\r\n    max-height: 25px;\r\n    z-index: 2;\r\n  }\r\n}\r\n@media only screen and (max-width: 450px) {\r\n  .explorer-simple-card-trait {\r\n    max-width: 20px;\r\n  }\r\n  .explorer-simple-card-trait-toggler {\r\n    height: 31px;\r\n    max-width: 25px;\r\n  }\r\n  .explorer-simple-card-trait-div {\r\n    margin: 6px 0;\r\n  }\r\n}\r\n@media (min-width: 576px) {\r\n  .container {\r\n    max-width: 540px;\r\n  }\r\n}\r\n@media (max-width: 600px) {\r\n  .dust-pool-card .dust-pool-btn {\r\n    position: unset !important;\r\n  }\r\n}\r\n@media (min-width: 768px) {\r\n  .container {\r\n    max-width: 720px;\r\n  }\r\n}\r\n.col-md-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n@media (min-width: 992px) {\r\n  .container {\r\n    max-width: 960px;\r\n  }\r\n  .col-lg-6 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n  .col-lg-3 {\r\n    flex: 0 0 25%;\r\n    max-width: 25%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 33.333333%;\r\n    max-width: 33.333333%;\r\n  }\r\n}\r\n@media (min-width: 1200px) {\r\n  .container {\r\n    max-width: 1140px;\r\n  }\r\n}\r\n@media (max-width: 1000px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n}\r\n@media (max-width: 650px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 100%;\r\n    max-width: 100%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 100%;\r\n    max-width: 100%;\r\n  }\r\n}\r\n@media only screen and (max-width: 945px) {\r\n  .dust-pool-root {\r\n    max-width: 100%;\r\n  }\r\n}\r\n";
 styleInject(css_248z);
 
-const ExplorerCards = _ref => {
-  let {
-    nftList,
-    traitTypes,
-    updateSelectedIds,
-    selectedCardIds = []
-  } = _ref;
-  const ITEMS_PER_PAGE = 29;
-  const [cards, setCards] = useState([]);
-  const [currentPage, _setCurrentPage] = useState(0);
-  const currentPageRef = useRef(currentPage);
-  const {
-    tokenAddres,
-    poolAddress,
-    openseaUrl,
-    isAdmin,
-    etherscanUrl,
-    componentHeight
-  } = useContext(ExpContext);
+var ExplorerCards = function ExplorerCards(_ref) {
+  var nftList = _ref.nftList,
+      traitTypes = _ref.traitTypes,
+      updateSelectedIds = _ref.updateSelectedIds,
+      _ref$selectedCardIds = _ref.selectedCardIds,
+      selectedCardIds = _ref$selectedCardIds === void 0 ? [] : _ref$selectedCardIds;
+  var ITEMS_PER_PAGE = 29;
 
-  const setCurrentPage = val => {
+  var _useState = useState([]),
+      _useState2 = _slicedToArray(_useState, 2),
+      cards = _useState2[0],
+      setCards = _useState2[1];
+
+  var _useState3 = useState(0),
+      _useState4 = _slicedToArray(_useState3, 2),
+      currentPage = _useState4[0],
+      _setCurrentPage = _useState4[1];
+
+  var currentPageRef = useRef(currentPage);
+
+  var _useContext = useContext(ExpContext),
+      tokenAddres = _useContext.tokenAddres,
+      poolAddress = _useContext.poolAddress,
+      openseaUrl = _useContext.openseaUrl,
+      isAdmin = _useContext.isAdmin,
+      etherscanUrl = _useContext.etherscanUrl,
+      componentHeight = _useContext.componentHeight;
+
+  var setCurrentPage = function setCurrentPage(val) {
     currentPageRef.current = val;
 
     _setCurrentPage(val);
   };
 
-  const handleClick = (e, itemId) => {
+  var handleClick = function handleClick(e, itemId) {
     if (!isAdmin) {
       // handleOpenOpensea(itemId);
       return;
     }
 
-    const isSelected = selectedCardIds.includes(itemId);
+    var isSelected = selectedCardIds.includes(itemId);
 
     if (isSelected) {
       if (updateSelectedIds) {
-        updateSelectedIds(prevSelectedItems => prevSelectedItems.filter(id => id !== itemId));
+        updateSelectedIds(function (prevSelectedItems) {
+          return prevSelectedItems.filter(function (id) {
+            return id !== itemId;
+          });
+        });
       }
     } else {
       if (updateSelectedIds) {
-        updateSelectedIds(prevSelectedItems => [...prevSelectedItems, itemId]);
+        updateSelectedIds(function (prevSelectedItems) {
+          return [].concat(_toConsumableArray(prevSelectedItems), [itemId]);
+        });
       }
     }
   };
 
-  const handleOpenOpensea = id => {
-    window.open(`${openseaUrl}/${tokenAddres}/${id}`);
+  var handleOpenOpensea = function handleOpenOpensea(id) {
+    window.open("".concat(openseaUrl, "/").concat(tokenAddres, "/").concat(id));
   };
 
-  const handleEtherscan = () => {
+  var handleEtherscan = function handleEtherscan() {
     window.open(etherscanUrl);
   };
 
-  useEffect(() => {
+  useEffect(function () {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
-  useEffect(() => {
+  useEffect(function () {
     updateSelectedIds([]);
   }, [nftList, tokenAddres, poolAddress]);
 
-  const renderCards = () => {
-    return cards.map((meta, i) => {
+  var renderCards = function renderCards() {
+    return cards.map(function (meta, i) {
       return /*#__PURE__*/React.createElement(ExplorerCard, {
-        onKeyDown: e => keyboardEventHandler(e.key),
+        onKeyDown: function onKeyDown(e) {
+          return keyboardEventHandler(e.key);
+        },
         meta: meta,
         key: i,
         traitTypes: traitTypes,
@@ -375,7 +407,9 @@ const ExplorerCards = _ref => {
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(InfiniteScroll, {
     dataLength: cards.length,
-    next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
+    next: function next() {
+      return loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
+    },
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length // scrollableTarget="content-container"
     // initialScrollY={1000}
@@ -387,7 +421,7 @@ const ExplorerCards = _ref => {
       }
     }, "Loading...")
   }, /*#__PURE__*/React.createElement("div", {
-    className: `row small-gutters px-2 mx-0  `
+    className: "row small-gutters px-2 mx-0  "
   }, renderCards())));
 };
 
