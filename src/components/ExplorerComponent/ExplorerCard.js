@@ -170,7 +170,7 @@ const ExplorerCard = ({
       className={`${columns === 3 ? 'col-lg-4' : 'col-lg-3'}  col-md-2 mb-4`}
     >
       <div className="layer-image-preview">
-        {!loading ? <Card /> : <SpinnerCircular color="#000" />}
+        {!loading ? Card() : <SpinnerCircular color="#000" />}
       </div>
     </div>
   );

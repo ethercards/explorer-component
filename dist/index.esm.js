@@ -260,7 +260,7 @@ const ExplorerCard = _ref => {
     className: `${columns === 3 ? 'col-lg-4' : 'col-lg-3'}  col-md-2 mb-4`
   }, /*#__PURE__*/React.createElement("div", {
     className: "layer-image-preview"
-  }, !loading ? /*#__PURE__*/React.createElement(Card, null) : /*#__PURE__*/React.createElement(SpinnerCircular, {
+  }, !loading ? Card() : /*#__PURE__*/React.createElement(SpinnerCircular, {
     color: "#000"
   })));
 };
@@ -327,17 +327,15 @@ const ExplorerCards = _ref => {
       return;
     }
 
-    if (e.ctrlKey || e.metaKey) {
-      const isSelected = selectedCardIds.includes(itemId);
+    const isSelected = selectedCardIds.includes(itemId);
 
-      if (isSelected) {
-        if (updateSelectedIds) {
-          updateSelectedIds(prevSelectedItems => prevSelectedItems.filter(id => id !== itemId));
-        }
-      } else {
-        if (updateSelectedIds) {
-          updateSelectedIds(prevSelectedItems => [...prevSelectedItems, itemId]);
-        }
+    if (isSelected) {
+      if (updateSelectedIds) {
+        updateSelectedIds(prevSelectedItems => prevSelectedItems.filter(id => id !== itemId));
+      }
+    } else {
+      if (updateSelectedIds) {
+        updateSelectedIds(prevSelectedItems => [...prevSelectedItems, itemId]);
       }
     }
   };
