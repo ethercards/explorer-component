@@ -47,39 +47,12 @@ function _asyncToGenerator(fn) {
   };
 }
 
-function _defineProperty(obj, key, value) {
-  if (key in obj) {
-    Object.defineProperty(obj, key, {
-      value: value,
-      enumerable: true,
-      configurable: true,
-      writable: true
-    });
-  } else {
-    obj[key] = value;
-  }
-
-  return obj;
-}
-
 function _slicedToArray(arr, i) {
   return _arrayWithHoles(arr) || _iterableToArrayLimit(arr, i) || _unsupportedIterableToArray(arr, i) || _nonIterableRest();
 }
 
-function _toConsumableArray(arr) {
-  return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread();
-}
-
-function _arrayWithoutHoles(arr) {
-  if (Array.isArray(arr)) return _arrayLikeToArray(arr);
-}
-
 function _arrayWithHoles(arr) {
   if (Array.isArray(arr)) return arr;
-}
-
-function _iterableToArray(iter) {
-  if (typeof Symbol !== "undefined" && iter[Symbol.iterator] != null || iter["@@iterator"] != null) return Array.from(iter);
 }
 
 function _iterableToArrayLimit(arr, i) {
@@ -129,114 +102,70 @@ function _arrayLikeToArray(arr, len) {
   return arr2;
 }
 
-function _nonIterableSpread() {
-  throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
-}
-
 function _nonIterableRest() {
   throw new TypeError("Invalid attempt to destructure non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method.");
 }
 
-var loadNext = function loadNext(nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards) {
-  var c = [];
-  var end = nfts.length < ITEMS_PER_PAGE ? nfts.length : ITEMS_PER_PAGE;
+const loadNext = (nfts, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards) => {
+  let c = [];
+  let end = nfts.length < ITEMS_PER_PAGE ? nfts.length : ITEMS_PER_PAGE;
 
-  for (var i = 0; i < end; i++) {
+  for (let i = 0; i < end; i++) {
     if (currentPageRef.current * ITEMS_PER_PAGE + i < nfts.length) {
       c.push(nfts[currentPageRef.current * ITEMS_PER_PAGE + i]);
     }
   }
 
-  setCards(function (cards) {
-    return cards.concat(c);
-  });
+  setCards(cards => cards.concat(c));
   setCurrentPage(currentPageRef.current + 1);
 };
 
 var ExpContext = /*#__PURE__*/createContext(null);
 
-var ExplorerCard = function ExplorerCard(_ref) {
-  var meta = _ref.meta,
-      traitTypes = _ref.traitTypes,
-      handleClick = _ref.handleClick,
-      _ref$selectedItems = _ref.selectedItems,
-      selectedItems = _ref$selectedItems === void 0 ? [] : _ref$selectedItems;
-      _ref.handleOpenOpensea;
-      _ref.handleEtherscan;
+const ExplorerCard = _ref => {
+  let {
+    meta,
+    traitTypes,
+    handleClick,
+    selectedItems = [],
+    handleOpenOpensea,
+    handleEtherscan
+  } = _ref;
+  const [metadata, setMetadata] = useState(null);
+  const [loading, setLoading] = useState(true);
+  useState(false);
+  const {
+    serverUrl,
+    showCardName,
+    columns,
+    cardClass,
+    selectedCardClass
+  } = useContext(ExpContext);
+  useEffect(() => {
+    const fetchMetadata = async () => {
+      setLoading(true);
 
-  var _useState = useState(null),
-      _useState2 = _slicedToArray(_useState, 2),
-      metadata = _useState2[0],
-      setMetadata = _useState2[1];
+      try {
+        const response = await axios.get(meta.tokenURI);
+        setMetadata(response.data);
+        console.log(response, ' response');
+      } catch (error) {
+        console.log('Error:', error);
+      }
 
-  var _useState3 = useState(true),
-      _useState4 = _slicedToArray(_useState3, 2),
-      loading = _useState4[0],
-      setLoading = _useState4[1];
-
-  var _useState5 = useState(false),
-      _useState6 = _slicedToArray(_useState5, 2);
-      _useState6[0];
-      _useState6[1];
-
-  var _useContext = useContext(ExpContext),
-      serverUrl = _useContext.serverUrl;
-      _useContext.showCardName;
-      var columns = _useContext.columns,
-      cardClass = _useContext.cardClass,
-      selectedCardClass = _useContext.selectedCardClass;
-
-  useEffect(function () {
-    var fetchMetadata = /*#__PURE__*/function () {
-      var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
-        var response;
-        return regeneratorRuntime.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                setLoading(true);
-                _context.prev = 1;
-                _context.next = 4;
-                return axios.get(meta.tokenURI);
-
-              case 4:
-                response = _context.sent;
-                setMetadata(response.data);
-                console.log(response, ' response');
-                _context.next = 12;
-                break;
-
-              case 9:
-                _context.prev = 9;
-                _context.t0 = _context["catch"](1);
-                console.log('Error:', _context.t0);
-
-              case 12:
-                setLoading(false);
-
-              case 13:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, null, [[1, 9]]);
-      }));
-
-      return function fetchMetadata() {
-        return _ref2.apply(this, arguments);
-      };
-    }();
+      setLoading(false);
+    };
 
     fetchMetadata();
   }, [meta]);
 
-  var Card = function Card() {
-    var handleCardClick = function handleCardClick(e) {
+  const Card = () => {
+    const handleCardClick = e => {
       handleClick(e, meta.id);
     };
 
     return /*#__PURE__*/React.createElement("div", {
-      className: "explorer-simple-card ".concat(cardClass ? cardClass : '', " ").concat(selectedCardClass && selectedItems.includes(meta.id) ? selectedCardClass : ''),
+      className: `explorer-simple-card ${cardClass ? cardClass : ''} ${selectedCardClass && selectedItems.includes(meta.id) ? selectedCardClass : ''}`,
       onClick: handleCardClick
     }, /*#__PURE__*/React.createElement(GalaxisCard, {
       name: "Teszt",
@@ -328,7 +257,7 @@ var ExplorerCard = function ExplorerCard(_ref) {
   };
 
   return /*#__PURE__*/React.createElement("div", {
-    className: "".concat(columns === 3 ? 'col-lg-4' : 'col-lg-3', "  col-md-2 mb-4")
+    className: `${columns === 3 ? 'col-lg-4' : 'col-lg-3'}  col-md-2 mb-4`
   }, /*#__PURE__*/React.createElement("div", {
     className: "layer-image-preview"
   }, !loading ? /*#__PURE__*/React.createElement(Card, null) : /*#__PURE__*/React.createElement(SpinnerCircular, {
@@ -366,90 +295,72 @@ function styleInject(css, ref) {
 var css_248z = ".layer-image-preview {\r\n  padding-bottom: 20px;\r\n  text-align: center;\r\n}\r\n.infinite-scroll-component__outerdiv {\r\n  margin: 0 auto;\r\n}\r\n.infinite-scroll-component {\r\n  overflow-x: hidden !important;\r\n  padding: 5px;\r\n}\r\n.infinite-scroll-component::-webkit-scrollbar {\r\n  width: 0;\r\n}\r\n/* .explorer-simple-card-trait-div {\r\n  padding-right: 5px;\r\n  display: flex;\r\n  margin: 8px 0;\r\n}\r\n.explorer-simple-card-trait-name {\r\n  background-color: #000;\r\n  padding: 5px 10px;\r\n  border-radius: 5px;\r\n  margin-left: 10px;\r\n  text-overflow: ellipsis;\r\n}\r\n.explorer-simple-card-trait-div:hover .explorer-simple-card-trait-name {\r\n  display: block;\r\n  cursor: pointer;\r\n} */\r\n/* .explorer-simple-card-trait-name {\r\n  display: none;\r\n  background-color: #6d6c6c;\r\n  position: absolute;\r\n  top: 0;\r\n  left: 0;\r\n  white-space: nowrap;\r\n  z-index: 22222222222;\r\n  padding: 10px 0;\r\n  border-radius: 5px;\r\n  width: 100%;\r\n  text-align: center;\r\n  height: 100%;\r\n  line-height: 15px;\r\n} */\r\n.explorer-simple-card {\r\n  /* display: flex;\r\n  flex-direction: column;\r\n  text-align: left;\r\n  border-radius: 10px;\r\n  overflow: hidden;\r\n  color: #fff; */\r\n  cursor: pointer;\r\n  border: 2px solid transparent;\r\n}\r\n.selected-simple-card {\r\n  border: 2px solid #000;\r\n  border-radius: 22px;\r\n}\r\n.dark .explorer-simple-card-trait-container {\r\n  background: linear-gradient(rgb(62 97 133), rgb(35 63 90));\r\n}\r\n.explorer-simple-card-trait-container {\r\n  padding: 10px;\r\n  background: linear-gradient(rgb(20, 33, 46), rgb(14, 25, 36));\r\n}\r\n.explorer-simple-card-trait {\r\n  max-width: 24px;\r\n}\r\n.explorer-simple-card-img-trait {\r\n  position: relative;\r\n  display: flex;\r\n  z-index: 333333333;\r\n}\r\n.explorer-simple-card-trait-toggler {\r\n  position: relative;\r\n  background-color: #fff9f9db;\r\n  /* padding: 10px 15px; */\r\n  height: 35px;\r\n  max-width: 30px;\r\n  border-radius: 5px;\r\n}\r\n.explorer-simple-card-trait-icon-container {\r\n  background-color: #000000db;\r\n  padding: 3px;\r\n  border-radius: 5px;\r\n}\r\n.explorer-simple-card-trait-count {\r\n  position: absolute;\r\n  bottom: -5px;\r\n  right: -5px;\r\n  color: #fff;\r\n  font-weight: 600;\r\n  background-color: red;\r\n  border-radius: 100%;\r\n  font-size: 12px;\r\n  width: 16px;\r\n  height: 16px;\r\n  text-align: center;\r\n}\r\n.explorer-simple-card-trait-count div {\r\n  /* position: absolute; */\r\n  left: 0;\r\n  right: 0;\r\n  margin: auto;\r\n}\r\n.explorer-simple-card-shown {\r\n  opacity: 1;\r\n  transition: all 0.3s;\r\n}\r\n.explorer-simple-card-hided {\r\n  opacity: 0;\r\n  transition: all 0.3s;\r\n}\r\n.explorer-simple-card-opensea-etherscan {\r\n  padding-top: 10px;\r\n  display: flex;\r\n  gap: 5px;\r\n}\r\n.explorer-simple-card-traits {\r\n  position: absolute;\r\n  bottom: 10px;\r\n  left: 10px;\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  flex-direction: column;\r\n  margin-top: 10px;\r\n  min-height: 30px;\r\n}\r\n.dust-pool-root {\r\n  max-width: 1140px;\r\n  width: 100%;\r\n  margin: 0 auto;\r\n  margin-top: 30px;\r\n  font-family: poppins;\r\n}\r\n.dust-pool-textbox {\r\n  text-align: center;\r\n  max-width: 600px;\r\n  margin: 0 auto;\r\n}\r\n.pool-subtitle {\r\n  font-size: 30px;\r\n  font-weight: 600;\r\n}\r\n.tab-choose {\r\n  display: flex;\r\n  justify-content: center;\r\n  margin-bottom: 30px;\r\n  text-transform: uppercase;\r\n}\r\n.tab-choose div {\r\n  font-size: 14px;\r\n  font-weight: 500;\r\n  padding: 12px 15px;\r\n}\r\n.tab-choose div:hover {\r\n  cursor: pointer;\r\n}\r\n.tab-choose .active-tab {\r\n  background-color: #000;\r\n  color: #fff;\r\n}\r\n.tab-choose div:first-child {\r\n  border: 2px solid #000;\r\n  border-top-left-radius: 10px;\r\n  border-bottom-left-radius: 10px;\r\n}\r\n.tab-choose div:nth-child(2) {\r\n  border-top: 2px solid #000;\r\n  border-bottom: 2px solid #000;\r\n}\r\n.tab-choose div:nth-child(3) {\r\n  border: 2px solid #000;\r\n  border-top-right-radius: 10px;\r\n  border-bottom-right-radius: 10px;\r\n}\r\n/*classes from bootstrap*/\r\n* {\r\n  box-sizing: border-box;\r\n}\r\n.container {\r\n  width: 100%;\r\n  padding-right: 15px;\r\n  padding-left: 15px;\r\n  margin-right: auto;\r\n  margin-left: auto;\r\n}\r\n.mt-5,\r\n.my-5 {\r\n  margin-top: 3rem !important;\r\n}\r\n.row {\r\n  display: flex;\r\n  flex-wrap: wrap;\r\n  margin-right: -15px;\r\n  margin-left: -15px;\r\n}\r\n.col-12 {\r\n  flex: 0 0 100%;\r\n  max-width: 100%;\r\n}\r\n.col-12,\r\n.col-lg-6,\r\n.col-lg-3,\r\n.col-lg-4,\r\n.col-md-6 {\r\n  position: relative;\r\n  width: 100%;\r\n  min-height: 1px;\r\n  padding-right: 10px;\r\n  padding-left: 10px;\r\n}\r\n.col-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n.mb-1 {\r\n  margin-bottom: 0.25rem !important;\r\n}\r\n.mb-2 {\r\n  margin-bottom: 0.5rem !important;\r\n}\r\n.mb-3 {\r\n  margin-bottom: 0.75rem !important;\r\n}\r\n.mt-2 {\r\n  margin-top: 0.5rem !important;\r\n}\r\n.pb-4 {\r\n  padding-bottom: 1.5rem !important;\r\n}\r\n.w-100 {\r\n  width: 100% !important;\r\n}\r\n.text-right {\r\n  text-align: right !important;\r\n}\r\n.dust-pool-card p {\r\n  margin-block-start: 0;\r\n}\r\n.section-divider-img {\r\n  max-height: 35px;\r\n  z-index: 2;\r\n}\r\n.h-50vh {\r\n  height: 50vh !important;\r\n}\r\n@media only screen and (max-width: 500px) {\r\n  .section-divider-img {\r\n    max-height: 25px;\r\n    z-index: 2;\r\n  }\r\n}\r\n@media only screen and (max-width: 450px) {\r\n  .explorer-simple-card-trait {\r\n    max-width: 20px;\r\n  }\r\n  .explorer-simple-card-trait-toggler {\r\n    height: 31px;\r\n    max-width: 25px;\r\n  }\r\n  .explorer-simple-card-trait-div {\r\n    margin: 6px 0;\r\n  }\r\n}\r\n@media (min-width: 576px) {\r\n  .container {\r\n    max-width: 540px;\r\n  }\r\n}\r\n@media (max-width: 600px) {\r\n  .dust-pool-card .dust-pool-btn {\r\n    position: unset !important;\r\n  }\r\n}\r\n@media (min-width: 768px) {\r\n  .container {\r\n    max-width: 720px;\r\n  }\r\n}\r\n.col-md-6 {\r\n  flex: 0 0 50%;\r\n  max-width: 50%;\r\n}\r\n@media (min-width: 992px) {\r\n  .container {\r\n    max-width: 960px;\r\n  }\r\n  .col-lg-6 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n  .col-lg-3 {\r\n    flex: 0 0 25%;\r\n    max-width: 25%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 33.333333%;\r\n    max-width: 33.333333%;\r\n  }\r\n}\r\n@media (min-width: 1200px) {\r\n  .container {\r\n    max-width: 1140px;\r\n  }\r\n}\r\n@media (max-width: 1000px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 50%;\r\n    max-width: 50%;\r\n  }\r\n}\r\n@media (max-width: 650px) {\r\n  .col-lg-3 {\r\n    flex: 0 0 100%;\r\n    max-width: 100%;\r\n  }\r\n  .col-lg-4 {\r\n    flex: 0 0 100%;\r\n    max-width: 100%;\r\n  }\r\n}\r\n@media only screen and (max-width: 945px) {\r\n  .dust-pool-root {\r\n    max-width: 100%;\r\n  }\r\n}\r\n";
 styleInject(css_248z);
 
-var ExplorerCards = function ExplorerCards(_ref) {
-  var nftList = _ref.nftList,
-      traitTypes = _ref.traitTypes,
-      updateSelectedIds = _ref.updateSelectedIds,
-      _ref$selectedCardIds = _ref.selectedCardIds,
-      selectedCardIds = _ref$selectedCardIds === void 0 ? [] : _ref$selectedCardIds;
-  var ITEMS_PER_PAGE = 29;
+const ExplorerCards = _ref => {
+  let {
+    nftList,
+    traitTypes,
+    updateSelectedIds,
+    selectedCardIds = []
+  } = _ref;
+  const ITEMS_PER_PAGE = 29;
+  const [cards, setCards] = useState([]);
+  const [currentPage, _setCurrentPage] = useState(0);
+  const currentPageRef = useRef(currentPage);
+  const {
+    tokenAddres,
+    poolAddress,
+    openseaUrl,
+    isAdmin,
+    etherscanUrl,
+    componentHeight
+  } = useContext(ExpContext);
 
-  var _useState = useState([]),
-      _useState2 = _slicedToArray(_useState, 2),
-      cards = _useState2[0],
-      setCards = _useState2[1];
-
-  var _useState3 = useState(0),
-      _useState4 = _slicedToArray(_useState3, 2),
-      currentPage = _useState4[0],
-      _setCurrentPage = _useState4[1];
-
-  var currentPageRef = useRef(currentPage);
-
-  var _useContext = useContext(ExpContext),
-      tokenAddres = _useContext.tokenAddres,
-      poolAddress = _useContext.poolAddress,
-      openseaUrl = _useContext.openseaUrl,
-      isAdmin = _useContext.isAdmin,
-      etherscanUrl = _useContext.etherscanUrl,
-      componentHeight = _useContext.componentHeight;
-
-  var setCurrentPage = function setCurrentPage(val) {
+  const setCurrentPage = val => {
     currentPageRef.current = val;
 
     _setCurrentPage(val);
   };
 
-  var handleClick = function handleClick(e, itemId) {
+  const handleClick = (e, itemId) => {
     if (!isAdmin) {
       // handleOpenOpensea(itemId);
       return;
     }
 
-    if (e.ctrlKey) {
-      var isSelected = selectedCardIds.includes(itemId);
+    const isSelected = selectedCardIds.includes(itemId);
 
-      if (isSelected) {
-        if (updateSelectedIds) {
-          updateSelectedIds(function (prevSelectedItems) {
-            return prevSelectedItems.filter(function (id) {
-              return id !== itemId;
-            });
-          });
-        }
-      } else {
-        if (updateSelectedIds) {
-          updateSelectedIds(function (prevSelectedItems) {
-            return [].concat(_toConsumableArray(prevSelectedItems), [itemId]);
-          });
-        }
+    if (isSelected) {
+      if (updateSelectedIds) {
+        updateSelectedIds(prevSelectedItems => prevSelectedItems.filter(id => id !== itemId));
+      }
+    } else {
+      if (updateSelectedIds) {
+        updateSelectedIds(prevSelectedItems => [...prevSelectedItems, itemId]);
       }
     }
   };
 
-  var handleOpenOpensea = function handleOpenOpensea(id) {
-    window.open("".concat(openseaUrl, "/").concat(tokenAddres, "/").concat(id));
+  const handleOpenOpensea = id => {
+    window.open(`${openseaUrl}/${tokenAddres}/${id}`);
   };
 
-  var handleEtherscan = function handleEtherscan() {
+  const handleEtherscan = () => {
     window.open(etherscanUrl);
   };
 
-  useEffect(function () {
+  useEffect(() => {
     setCards([]);
     setCurrentPage(0);
     loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
   }, [nftList]);
-  useEffect(function () {
+  useEffect(() => {
     updateSelectedIds([]);
   }, [nftList, tokenAddres, poolAddress]);
 
-  var renderCards = function renderCards() {
-    return cards.map(function (meta, i) {
+  const renderCards = () => {
+    return cards.map((meta, i) => {
       return /*#__PURE__*/React.createElement(ExplorerCard, {
-        onKeyDown: function onKeyDown(e) {
-          return keyboardEventHandler(e.key);
-        },
+        onKeyDown: e => keyboardEventHandler(e.key),
         meta: meta,
         key: i,
         traitTypes: traitTypes,
@@ -464,9 +375,7 @@ var ExplorerCards = function ExplorerCards(_ref) {
 
   return /*#__PURE__*/React.createElement(React.Fragment, null, /*#__PURE__*/React.createElement(InfiniteScroll, {
     dataLength: cards.length,
-    next: function next() {
-      return loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards);
-    },
+    next: () => loadNext(nftList, ITEMS_PER_PAGE, currentPageRef, setCurrentPage, setCards),
     pullDownToRefreshThreshold: 500,
     hasMore: currentPageRef.current * ITEMS_PER_PAGE < nftList.length // scrollableTarget="content-container"
     // initialScrollY={1000}
@@ -478,7 +387,7 @@ var ExplorerCards = function ExplorerCards(_ref) {
       }
     }, "Loading...")
   }, /*#__PURE__*/React.createElement("div", {
-    className: "row small-gutters px-2 mx-0  "
+    className: `row small-gutters px-2 mx-0  `
   }, renderCards())));
 };
 
@@ -540,14 +449,16 @@ const SupportedChainId = {
   MUMBAI: 80001
 };
 
-var _ZOOM_2_ADDRESSES;
-var ZOOM_2_ADDRESSES = (_ZOOM_2_ADDRESSES = {}, _defineProperty(_ZOOM_2_ADDRESSES, SupportedChainId.MAINNET, "0x7cdF091AF6a9ED75E3192500d3e5BB0f63e22Dea"), _defineProperty(_ZOOM_2_ADDRESSES, SupportedChainId.GOERLI, "0xebC7d793d062371C11cB802e7D49eEAA0c30EB06"), _ZOOM_2_ADDRESSES);
-var GALAXIS_REGISTRY = '0x1e8150050A7a4715aad42b905C08df76883f396F';
+const ZOOM_2_ADDRESSES = {
+  [SupportedChainId.MAINNET]: "0x7cdF091AF6a9ED75E3192500d3e5BB0f63e22Dea",
+  [SupportedChainId.GOERLI]: "0xebC7d793d062371C11cB802e7D49eEAA0c30EB06"
+};
+const GALAXIS_REGISTRY = '0x1e8150050A7a4715aad42b905C08df76883f396F';
 
 function isAddress(value) {
   try {
     return getAddress(value);
-  } catch (_unused) {
+  } catch {
     return false;
   }
 } // account is not optional
@@ -564,12 +475,12 @@ function getProviderOrSigner(library, account) {
 
 function getContract(address, ABI, library, account) {
   if (!isAddress(address) || address === AddressZero) {
-    throw Error("Invalid 'address' parameter '".concat(address, "'."));
+    throw Error(`Invalid 'address' parameter '${address}'.`);
   }
 
   return new Contract(address, ABI, getProviderOrSigner(library, account));
 }
-var getProvider = function getProvider(rpcUrl) {
+const getProvider = rpcUrl => {
   return new ethers.providers.JsonRpcProvider(rpcUrl);
 };
 function useZoom2Contract(chainId) {
@@ -2721,157 +2632,210 @@ var tokenABI = {
 	abi: abi
 };
 
-var zoomFetchTokenUris = /*#__PURE__*/function () {
-  var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee(contract, zoom2, address) {
-    var nt, ZoomLibraryInstance, calls, i, tId, tUri, ZoomQueryBinary, combinedResult, tokenIds, _i, id, tokenURI;
+const zoomFetchTokenUris = async (contract, zoom2, address) => {
+  const nt = await contract.balanceOf(address);
+  const ZoomLibraryInstance = new Zoom({
+    use_reference_calls: true
+  });
 
-    return regeneratorRuntime.wrap(function _callee$(_context) {
-      while (1) {
-        switch (_context.prev = _context.next) {
-          case 0:
-            _context.next = 2;
-            return contract.balanceOf(address);
+  if (nt > 0) {
+    const calls = [];
 
-          case 2:
-            nt = _context.sent;
-            ZoomLibraryInstance = new Zoom({
-              use_reference_calls: true
-            });
+    for (let i = 0; i < nt; i += 1) {
+      const tId = ZoomLibraryInstance.addMappingCountCall(contract, ['tokenOfOwnerByIndex', [address, i]], 'tokenOfOwnerByIndex(address,uint256) returns (uint256)', [{
+        contract: contract,
+        mapAndParams: ['tokenURI(uint256)', [i]]
+      }]);
+      calls.push(tId);
+      const tUri = ZoomLibraryInstance.addType5Call(contract, ['tokenURI(uint256)', [i]], 'tokenURI(uint256) returns (string)');
+      calls.push(tUri);
+    }
 
-            if (!(nt > 0)) {
-              _context.next = 15;
-              break;
-            }
+    const ZoomQueryBinary = ZoomLibraryInstance.getZoomCall();
+    const combinedResult = await zoom2.combine(ZoomQueryBinary);
+    ZoomLibraryInstance.resultsToCache(combinedResult, ZoomQueryBinary);
+    const tokenIds = [];
 
-            calls = [];
+    for (let i = 0; i < nt * 2; i += 2) {
+      const id = ZoomLibraryInstance.decodeCall(calls[i]).toString();
+      const tokenURI = ZoomLibraryInstance.decodeCall(calls[i + 1]).toString();
+      tokenIds.push({
+        id,
+        tokenURI
+      });
+    }
 
-            for (i = 0; i < nt; i += 1) {
-              tId = ZoomLibraryInstance.addMappingCountCall(contract, ['tokenOfOwnerByIndex', [address, i]], 'tokenOfOwnerByIndex(address,uint256) returns (uint256)', [{
-                contract: contract,
-                mapAndParams: ['tokenURI(uint256)', [i]]
-              }]);
-              calls.push(tId);
-              tUri = ZoomLibraryInstance.addType5Call(contract, ['tokenURI(uint256)', [i]], 'tokenURI(uint256) returns (string)');
-              calls.push(tUri);
-            }
-
-            ZoomQueryBinary = ZoomLibraryInstance.getZoomCall();
-            _context.next = 10;
-            return zoom2.combine(ZoomQueryBinary);
-
-          case 10:
-            combinedResult = _context.sent;
-            ZoomLibraryInstance.resultsToCache(combinedResult, ZoomQueryBinary);
-            tokenIds = [];
-
-            for (_i = 0; _i < nt * 2; _i += 2) {
-              id = ZoomLibraryInstance.decodeCall(calls[_i]).toString();
-              tokenURI = ZoomLibraryInstance.decodeCall(calls[_i + 1]).toString();
-              tokenIds.push({
-                id: id,
-                tokenURI: tokenURI
-              });
-            }
-
-            return _context.abrupt("return", tokenIds.sort(function (a, b) {
-              return Number(a.tokenId) - Number(b.tokenId);
-            }));
-
-          case 15:
-          case "end":
-            return _context.stop();
-        }
-      }
-    }, _callee);
-  }));
-
-  return function zoomFetchTokenUris(_x, _x2, _x3) {
-    return _ref.apply(this, arguments);
-  };
-}();
+    return tokenIds.sort((a, b) => {
+      return Number(a.tokenId) - Number(b.tokenId);
+    });
+  }
+};
 
 window.Buffer = window.Buffer || Buffer;
-const useGetNftsList = (chainId, contractAddres, address, rpcUrl) => {
-  const [zoomContract, setZoomContract] = useState(null);
-  const [nftList, setNftList] = useState(null);
-  const [error, setError] = useState(null);
-  const [loaded, setLoaded] = useState(false);
-  const provider = useMemo(() => getProvider(rpcUrl), [rpcUrl]);
-  const tokenContract = useMemo(() => {
+var useGetNftsList = function useGetNftsList(chainId, contractAddres, address, rpcUrl) {
+  var _useState = useState(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      zoomContract = _useState2[0],
+      setZoomContract = _useState2[1];
+
+  var _useState3 = useState(null),
+      _useState4 = _slicedToArray(_useState3, 2),
+      nftList = _useState4[0],
+      setNftList = _useState4[1];
+
+  var _useState5 = useState(null),
+      _useState6 = _slicedToArray(_useState5, 2),
+      error = _useState6[0],
+      setError = _useState6[1];
+
+  var _useState7 = useState(false),
+      _useState8 = _slicedToArray(_useState7, 2),
+      loaded = _useState8[0],
+      setLoaded = _useState8[1];
+
+  var provider = useMemo(function () {
+    return getProvider(rpcUrl);
+  }, [rpcUrl]);
+  var tokenContract = useMemo(function () {
     if (!contractAddres || !rpcUrl) {
       return null;
     }
 
     return new Contract$1(contractAddres, tokenABI.abi, provider);
   }, [contractAddres, provider, rpcUrl]);
-  const fetchedRef = useRef(false);
+  var fetchedRef = useRef(false);
 
-  const createZoomContract = async () => {
-    if (!provider) return;
-    const galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
+  var createZoomContract = /*#__PURE__*/function () {
+    var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+      var galaxisRegistry, zoomAddress, contract, _zoomAddress;
 
-    if (galaxisRegistry) {
-      try {
-        const zoomAddress = await galaxisRegistry.getRegistryAddress('ZOOM');
-        let contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
+      return regeneratorRuntime.wrap(function _callee$(_context) {
+        while (1) {
+          switch (_context.prev = _context.next) {
+            case 0:
+              if (provider) {
+                _context.next = 2;
+                break;
+              }
 
-        if (contract) {
-          setZoomContract(contract);
-        } else {
-          const zoomAddress = useZoom2Contract(chainId);
-          setZoomContract(zoomAddress);
+              return _context.abrupt("return");
+
+            case 2:
+              galaxisRegistry = getContract(GALAXIS_REGISTRY, GalaxisRegistry.abi, provider, false);
+
+              if (!galaxisRegistry) {
+                _context.next = 15;
+                break;
+              }
+
+              _context.prev = 4;
+              _context.next = 7;
+              return galaxisRegistry.getRegistryAddress('ZOOM');
+
+            case 7:
+              zoomAddress = _context.sent;
+              contract = getContract(zoomAddress, ZoomAbi.abi, provider, false);
+
+              if (contract) {
+                setZoomContract(contract);
+              } else {
+                _zoomAddress = useZoom2Contract(chainId);
+                setZoomContract(_zoomAddress);
+              }
+
+              _context.next = 15;
+              break;
+
+            case 12:
+              _context.prev = 12;
+              _context.t0 = _context["catch"](4);
+              console.log('registry error', _context.t0);
+
+            case 15:
+            case "end":
+              return _context.stop();
+          }
         }
-      } catch (error) {
-        console.log('registry error', error);
-      }
-    }
-  };
+      }, _callee, null, [[4, 12]]);
+    }));
 
-  const getNftList = async () => {
-    setNftList(null);
-    console.log(zoomContract, tokenContract, address, ' zoomContract && tokenContract && address');
+    return function createZoomContract() {
+      return _ref.apply(this, arguments);
+    };
+  }();
 
-    if (zoomContract && tokenContract && address) {
-      try {
-        const res = await zoomFetchTokenUris(tokenContract, zoomContract, address);
-        setNftList(res);
-        fetchedRef.current = true;
-        setLoaded(true);
-      } catch (error) {
-        console.log(error, ' error');
-        setError('Contract error');
-        fetchedRef.current = true;
-        setLoaded(true);
-      }
-    }
-  };
+  var getNftList = /*#__PURE__*/function () {
+    var _ref2 = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee2() {
+      var res;
+      return regeneratorRuntime.wrap(function _callee2$(_context2) {
+        while (1) {
+          switch (_context2.prev = _context2.next) {
+            case 0:
+              setNftList(null);
+              console.log(zoomContract, tokenContract, address, ' zoomContract && tokenContract && address');
 
-  useEffect(() => {
+              if (!(zoomContract && tokenContract && address)) {
+                _context2.next = 18;
+                break;
+              }
+
+              _context2.prev = 3;
+              _context2.next = 6;
+              return zoomFetchTokenUris(tokenContract, zoomContract, address);
+
+            case 6:
+              res = _context2.sent;
+              setNftList(res);
+              fetchedRef.current = true;
+              setLoaded(true);
+              _context2.next = 18;
+              break;
+
+            case 12:
+              _context2.prev = 12;
+              _context2.t0 = _context2["catch"](3);
+              console.log(_context2.t0, ' error');
+              setError('Contract error');
+              fetchedRef.current = true;
+              setLoaded(true);
+
+            case 18:
+            case "end":
+              return _context2.stop();
+          }
+        }
+      }, _callee2, null, [[3, 12]]);
+    }));
+
+    return function getNftList() {
+      return _ref2.apply(this, arguments);
+    };
+  }();
+
+  useEffect(function () {
     createZoomContract();
   }, [chainId, rpcUrl]);
-  useEffect(() => {
+  useEffect(function () {
     getNftList();
   }, [zoomContract, tokenContract, address]);
   return {
-    nftList,
-    error,
-    loaded
+    nftList: nftList,
+    error: error,
+    loaded: loaded
   };
 };
 
-const ExplorerComponent = /*#__PURE__*/forwardRef((props, ref) => {
-  const {
-    tokenAddres,
-    poolAddress,
-    chainId,
-    rpcUrl,
-    serverUrl,
-    selectedCardIds,
-    updateSelectedIds,
-    componentClass,
-    disableLoading,
-    setLoaded
-  } = props;
+var ExplorerComponent = /*#__PURE__*/forwardRef(function (props, ref) {
+  var tokenAddres = props.tokenAddres,
+      poolAddress = props.poolAddress,
+      chainId = props.chainId,
+      rpcUrl = props.rpcUrl,
+      serverUrl = props.serverUrl,
+      selectedCardIds = props.selectedCardIds,
+      updateSelectedIds = props.updateSelectedIds,
+      componentClass = props.componentClass,
+      disableLoading = props.disableLoading,
+      setLoaded = props.setLoaded;
   if (disableLoading) return /*#__PURE__*/React.createElement("p", {
     style: {
       textAlign: 'center'
@@ -2882,25 +2846,55 @@ const ExplorerComponent = /*#__PURE__*/forwardRef((props, ref) => {
     return;
   }
 
-  const {
-    nftList,
-    error,
-    loaded
-  } = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl);
-  const [traitTypes, setTraitTypes] = useState(null);
-  useEffect(() => {
-    const getTraitTypes = async () => {
-      try {
-        const response = await axios.get(serverUrl + '/trait_types');
-        setTraitTypes(response.data);
-      } catch (error) {
-        console.error('Error fetching trait types:', error);
-      }
-    };
+  var _useGetNftsList = useGetNftsList(chainId, tokenAddres, poolAddress, rpcUrl),
+      nftList = _useGetNftsList.nftList,
+      error = _useGetNftsList.error,
+      loaded = _useGetNftsList.loaded;
+
+  var _useState = useState(null),
+      _useState2 = _slicedToArray(_useState, 2),
+      traitTypes = _useState2[0],
+      setTraitTypes = _useState2[1];
+
+  useEffect(function () {
+    var getTraitTypes = /*#__PURE__*/function () {
+      var _ref = _asyncToGenerator( /*#__PURE__*/regeneratorRuntime.mark(function _callee() {
+        var response;
+        return regeneratorRuntime.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                _context.prev = 0;
+                _context.next = 3;
+                return axios.get(serverUrl + '/trait_types');
+
+              case 3:
+                response = _context.sent;
+                setTraitTypes(response.data);
+                _context.next = 10;
+                break;
+
+              case 7:
+                _context.prev = 7;
+                _context.t0 = _context["catch"](0);
+                console.error('Error fetching trait types:', _context.t0);
+
+              case 10:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, null, [[0, 7]]);
+      }));
+
+      return function getTraitTypes() {
+        return _ref.apply(this, arguments);
+      };
+    }();
 
     getTraitTypes();
   }, [serverUrl]);
-  useEffect(() => {
+  useEffect(function () {
     if (!setLoaded) return;
     setLoaded(loaded);
   }, [loaded]);

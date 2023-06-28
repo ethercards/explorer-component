@@ -35,21 +35,19 @@ const ExplorerCards = ({
       // handleOpenOpensea(itemId);
       return;
     }
-    if (e.ctrlKey) {
-      const isSelected = selectedCardIds.includes(itemId);
-      if (isSelected) {
-        if (updateSelectedIds) {
-          updateSelectedIds((prevSelectedItems) =>
-            prevSelectedItems.filter((id) => id !== itemId)
-          );
-        }
-      } else {
-        if (updateSelectedIds) {
-          updateSelectedIds((prevSelectedItems) => [
-            ...prevSelectedItems,
-            itemId,
-          ]);
-        }
+    const isSelected = selectedCardIds.includes(itemId);
+    if (isSelected) {
+      if (updateSelectedIds) {
+        updateSelectedIds((prevSelectedItems) =>
+          prevSelectedItems.filter((id) => id !== itemId)
+        );
+      }
+    } else {
+      if (updateSelectedIds) {
+        updateSelectedIds((prevSelectedItems) => [
+          ...prevSelectedItems,
+          itemId,
+        ]);
       }
     }
   };
